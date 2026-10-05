@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  background: #35273a;
+}
+
+.home {
+  width: 100%;
+  max-width: 1440px;
+  min-height: 1893px;
+  margin: 0 auto;
+}
