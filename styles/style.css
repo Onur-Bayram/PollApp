@@ -1,0 +1,99 @@
+@font-face {
+  font-family: "Figtree";
+  src: url("../public/assets/fonts/Figtree-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --Blue-85-DA: #124658;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.thumbnail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--Blue-85-DA, #124658);
+}
+
+.survey-preview {
+  position: absolute;
+  top: 33.4259%;
+  left: 17.8646%;
+  width: 58.0865vw;
+  height: 31.1516vw;
+}
+
+/* Drehung, Rundungen und Schatten sind bereits im PNG enthalten. */
+.survey-preview-image {
+  position: absolute;
+  top: -3.6979vw;
+  left: -3.8021vw;
+  width: 72.0833vw;
+  height: auto;
+}
+
+.survey-summary {
+  position: absolute;
+  top: 43.2065%;
+  left: 53.284375%;
+  width: 49.8793vw;
+  height: 35.4697vw;
+}
+
+/* Rundungen, grauer Rahmen und Schatten sind bereits im PNG enthalten. */
+.survey-summary-image {
+  position: absolute;
+  top: -4.1146vw;
+  left: -4.3229vw;
+  width: 51.1458vw;
+  height: auto;
+}
+
+.thumbnail-title {
+  position: absolute;
+  top: 15%;
+  left: 5.15625%;
+  width: 43.4896vw;
+  height: 12.65625vw;
+  margin: 0;
+  color: #ffffff;
+  font-family: "Figtree", Arial, sans-serif;
+  font-weight: 800;
+  font-size: 10.8854vw;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.academy-logo {
+  position: absolute;
+  top: 7.525%;
+  right: 3.89%;
+  display: flex;
+  align-items: center;
+  gap: 1.0417vw;
+}
+
+.academy-icon {
+  width: 4.0104vw;
+  height: auto;
+}
+
+.academy-name {
+  width: 9.1792vw;
+  margin: 0;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.875vw;
+  font-weight: 400;
+  line-height: 1.6996vw;
+}

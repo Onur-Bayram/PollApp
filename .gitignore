@@ -1,3 +1,6 @@
 # Interne Arbeitsunterlagen: nicht in Git aufnehmen oder veroeffentlichen.
 /AGENTS.md
 /PROJEKTVORGABEN.md
+
+# Lokale Diagnose-Datei.
+/debug.log
