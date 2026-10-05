@@ -4,3 +4,10 @@
 
 # Lokale Diagnose-Datei.
 /debug.log
+
+# Angular: lokale Abhaengigkeiten, Cache und Build-Ausgaben.
+/node_modules/
+/.angular/
+/dist/
+/out-tsc/
+/npm-debug.log
