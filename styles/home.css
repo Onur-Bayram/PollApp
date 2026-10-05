@@ -9,3 +9,13 @@ body {
   min-height: 1893px;
   margin: 0 auto;
 }
+
+.home-header {
+  padding: 40px 7.7778%;
+}
+
+.home-logo {
+  display: block;
+  width: 119px;
+  height: 46px;
+}
