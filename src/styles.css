@@ -22,6 +22,15 @@ body {
   font-display: swap;
 }
 
+/* Load the local Mulish Medium font for survey subtitles. */
+@font-face {
+  font-family: "Mulish";
+  src: url("../public/assets/fonts/Mulish-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Load the local Mulish SemiBold font for the introductory text. */
 @font-face {
   font-family: "Mulish";

@@ -156,3 +156,37 @@
 .home-create-button:hover .home-create-button-icon {
   opacity: 1;
 }
+
+/* Center the survey section and leave space below the introduction. */
+.home-surveys {
+  width: 1042px;
+  max-width: 100%;
+  margin: 96px auto 0;
+}
+
+/* Style the survey heading with the local Nerko One font. */
+.home-surveys-title {
+  height: 82px;
+  margin: 0;
+  color: #ffb770;
+  font-family: "Nerko One", Arial, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 72px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+/* Style the left-aligned subtitle with the local Mulish Medium font. */
+.home-surveys-subtitle {
+  height: 42px;
+  margin: 64px 0 0;
+  color: #ffffff;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: 0;
+}
