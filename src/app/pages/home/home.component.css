@@ -212,3 +212,17 @@
   border-top-right-radius: 80px;
   background: #faf5fe;
 }
+
+/* Style the category label and center its text area inside the card. */
+.home-highlight-card-category {
+  width: 233px;
+  height: 18px;
+  margin: 0 auto;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
+}
