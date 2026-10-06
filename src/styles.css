@@ -26,3 +26,11 @@ body {
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: "Nokora";
+  src: url("../public/assets/fonts/Nokora-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

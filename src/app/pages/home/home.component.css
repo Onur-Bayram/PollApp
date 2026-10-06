@@ -47,6 +47,42 @@
   letter-spacing: 0;
 }
 
+.home-create-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 138px;
+  height: 48px;
+  margin-top: 32px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #ffcfa1;
+  color: #221227;
+  font-family: "Nokora", Arial, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition: background-color 300ms ease-out;
+}
+
+.home-create-button:hover {
+  background: #ffb770;
+}
+
+.home-create-button-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 106px;
+  height: 24px;
+}
+
 @media (max-width: 900px) {
   .home-title {
     height: auto;
