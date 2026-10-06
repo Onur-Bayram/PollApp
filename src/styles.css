@@ -10,3 +10,11 @@ body {
   margin: 0;
   background: #35273a;
 }
+
+@font-face {
+  font-family: "Nerko One";
+  src: url("../public/assets/fonts/NerkoOne-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
