@@ -1,3 +1,4 @@
+/* Center the home page within the desktop design width. */
 .home {
   width: 100%;
   max-width: 1440px;
@@ -5,23 +6,74 @@
   margin: 0 auto;
 }
 
+/* Align the header with the main content and add vertical spacing. */
 .home-header {
-  padding: 40px 7.7778%;
+  width: 1216px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 40px 0;
 }
 
+/* Keep the logo at its design size. */
 .home-logo {
   display: block;
   width: 119px;
   height: 46px;
 }
 
+/* Place the introduction and illustration next to each other. */
 .home-hero {
-  margin: 60px 7.7778% 0;
+  width: 1216px;
+  max-width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+  margin: 60px auto 0;
 }
 
+/* Keep the text column at a fixed desktop width. */
+.home-hero-content {
+  width: 712px;
+  flex-shrink: 0;
+}
+
+/* Provide a fixed container for the two overlapping illustrations. */
+.home-visual {
+  position: relative;
+  width: 426px;
+  height: 420px;
+  flex-shrink: 0;
+}
+
+/* Give both illustration states the same dimensions. */
+.home-hero-image {
+  display: block;
+  width: 426px;
+  height: 420px;
+}
+
+/* Place the hidden hover image directly over the visible default image. */
+.home-hero-image-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Cover the old stickers without making the shared phone area transparent. */
+  background: #35273a;
+  opacity: 0;
+  transition: opacity 250ms ease-in-out;
+}
+
+/* Enable the image fade only on desktop screens with a mouse. */
+@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+  .home-visual:hover .home-hero-image-hover {
+    opacity: 1;
+  }
+}
+
+/* Style the two-line headline with the local Nerko One font. */
 .home-title {
   width: 712px;
-  max-width: 100%;
   height: 178px;
   margin: 0;
   color: #ffb770;
@@ -33,9 +85,9 @@
   letter-spacing: 0;
 }
 
+/* Style the introductory paragraph with the local Mulish font. */
 .home-description {
   width: 666px;
-  max-width: 100%;
   min-height: 90px;
   margin: 24px 0 0;
   color: #ffffff;
@@ -47,6 +99,7 @@
   letter-spacing: 0;
 }
 
+/* Set the button appearance and animate its width and background color. */
 .home-create-button {
   box-sizing: border-box;
   position: relative;
@@ -73,11 +126,13 @@
   transition: width 300ms ease-out, background-color 300ms ease-out;
 }
 
+/* Expand the button to make room for the plus icon. */
 .home-create-button:hover {
   width: 172px;
   background: #ffb770;
 }
 
+/* Keep the label in the same position while the button expands. */
 .home-create-button-text {
   display: flex;
   align-items: center;
@@ -86,6 +141,7 @@
   height: 24px;
 }
 
+/* Position the plus icon inside the expanded button and hide it by default. */
 .home-create-button-icon {
   position: absolute;
   top: 14px;
@@ -96,14 +152,7 @@
   transition: opacity 300ms ease-out;
 }
 
+/* Fade in the plus icon while the button is hovered. */
 .home-create-button:hover .home-create-button-icon {
   opacity: 1;
-}
-
-@media (max-width: 900px) {
-  .home-title {
-    height: auto;
-    font-size: 10vw;
-    line-height: 0.89;
-  }
 }

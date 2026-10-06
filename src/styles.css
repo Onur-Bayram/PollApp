@@ -1,3 +1,4 @@
+/* Load the local Figtree ExtraBold font for the thumbnail title. */
 @font-face {
   font-family: "Figtree";
   src: url("../public/assets/fonts/Figtree-ExtraBold.woff2") format("woff2");
@@ -6,11 +7,13 @@
   font-display: swap;
 }
 
+/* Remove the browser's default page margin and set the app background. */
 body {
   margin: 0;
   background: #35273a;
 }
 
+/* Load the local Nerko One font for the home page headline. */
 @font-face {
   font-family: "Nerko One";
   src: url("../public/assets/fonts/NerkoOne-Regular.ttf") format("truetype");
@@ -19,6 +22,7 @@ body {
   font-display: swap;
 }
 
+/* Load the local Mulish SemiBold font for the introductory text. */
 @font-face {
   font-family: "Mulish";
   src: url("../public/assets/fonts/Mulish-SemiBold.woff2") format("woff2");
@@ -27,6 +31,7 @@ body {
   font-display: swap;
 }
 
+/* Load the local Nokora Bold font for button labels. */
 @font-face {
   font-family: "Nokora";
   src: url("../public/assets/fonts/Nokora-Bold.ttf") format("truetype");

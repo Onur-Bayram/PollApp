@@ -1,3 +1,4 @@
+/* Fill the viewport and clip decorative images to prevent scrolling. */
 .thumbnail {
   position: relative;
   width: 100%;
@@ -6,6 +7,7 @@
   background: #124658;
 }
 
+/* Anchor the dark survey overview inside the thumbnail. */
 .survey-preview {
   position: absolute;
   top: 33.4259%;
@@ -14,7 +16,7 @@
   height: 31.1516vw;
 }
 
-/* Drehung, Rundungen und Schatten sind bereits im PNG enthalten. */
+/* The overview PNG already includes its rotation, rounded corners and shadow. */
 .survey-preview-image {
   position: absolute;
   top: -3.6979vw;
@@ -23,6 +25,7 @@
   height: auto;
 }
 
+/* Place the white survey summary in front of the overview. */
 .survey-summary {
   position: absolute;
   top: 43.2065%;
@@ -31,7 +34,7 @@
   height: 35.4697vw;
 }
 
-/* Rundungen, grauer Rahmen und Schatten sind bereits im PNG enthalten. */
+/* The summary PNG already includes its rounded corners, gray border and shadow. */
 .survey-summary-image {
   position: absolute;
   top: -4.1146vw;
@@ -40,6 +43,7 @@
   height: auto;
 }
 
+/* Scale the title with the viewport width and keep it on one line. */
 .thumbnail-title {
   position: absolute;
   top: 15%;
@@ -56,6 +60,7 @@
   white-space: nowrap;
 }
 
+/* Place the academy icon and name together in the upper-right corner. */
 .academy-logo {
   position: absolute;
   top: 7.525%;
@@ -65,11 +70,13 @@
   gap: 1.0417vw;
 }
 
+/* Scale the academy icon while preserving its proportions. */
 .academy-icon {
   width: 4.0104vw;
   height: auto;
 }
 
+/* Style the two-line academy name. */
 .academy-name {
   width: 9.1792vw;
   margin: 0;
