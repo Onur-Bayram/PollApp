@@ -213,6 +213,15 @@
   background: #faf5fe;
 }
 
+/* Align the category and title within the same text column. */
+.home-highlight-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 233px;
+  margin: 0 auto;
+}
+
 /* Style the category label and center its text area inside the card. */
 .home-highlight-card-category {
   width: 233px;
@@ -225,4 +234,23 @@
   font-size: 14px;
   line-height: 1;
   letter-spacing: 0;
+}
+
+/* Style the survey title with the local Mulish Bold font. */
+.home-highlight-card-title {
+  width: 220px;
+  height: 99px;
+  margin: 0;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Use a shorter text area for a survey title that spans two lines. */
+.home-highlight-card-title-short {
+  height: 66px;
 }

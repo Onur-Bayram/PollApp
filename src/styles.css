@@ -40,6 +40,15 @@ body {
   font-display: swap;
 }
 
+/* Load the local Mulish Bold font for highlight card titles. */
+@font-face {
+  font-family: "Mulish";
+  src: url("../public/assets/fonts/Mulish-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Load the local Nokora Bold font for button labels. */
 @font-face {
   font-family: "Nokora";
