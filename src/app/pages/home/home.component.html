@@ -101,9 +101,23 @@
     </div>
     <!-- Place the survey controls below the highlight cards. -->
     <div class="home-survey-controls">
-      <!-- Button for selecting active surveys. -->
-      <button type="button" class="home-active-survey-button">
+      <!-- Toggle the active survey button's selected state on each click. -->
+      <button
+        type="button"
+        class="home-active-survey-button"
+        [class.home-survey-button-selected]="selectedSurveyStatus === 'active'"
+        (click)="toggleSurveyStatus('active')"
+      >
         <span class="home-active-survey-button-text">Active survey</span>
+      </button>
+      <!-- Toggle the past survey button's selected state on each click. -->
+      <button
+        type="button"
+        class="home-past-survey-button"
+        [class.home-survey-button-selected]="selectedSurveyStatus === 'past'"
+        (click)="toggleSurveyStatus('past')"
+      >
+        <span class="home-past-survey-button-text">Past survey</span>
       </button>
     </div>
   </section>

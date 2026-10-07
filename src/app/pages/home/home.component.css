@@ -293,31 +293,54 @@
 .home-survey-controls {
   display: flex;
   align-items: center;
+  gap: 24px;
   margin-top: 40px;
 }
 
-/* Style the active survey button and keep its padding inside the fixed size. */
-.home-active-survey-button {
+/* Give both survey buttons the same shape and keep their padding inside their size. */
+.home-active-survey-button,
+.home-past-survey-button {
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  width: 119px;
   height: 25px;
   padding: 2px 10px;
   border: 0;
   border-radius: 20px;
-  background: #ffb770;
+  background: #fee9d4;
   cursor: pointer;
 }
 
-/* Center the active survey label and style it with the local Nokora Regular font. */
-.home-active-survey-button-text {
+/* Keep the active survey button at its design width. */
+.home-active-survey-button {
+  width: 119px;
+}
+
+/* Keep the past survey button at its design width. */
+.home-past-survey-button {
+  width: 106px;
+}
+
+/* Change an unselected button's background immediately when it is hovered. */
+.home-active-survey-button:hover,
+.home-past-survey-button:hover {
+  background: #ffcfa1;
+}
+
+/* Keep the selected button orange, including while it is hovered. */
+.home-active-survey-button.home-survey-button-selected,
+.home-past-survey-button.home-survey-button-selected {
+  background: #ffb770;
+}
+
+/* Center both survey button labels and use the local Nokora Regular font. */
+.home-active-survey-button-text,
+.home-past-survey-button-text {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 99px;
   height: 21px;
   color: #35273a;
   font-family: "Nokora", Arial, sans-serif;
@@ -327,4 +350,14 @@
   line-height: 1;
   letter-spacing: 0;
   white-space: nowrap;
+}
+
+/* Keep the active survey label at its design width. */
+.home-active-survey-button-text {
+  width: 99px;
+}
+
+/* Keep the past survey label at its design width. */
+.home-past-survey-button-text {
+  width: 86px;
 }
