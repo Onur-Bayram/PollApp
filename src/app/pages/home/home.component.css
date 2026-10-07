@@ -385,8 +385,9 @@
   cursor: pointer;
 }
 
-/* Show a translucent background when the category control is hovered. */
-.home-sort-button:hover {
+/* Show a translucent background on hover or after selecting a category. */
+.home-sort-button:hover,
+.home-sort-button-selected {
   background: #d9d9d91f;
 }
 
@@ -432,12 +433,14 @@
   height: 8px;
 }
 
-/* Swap the downward arrows immediately when the closed control is hovered. */
-.home-sort-button:hover .home-sort-button-arrow-default {
+/* Use the orange downward arrow on hover or after selecting a category. */
+.home-sort-button:hover .home-sort-button-arrow-default,
+.home-sort-button-selected .home-sort-button-arrow-default {
   display: none;
 }
 
-.home-sort-button:hover .home-sort-button-arrow-hover {
+.home-sort-button:hover .home-sort-button-arrow-hover,
+.home-sort-button-selected .home-sort-button-arrow-hover {
   display: block;
 }
 
@@ -458,7 +461,7 @@
   background: #ffffff;
 }
 
-/* Style the first category option with the local Mulish Regular font. */
+/* Share the appearance and typography between the category options. */
 .home-sort-menu-item {
   box-sizing: border-box;
   display: flex;
@@ -482,4 +485,82 @@
   letter-spacing: 0.28px;
   white-space: nowrap;
   cursor: pointer;
+}
+
+/* Give the team activities option its wider design size. */
+.home-sort-menu-item-team {
+  width: 111px;
+}
+
+/* Give the health and wellness option its design width. */
+.home-sort-menu-item-health {
+  width: 132px;
+}
+
+/* Give the gaming and entertainment option its design width. */
+.home-sort-menu-item-gaming {
+  width: 174px;
+}
+
+/* Fit the remaining category buttons to their labels and padding. */
+.home-sort-menu-item-auto {
+  align-self: flex-start;
+  width: auto;
+}
+
+/* Center the category labels inside their fixed text areas. */
+.home-sort-menu-item-text {
+  display: flex;
+  align-items: center;
+  height: 18px;
+}
+
+/* Keep the category text widths from the design. */
+.home-sort-menu-item-team-text {
+  width: 103px;
+}
+
+.home-sort-menu-item-health-text {
+  width: 124px;
+}
+
+.home-sort-menu-item-gaming-text {
+  width: 166px;
+}
+
+/* Highlight a hovered category and keep the clicked category selected. */
+.home-sort-menu-item:hover,
+.home-sort-menu-item-selected {
+  background: #f4e9fb;
+}
+
+/* Place the chosen category below the button without moving the other controls. */
+.home-sort-selection {
+  box-sizing: border-box;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 117px;
+  height: 26px;
+  padding: 4px 4px 4px 10px;
+  border-radius: 6px;
+  color: #ffb770;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.28px;
+}
+
+/* Keep the team label at its design size and let longer category names fit. */
+.home-sort-selection-text {
+  display: flex;
+  align-items: center;
+  min-width: 103px;
+  height: 18px;
+  white-space: nowrap;
 }

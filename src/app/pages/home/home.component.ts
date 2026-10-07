@@ -13,6 +13,9 @@ export class HomeComponent {
   // Track whether the category menu is open.
   isSortMenuOpen = false;
 
+  // Store the category shown below the button and highlighted in the menu.
+  selectedCategory = '';
+
   // Select a button, or clear the selection when it is clicked again.
   toggleSurveyStatus(status: string) {
     if (this.selectedSurveyStatus === status) {
@@ -25,5 +28,11 @@ export class HomeComponent {
   // Open or close the category menu and update its arrow.
   toggleSortMenu() {
     this.isSortMenuOpen = !this.isSortMenuOpen;
+  }
+
+  // Save the clicked category and close the menu.
+  selectCategory(category: string) {
+    this.selectedCategory = category;
+    this.isSortMenuOpen = false;
   }
 }
