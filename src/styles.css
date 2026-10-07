@@ -49,7 +49,16 @@ body {
   font-display: swap;
 }
 
-/* Load the local Nokora Bold font for button labels. */
+/* Load the local Nokora Regular font for survey filter labels. */
+@font-face {
+  font-family: "Nokora";
+  src: url("../public/assets/fonts/Nokora-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Load the local Nokora Bold font for the new survey button label. */
 @font-face {
   font-family: "Nokora";
   src: url("../public/assets/fonts/Nokora-Bold.ttf") format("truetype");
