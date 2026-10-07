@@ -361,3 +361,125 @@
 .home-past-survey-button-text {
   width: 86px;
 }
+
+/* Align the category control to the right and anchor its menu. */
+.home-sort-control {
+  position: relative;
+  flex-shrink: 0;
+  width: 206px;
+  margin-left: auto;
+}
+
+/* Keep the category label and arrow spaced inside the button. */
+.home-sort-button {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 206px;
+  height: 32px;
+  padding: 4px 6px 4px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Show a translucent background when the category control is hovered. */
+.home-sort-button:hover {
+  background: #d9d9d91f;
+}
+
+/* Style the category control label with the local Mulish Bold font. */
+.home-sort-button-text {
+  display: flex;
+  align-items: center;
+  width: 157px;
+  height: 23px;
+  color: #ffffff;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* Keep the arrow area fixed while its images change. */
+.home-sort-button-arrow {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+/* Keep the white downward and orange upward images at their exported size. */
+.home-sort-button-arrow-image {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* Fit the smaller orange downward image into the same arrow area. */
+.home-sort-button-arrow-hover {
+  position: absolute;
+  top: 8px;
+  left: 5px;
+  display: none;
+  width: 15px;
+  height: 8px;
+}
+
+/* Swap the downward arrows immediately when the closed control is hovered. */
+.home-sort-button:hover .home-sort-button-arrow-default {
+  display: none;
+}
+
+.home-sort-button:hover .home-sort-button-arrow-hover {
+  display: block;
+}
+
+/* Place the white category list below the button without moving the page content. */
+.home-sort-menu {
+  box-sizing: border-box;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 206px;
+  height: 222px;
+  padding: 8px 4px;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+/* Style the first category option with the local Mulish Regular font. */
+.home-sort-menu-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  gap: 10px;
+  width: 83px;
+  height: 26px;
+  padding: 4px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1;
+  /* Match the design's 2% letter spacing at a font size of 14px. */
+  letter-spacing: 0.28px;
+  white-space: nowrap;
+  cursor: pointer;
+}

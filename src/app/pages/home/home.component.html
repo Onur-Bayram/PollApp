@@ -36,7 +36,7 @@
     <div class="home-visual">
       <!-- Keep this default image visible underneath the hover overlay. -->
       <img
-        class="home-hero-image home-hero-image-default"
+        class="home-hero-image"
         src="assets/images/home-survey-default.png"
         alt=""
         width="426"
@@ -119,6 +119,56 @@
       >
         <span class="home-past-survey-button-text">Past survey</span>
       </button>
+      <!-- Anchor the category menu below its button. -->
+      <div class="home-sort-control">
+        <!-- Open or close the category menu and update its arrow on each click. -->
+        <button
+          type="button"
+          class="home-sort-button"
+          (click)="toggleSortMenu()"
+          [attr.aria-expanded]="isSortMenuOpen"
+          aria-controls="home-sort-menu"
+        >
+          <span class="home-sort-button-text">Sort by categories</span>
+          <!-- Keep the arrow area fixed while switching between the supplied images. -->
+          <span class="home-sort-button-arrow" aria-hidden="true">
+            @if (isSortMenuOpen) {
+              <!-- Show the upward arrow only after the control has been clicked. -->
+              <img
+                class="home-sort-button-arrow-image"
+                src="assets/icons/category-arrow-up-orange.png"
+                alt=""
+                width="24"
+                height="24"
+              >
+            } @else {
+              <!-- Show the white downward arrow while the control is closed. -->
+              <img
+                class="home-sort-button-arrow-image home-sort-button-arrow-default"
+                src="assets/icons/category-arrow-down.png"
+                alt=""
+                width="24"
+                height="24"
+              >
+              <!-- CSS shows the orange downward arrow when the closed control is hovered. -->
+              <img
+                class="home-sort-button-arrow-image home-sort-button-arrow-hover"
+                src="assets/icons/category-arrow-down-orange.png"
+                alt=""
+                width="15"
+                height="8"
+              >
+            }
+          </span>
+        </button>
+        @if (isSortMenuOpen) {
+          <!-- White container for the category list. -->
+          <div id="home-sort-menu" class="home-sort-menu">
+            <!-- First category option for all surveys. -->
+            <button type="button" class="home-sort-menu-item">All Surveys</button>
+          </div>
+        }
+      </div>
     </div>
   </section>
 </main>
