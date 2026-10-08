@@ -208,6 +208,11 @@
   background: #faf5fe;
 }
 
+/* Change the highlight card's background when the mouse is over it. */
+.home-highlight-card:hover {
+  background: #f4e9fb;
+}
+
 /* Fill the card's inner area and align its text and deadline badge. */
 .home-highlight-card-content {
   display: flex;
