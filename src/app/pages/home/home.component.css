@@ -629,3 +629,32 @@
   line-height: 1;
   letter-spacing: 0;
 }
+
+/* Align the deadline field to the right and include its padding in the size. */
+.home-survey-card-deadline {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  gap: 10px;
+  width: 102px;
+  height: 24px;
+  padding: 3px 6px;
+  border-top-right-radius: 14px;
+  background: #ffcfa1;
+}
+
+/* Center the deadline label vertically and use the local Mulish Medium font. */
+.home-survey-card-deadline-text {
+  display: flex;
+  align-items: center;
+  width: 90px;
+  height: 18px;
+  color: #221227;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
+}
