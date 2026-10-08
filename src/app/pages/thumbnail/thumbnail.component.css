@@ -1,60 +1,44 @@
-/* Fill the viewport and clip decorative images to prevent scrolling. */
+/* Fill the browser window and crop the decorative image edges. */
 .thumbnail {
-  position: relative;
-  width: 100%;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   overflow: hidden;
   background: #124658;
 }
 
-/* Anchor the dark survey overview inside the thumbnail. */
-.survey-preview {
-  position: absolute;
-  top: 33.4259%;
-  left: 17.8646%;
-  width: 58.0865vw;
-  height: 31.1516vw;
-}
-
-/* The overview PNG already includes its rotation, rounded corners and shadow. */
+/* Allow for the overview PNG's transparent edges and built-in effects. */
 .survey-preview-image {
   position: absolute;
-  top: -3.6979vw;
-  left: -3.8021vw;
-  width: 72.0833vw;
+  bottom: 0;
+  left: 270px;
+  width: 1384px;
   height: auto;
 }
 
-/* Place the white survey summary in front of the overview. */
-.survey-summary {
-  position: absolute;
-  top: 43.2065%;
-  left: 53.284375%;
-  width: 49.8793vw;
-  height: 35.4697vw;
-}
-
-/* The summary PNG already includes its rounded corners, gray border and shadow. */
+/* Place the summary in front, including its transparent image edges. */
 .survey-summary-image {
   position: absolute;
-  top: -4.1146vw;
-  left: -4.3229vw;
-  width: 51.1458vw;
+  bottom: -3px;
+  right: -2px;
+  width: 982px;
   height: auto;
 }
 
-/* Scale the title with the viewport width and keep it on one line. */
+/* Use the title's desktop design size and keep it on one line. */
 .thumbnail-title {
   position: absolute;
-  top: 15%;
-  left: 5.15625%;
-  width: 43.4896vw;
-  height: 12.65625vw;
+  top: 162px;
+  left: 99px;
+  width: 835px;
+  height: 243px;
   margin: 0;
   color: #ffffff;
   font-family: "Figtree", Arial, sans-serif;
   font-weight: 800;
-  font-size: 10.8854vw;
+  font-size: 209px;
   line-height: 1;
   letter-spacing: 0;
   white-space: nowrap;
@@ -63,26 +47,134 @@
 /* Place the academy icon and name together in the upper-right corner. */
 .academy-logo {
   position: absolute;
-  top: 7.525%;
-  right: 3.89%;
+  top: 81px;
+  right: 75px;
   display: flex;
   align-items: center;
-  gap: 1.0417vw;
+  gap: 20px;
 }
 
-/* Scale the academy icon while preserving its proportions. */
+/* Keep the academy icon's proportions at its desktop width. */
 .academy-icon {
-  width: 4.0104vw;
+  width: 77px;
   height: auto;
 }
 
 /* Style the two-line academy name. */
 .academy-name {
-  width: 9.1792vw;
+  width: 176px;
   margin: 0;
   color: #ffffff;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.875vw;
+  font-size: 36px;
   font-weight: 400;
-  line-height: 1.6996vw;
+  line-height: 33px;
+}
+
+/* Use smaller pixel values when the browser window has less space. */
+@media (max-width: 1600px), (max-height: 900px) {
+  .survey-preview-image {
+    left: 189px;
+    width: 969px;
+  }
+
+  .survey-summary-image {
+    width: 687px;
+  }
+
+  .thumbnail-title {
+    top: 113px;
+    left: 69px;
+    width: 585px;
+    height: 170px;
+    font-size: 146px;
+  }
+
+  .academy-logo {
+    top: 57px;
+    right: 52px;
+    gap: 14px;
+  }
+
+  .academy-icon {
+    width: 54px;
+  }
+
+  .academy-name {
+    width: 123px;
+    font-size: 25px;
+    line-height: 23px;
+  }
+}
+
+/* Keep the title and branding visible in narrower or shorter windows. */
+@media (max-width: 1100px), (max-height: 650px) {
+  .survey-preview-image {
+    left: 135px;
+    width: 692px;
+  }
+
+  .survey-summary-image {
+    width: 491px;
+  }
+
+  .thumbnail-title {
+    top: 81px;
+    left: 50px;
+    width: 418px;
+    height: 122px;
+    font-size: 105px;
+  }
+
+  .academy-logo {
+    top: 41px;
+    right: 38px;
+    gap: 10px;
+  }
+
+  .academy-icon {
+    width: 39px;
+  }
+
+  .academy-name {
+    width: 88px;
+    font-size: 18px;
+    line-height: 16px;
+  }
+}
+
+/* Preserve the thumbnail preview in small browser windows. */
+@media (max-width: 600px), (max-height: 360px) {
+  .survey-preview-image {
+    left: 68px;
+    width: 346px;
+  }
+
+  .survey-summary-image {
+    width: 246px;
+  }
+
+  .thumbnail-title {
+    top: 41px;
+    left: 25px;
+    width: 209px;
+    height: 61px;
+    font-size: 52px;
+  }
+
+  .academy-logo {
+    top: 20px;
+    right: 19px;
+    gap: 5px;
+  }
+
+  .academy-icon {
+    width: 19px;
+  }
+
+  .academy-name {
+    width: 44px;
+    font-size: 9px;
+    line-height: 8px;
+  }
 }
