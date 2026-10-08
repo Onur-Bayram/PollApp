@@ -564,3 +564,29 @@
   height: 18px;
   white-space: nowrap;
 }
+
+/* Arrange the survey cards in rows with the same space between them. */
+.home-survey-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 16px;
+  width: 1042px;
+  height: 422px;
+  /* The controls are 32px tall, so 33px places the list 65px below their top. */
+  margin-top: 33px;
+}
+
+/* Keep the card's padding inside its size and round the top-right corner more. */
+.home-survey-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 24px;
+  width: 513px;
+  height: 130px;
+  padding: 12px 20px;
+  border-radius: 5px 50px 5px 5px;
+  background: #d9d9d914;
+}
