@@ -590,3 +590,19 @@
   border-radius: 5px 50px 5px 5px;
   background: #d9d9d914;
 }
+
+/* Style the category label with the local Mulish Medium font. */
+.home-survey-card-category {
+  display: flex;
+  align-items: center;
+  width: 143px;
+  height: 20px;
+  margin: 0;
+  color: #ffcfa1;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+}
