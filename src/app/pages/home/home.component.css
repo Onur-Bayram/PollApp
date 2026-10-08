@@ -591,6 +591,13 @@
   background: #d9d9d914;
 }
 
+/* Keep the category and title close together in one text column. */
+.home-survey-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 /* Style the category label with the local Mulish Medium font. */
 .home-survey-card-category {
   display: flex;
@@ -603,6 +610,22 @@
   font-weight: 500;
   font-style: normal;
   font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Style the survey title with the local Mulish Bold font. */
+.home-survey-card-title {
+  display: flex;
+  align-items: center;
+  width: 486px;
+  height: 30px;
+  margin: 0;
+  color: #ffffff;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 24px;
   line-height: 1;
   letter-spacing: 0;
 }
