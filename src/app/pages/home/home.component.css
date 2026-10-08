@@ -1,9 +1,11 @@
-/* Center the home page within the desktop design width. */
+/* Center the home page and share the local Mulish font with its text elements. */
 .home {
   width: 100%;
   max-width: 1440px;
   min-height: 1893px;
   margin: 0 auto;
+  font-family: "Mulish", Arial, sans-serif;
+  font-style: normal;
 }
 
 /* Align the header with the main content and add vertical spacing. */
@@ -79,7 +81,6 @@
   color: #ffb770;
   font-family: "Nerko One", Arial, sans-serif;
   font-weight: 400;
-  font-style: normal;
   font-size: 100px;
   line-height: 89px;
   letter-spacing: 0;
@@ -91,9 +92,7 @@
   min-height: 90px;
   margin: 24px 0 0;
   color: #ffffff;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 600;
-  font-style: normal;
   font-size: 24px;
   line-height: 1;
   letter-spacing: 0;
@@ -117,7 +116,6 @@
   color: #221227;
   font-family: "Nokora", Arial, sans-serif;
   font-weight: 700;
-  font-style: normal;
   font-size: 18px;
   line-height: 1;
   letter-spacing: 0;
@@ -171,7 +169,6 @@
   color: #ffb770;
   font-family: "Nerko One", Arial, sans-serif;
   font-weight: 400;
-  font-style: normal;
   font-size: 72px;
   line-height: 1;
   letter-spacing: 0;
@@ -183,9 +180,7 @@
   height: 42px;
   margin: 64px 0 0;
   color: #ffffff;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 500;
-  font-style: normal;
   font-size: 32px;
   line-height: 1;
   letter-spacing: 0;
@@ -229,9 +224,7 @@
   height: 18px;
   margin: 0 auto;
   color: #35273a;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 600;
-  font-style: normal;
   font-size: 14px;
   line-height: 1;
   letter-spacing: 0;
@@ -243,9 +236,7 @@
   height: 99px;
   margin: 0;
   color: #35273a;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 700;
-  font-style: normal;
   font-size: 26px;
   line-height: 1;
   letter-spacing: 0;
@@ -280,9 +271,7 @@
   min-width: 90px;
   height: 18px;
   color: #35273a;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 500;
-  font-style: normal;
   font-size: 14px;
   line-height: 1;
   letter-spacing: 0;
@@ -345,7 +334,6 @@
   color: #35273a;
   font-family: "Nokora", Arial, sans-serif;
   font-weight: 400;
-  font-style: normal;
   font-size: 16px;
   line-height: 1;
   letter-spacing: 0;
@@ -400,7 +388,6 @@
   color: #ffffff;
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 700;
-  font-style: normal;
   font-size: 18px;
   line-height: 1;
   letter-spacing: 0;
@@ -478,7 +465,6 @@
   color: #35273a;
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 400;
-  font-style: normal;
   font-size: 14px;
   line-height: 1;
   /* Match the design's 2% letter spacing at a font size of 14px. */
@@ -548,9 +534,7 @@
   padding: 4px 4px 4px 10px;
   border-radius: 6px;
   color: #ffb770;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 400;
-  font-style: normal;
   font-size: 14px;
   line-height: 1;
   letter-spacing: 0.28px;
@@ -606,9 +590,7 @@
   height: 20px;
   margin: 0;
   color: #ffcfa1;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 500;
-  font-style: normal;
   font-size: 16px;
   line-height: 1;
   letter-spacing: 0;
@@ -622,9 +604,7 @@
   height: 30px;
   margin: 0;
   color: #ffffff;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 700;
-  font-style: normal;
   font-size: 24px;
   line-height: 1;
   letter-spacing: 0;
@@ -651,9 +631,7 @@
   width: 90px;
   height: 18px;
   color: #221227;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 500;
-  font-style: normal;
   font-size: 14px;
   line-height: 1;
   letter-spacing: 0;

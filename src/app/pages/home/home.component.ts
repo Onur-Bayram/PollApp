@@ -7,6 +7,40 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  // Keep the six example cards in the order shown in the design.
+  surveyCards = [
+    {
+      category: 'Team activities',
+      title: 'Let’s Plan the Next Team Event Together',
+      deadline: 'Ends in 1 Day',
+    },
+    {
+      category: 'Gaming',
+      title: 'Gaming habits and favorite games!',
+      deadline: 'Ends in 3 Day',
+    },
+    {
+      category: 'Gaming',
+      title: 'Gaming habits and favorite games!',
+      deadline: 'Ends in 3 Day',
+    },
+    {
+      category: 'Healthy Lifestyle',
+      title: 'Healthier future: Fit & wellness survey!',
+      deadline: 'Ends in 2 Day',
+    },
+    {
+      category: 'Healthy Lifestyle',
+      title: 'Healthier future: Fit & wellness survey!',
+      deadline: 'Ends in 2 Day',
+    },
+    {
+      category: 'Team activities',
+      title: 'Let’s Plan the Next Team Event Together',
+      deadline: 'Ends in 1 Day',
+    },
+  ];
+
   // Store which survey status button is currently selected.
   selectedSurveyStatus = 'active';
 
