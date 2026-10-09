@@ -380,6 +380,13 @@
   gap: 8px;
 }
 
+/* Align the description delete button at the top with a 12px gap. */
+.create-survey-description-row {
+  align-items: flex-start;
+  gap: 12px;
+  width: 456px;
+}
+
 /* Share the input height, padding, rounded corners and background. */
 .create-survey-input {
   box-sizing: border-box;

@@ -155,11 +155,25 @@
                 <span>Describing text</span>
                 <span class="create-survey-description-optional">(optional)</span>
               </label>
-              <!-- Allow several lines of optional describing text. -->
-              <textarea
-                id="survey-description"
-                class="create-survey-input create-survey-description-input"
-              ></textarea>
+              <!-- Place the delete button beside the description text area. -->
+              <div class="create-survey-input-row create-survey-description-row">
+                <!-- Limit the optional description to 300 characters. -->
+                <textarea
+                  id="survey-description"
+                  class="create-survey-input create-survey-description-input"
+                  [formControl]="description"
+                  maxlength="300"
+                ></textarea>
+                <!-- Clear only the description when this button is clicked. -->
+                <button
+                  type="button"
+                  class="create-survey-delete-button"
+                  aria-label="Clear description"
+                  (click)="clearDescription()"
+                >
+                  <img src="assets/icons/delete.png" alt="" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
