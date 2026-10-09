@@ -22,6 +22,9 @@ export class CreateSurveyComponent {
   // Connect the question input to a separate form control.
   question = new FormControl('');
 
+  // Track whether this question allows multiple answers.
+  allowMultipleAnswers = new FormControl(false);
+
   // Use the same topic categories as the home page.
   categories = [
     'Team Activities',

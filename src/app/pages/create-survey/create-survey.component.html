@@ -201,6 +201,26 @@
                 [formControl]="question"
               />
             </div>
+            <!-- Group the answer options below the question. -->
+            <div class="create-survey-answers-group">
+              <!-- Place the multiple answers option beside the heading. -->
+              <div class="create-survey-answers-header">
+                <h2 class="create-survey-label create-survey-answers-label">Answers</h2>
+                <!-- Toggle the checkbox by clicking its box or text. -->
+                <label for="allow-multiple-answers" class="create-survey-multiple-answers-option">
+                  <!-- Keep the 15px checkbox inside its padded 21px area. -->
+                  <span class="create-survey-multiple-answers-icon">
+                    <input
+                      id="allow-multiple-answers"
+                      type="checkbox"
+                      class="create-survey-multiple-answers-checkbox"
+                      [formControl]="allowMultipleAnswers"
+                    />
+                  </span>
+                  <span class="create-survey-multiple-answers-text">Allow multiple answers.</span>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>

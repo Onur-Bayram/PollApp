@@ -170,6 +170,59 @@
   height: 271px;
 }
 
+/* Stack the answer content with 16px spacing inside its fixed area. */
+.create-survey-answers-group {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 16px;
+  width: 429px;
+  height: 176px;
+}
+
+/* Align the answer heading on the left and the note on the right. */
+.create-survey-answers-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Keep the checkbox and its clickable label together. */
+.create-survey-multiple-answers-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* Leave 3px of space around the checkbox inside its 21px area. */
+.create-survey-multiple-answers-icon {
+  box-sizing: border-box;
+  display: flex;
+  width: 21px;
+  height: 21px;
+  padding: 3px;
+}
+
+/* Replace the unchecked browser style with the white Figma border. */
+.create-survey-multiple-answers-checkbox {
+  appearance: none;
+  box-sizing: border-box;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  border: 1.5px solid #ffffff;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Use the browser's own check mark when the option is selected. */
+.create-survey-multiple-answers-checkbox:checked {
+  appearance: auto;
+  accent-color: #ffb770;
+}
+
 /* Stack the question label and input with a small vertical space. */
 .create-survey-question-field {
   display: flex;
@@ -386,6 +439,26 @@
 /* Set the width of the numbered question label. */
 .create-survey-question-label {
   width: 399px;
+}
+
+/* Set the answer heading width and remove the default heading margins. */
+.create-survey-answers-label {
+  width: 184px;
+  margin: 0;
+}
+
+/* Style the multiple answers note with the local Mulish Regular font. */
+.create-survey-multiple-answers-text {
+  display: flex;
+  align-items: center;
+  width: 154px;
+  height: 18px;
+  color: #ffffff;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 /* Set the width of the end date label. */
