@@ -587,6 +587,11 @@
   background: #d9d9d914;
 }
 
+/* Lighten the survey card's background when the mouse is over it. */
+.home-survey-card:hover {
+  background: #d9d9d929;
+}
+
 /* Keep the category and title close together in one text column. */
 .home-survey-card-content {
   display: flex;
