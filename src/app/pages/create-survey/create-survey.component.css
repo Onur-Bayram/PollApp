@@ -152,3 +152,14 @@
   border-radius: 5px 80px 5px 5px;
   background: #8e709929;
 }
+
+/* Keep the name input's padding inside its size and round its top-right corner. */
+.create-survey-name-input {
+  box-sizing: border-box;
+  width: 429px;
+  height: 37px;
+  padding: 7px 13px;
+  border: 0;
+  border-radius: 5px 20px 5px 5px;
+  background: #fefdff;
+}
