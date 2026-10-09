@@ -27,6 +27,13 @@
   background: #35273a;
 }
 
+/* Keep the status and title close together in one text column. */
+.create-survey-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 /* Keep the status badge's padding inside its size and round the top-right corner. */
 .create-survey-status {
   box-sizing: border-box;
@@ -51,6 +58,19 @@
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 600;
   font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Style the page heading with the local Nerko One font. */
+.create-survey-title {
+  width: 588px;
+  height: 61px;
+  margin: 0;
+  color: #ee9236;
+  font-family: "Nerko One", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 56px;
   line-height: 1;
   letter-spacing: 0;
 }

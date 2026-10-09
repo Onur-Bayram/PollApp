@@ -1,12 +1,17 @@
 <!-- White page background for creating a new survey. -->
-<main class="create-survey-page" aria-label="Create new survey">
+<main class="create-survey-page" aria-labelledby="create-survey-title">
   <!-- Center the desktop design area in wider browser windows. -->
   <div class="create-survey-layout">
     <!-- Dark frame for the survey form. -->
     <div class="create-survey-frame">
-      <!-- Show the current survey status inside its badge. -->
-      <div class="create-survey-status">
-        <span class="create-survey-status-text">Draft</span>
+      <!-- Keep the status and page title together above the form. -->
+      <div class="create-survey-heading">
+        <!-- Show the current survey status inside its badge. -->
+        <div class="create-survey-status">
+          <span class="create-survey-status-text">Draft</span>
+        </div>
+        <!-- Main heading for the create survey page. -->
+        <h1 id="create-survey-title" class="create-survey-title">Create new survey</h1>
       </div>
     </div>
   </div>
