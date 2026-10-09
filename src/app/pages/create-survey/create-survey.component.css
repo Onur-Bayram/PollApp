@@ -1,0 +1,28 @@
+/* Cover at least the browser height with the white page background. */
+.create-survey-page {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* Center the 1440px desktop area and leave space above and below the frame. */
+.create-survey-layout {
+  box-sizing: border-box;
+  width: 1440px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 72px 0;
+}
+
+/* Keep the frame's padding inside its size and prepare a column for its content. */
+.create-survey-frame {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: 1166px;
+  height: 844px;
+  margin-left: 109px;
+  padding: 40px 54px;
+  border-radius: 5px 100px 5px 5px;
+  background: #35273a;
+}
