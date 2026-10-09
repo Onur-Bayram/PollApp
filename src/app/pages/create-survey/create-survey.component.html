@@ -4,14 +4,29 @@
   <div class="create-survey-layout">
     <!-- Dark frame for the survey form. -->
     <div class="create-survey-frame">
-      <!-- Keep the status and page title together above the form. -->
+      <!-- Group the status, title and close button above the form. -->
       <div class="create-survey-heading">
         <!-- Show the current survey status inside its badge. -->
         <div class="create-survey-status">
           <span class="create-survey-status-text">Draft</span>
         </div>
-        <!-- Main heading for the create survey page. -->
-        <h1 id="create-survey-title" class="create-survey-title">Create new survey</h1>
+        <!-- Place the close button to the right of the page title. -->
+        <div class="create-survey-title-row">
+          <h1 id="create-survey-title" class="create-survey-title">Create new survey</h1>
+          <!-- Return to the home page immediately when clicked. -->
+          <button
+            type="button"
+            class="create-survey-close-button"
+            routerLink="/"
+          >
+            <!-- Visible label for cancelling survey creation. -->
+            <span class="create-survey-close-button-text">Cancel</span>
+            <!-- Decorative X icon next to the Cancel label. -->
+            <span class="create-survey-close-button-icon" aria-hidden="true">
+              <img src="assets/icons/close.png" alt="" />
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

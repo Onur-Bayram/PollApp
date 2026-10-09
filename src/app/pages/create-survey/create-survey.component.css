@@ -27,11 +27,18 @@
   background: #35273a;
 }
 
-/* Keep the status and title close together in one text column. */
+/* Keep the status close to the title row. */
 .create-survey-heading {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+/* Align the close button beside the title at the right edge of the content. */
+.create-survey-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* Keep the status badge's padding inside its size and round the top-right corner. */
@@ -73,4 +80,55 @@
   font-size: 56px;
   line-height: 1;
   letter-spacing: 0;
+}
+
+/* Keep the close button's padding inside its size and prepare space for its content. */
+.create-survey-close-button {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 111px;
+  height: 40px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #ffb7704d;
+  cursor: pointer;
+  transition: background-color 200ms ease-out;
+}
+
+/* Match the lighter Cancel button background from the hover screenshot. */
+.create-survey-close-button:hover {
+  background: #ae7e5a;
+}
+
+/* Center the Cancel label vertically and use the local Nokora Bold font. */
+.create-survey-close-button-text {
+  display: flex;
+  align-items: center;
+  width: 50px;
+  height: 21px;
+  color: #fefdff;
+  font-family: "Nokora", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Center the supplied X inside its 24px icon area. */
+.create-survey-close-button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+/* Use the Figma size for the X itself. */
+.create-survey-close-button-icon img {
+  display: block;
+  width: 13.15px;
+  height: 13.15px;
 }
