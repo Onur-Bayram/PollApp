@@ -193,6 +193,11 @@
   background: #fefdff;
 }
 
+/* Change the name input background immediately while it is focused. */
+.create-survey-name-input:focus {
+  background: #fee9d4;
+}
+
 /* Use a transparent button around the supplied delete icon. */
 .create-survey-delete-button {
   box-sizing: border-box;
