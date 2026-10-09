@@ -38,14 +38,14 @@
             <div class="create-survey-name-field">
               <label for="survey-name" class="create-survey-label create-survey-name-label">Survey name</label>
               <!-- Place the delete button beside the name input. -->
-              <div class="create-survey-name-input-row">
-                <!-- Limit the survey name to 80 characters. -->
+              <div class="create-survey-input-row">
+                <!-- Limit the survey name to 50 characters. -->
                 <input
                   id="survey-name"
                   type="text"
                   class="create-survey-input create-survey-name-input"
                   [formControl]="surveyName"
-                  maxlength="80"
+                  maxlength="50"
                 />
                 <!-- Clear only the survey name when this button is clicked. -->
                 <button
@@ -65,13 +65,26 @@
                 <label for="survey-end-date" class="create-survey-label create-survey-end-date-label">
                   Set end date (optional)
                 </label>
-                <!-- Allow up to 10 characters for a date in DD.MM.YYYY format. -->
-                <input
-                  id="survey-end-date"
-                  type="text"
-                  class="create-survey-input create-survey-end-date-input"
-                  maxlength="10"
-                />
+                <!-- Place the delete button beside the end date input. -->
+                <div class="create-survey-input-row">
+                  <!-- Allow up to 10 characters for a date in DD.MM.YYYY format. -->
+                  <input
+                    id="survey-end-date"
+                    type="text"
+                    class="create-survey-input create-survey-end-date-input"
+                    [formControl]="endDate"
+                    maxlength="10"
+                  />
+                  <!-- Clear only the end date when this button is clicked. -->
+                  <button
+                    type="button"
+                    class="create-survey-delete-button"
+                    aria-label="Clear end date"
+                    (click)="clearEndDate()"
+                  >
+                    <img src="assets/icons/delete.png" alt="" />
+                  </button>
+                </div>
               </div>
               <!-- Anchor the category menu below its button. -->
               <div class="create-survey-category-control">

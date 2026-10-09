@@ -347,8 +347,8 @@
   width: 256px;
 }
 
-/* Align the name input and delete button vertically. */
-.create-survey-name-input-row {
+/* Align each input and its delete button vertically. */
+.create-survey-input-row {
   display: flex;
   align-items: center;
   gap: 8px;

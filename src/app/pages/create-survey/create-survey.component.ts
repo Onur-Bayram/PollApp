@@ -13,6 +13,9 @@ export class CreateSurveyComponent {
   // Connect the survey name input to a form control.
   surveyName = new FormControl('');
 
+  // Connect the optional end date input to a separate form control.
+  endDate = new FormControl('');
+
   // Use the same topic categories as the home page.
   categories = [
     'Team Activities',
@@ -43,5 +46,10 @@ export class CreateSurveyComponent {
   // Clear the survey name when its delete button is clicked.
   clearSurveyName(): void {
     this.surveyName.setValue('');
+  }
+
+  // Clear only the end date when its delete button is clicked.
+  clearEndDate(): void {
+    this.endDate.setValue('');
   }
 }
