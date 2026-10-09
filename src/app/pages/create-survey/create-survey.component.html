@@ -32,119 +32,134 @@
         </div>
         <!-- Inner panel for the survey details and questions. -->
         <div class="create-survey-form-panel">
-          <!-- Stack the survey name and the date/category row in the left column. -->
-          <div class="create-survey-details-column">
-            <!-- Keep the survey name label directly above its text input. -->
-            <div class="create-survey-name-field">
-              <label for="survey-name" class="create-survey-label create-survey-name-label">Survey name</label>
-              <!-- Place the delete button beside the name input. -->
-              <div class="create-survey-input-row">
-                <!-- Limit the survey name to 50 characters. -->
-                <input
-                  id="survey-name"
-                  type="text"
-                  class="create-survey-input create-survey-name-input"
-                  [formControl]="surveyName"
-                  maxlength="50"
-                />
-                <!-- Clear only the survey name when this button is clicked. -->
-                <button
-                  type="button"
-                  class="create-survey-delete-button"
-                  aria-label="Clear survey name"
-                  (click)="clearSurveyName()"
-                >
-                  <img src="assets/icons/delete.png" alt="" />
-                </button>
-              </div>
-            </div>
-            <!-- Place the category button beside the end date field. -->
-            <div class="create-survey-date-category-row">
-              <!-- Keep the end date label above its smaller input. -->
-              <div class="create-survey-end-date-field">
-                <label for="survey-end-date" class="create-survey-label create-survey-end-date-label">
-                  Set end date (optional)
-                </label>
-                <!-- Place the delete button beside the end date input. -->
+          <!-- Arrange the survey details and description side by side. -->
+          <div class="create-survey-details-row">
+            <!-- Stack the survey name and the date/category row in the left column. -->
+            <div class="create-survey-details-column">
+              <!-- Keep the survey name label directly above its text input. -->
+              <div class="create-survey-name-field">
+                <label for="survey-name" class="create-survey-label create-survey-name-label">Survey name</label>
+                <!-- Place the delete button beside the name input. -->
                 <div class="create-survey-input-row">
-                  <!-- Allow up to 10 characters for a date in DD.MM.YYYY format. -->
+                  <!-- Limit the survey name to 60 characters. -->
                   <input
-                    id="survey-end-date"
+                    id="survey-name"
                     type="text"
-                    class="create-survey-input create-survey-end-date-input"
-                    [formControl]="endDate"
-                    maxlength="10"
+                    class="create-survey-input create-survey-name-input"
+                    [formControl]="surveyName"
+                    maxlength="60"
                   />
-                  <!-- Clear only the end date when this button is clicked. -->
+                  <!-- Clear only the survey name when this button is clicked. -->
                   <button
                     type="button"
                     class="create-survey-delete-button"
-                    aria-label="Clear end date"
-                    (click)="clearEndDate()"
+                    aria-label="Clear survey name"
+                    (click)="clearSurveyName()"
                   >
                     <img src="assets/icons/delete.png" alt="" />
                   </button>
                 </div>
               </div>
-              <!-- Anchor the category menu below its button. -->
-              <div class="create-survey-category-control">
-                <!-- Open or close the category menu when the button is clicked. -->
-                <button
-                  type="button"
-                  class="create-survey-category-button"
-                  [class.create-survey-category-button-selected]="selectedCategory !== ''"
-                  [attr.aria-expanded]="isCategoryMenuOpen"
-                  aria-controls="create-survey-category-menu"
-                  (click)="toggleCategoryMenu()"
-                >
-                  <!-- Keep the button label unchanged after a selection. -->
-                  <span class="create-survey-category-button-text">Choose category</span>
-                  <!-- Switch between the supplied arrows inside the same icon area. -->
-                  <span class="create-survey-category-button-arrow" aria-hidden="true">
-                    @if (isCategoryMenuOpen) {
-                      <img
-                        class="create-survey-category-arrow-image"
-                        src="assets/icons/category-arrow-up-orange.png"
-                        alt=""
-                        width="24"
-                        height="24"
-                      />
-                    } @else {
-                      <img
-                        class="create-survey-category-arrow-image create-survey-category-arrow-default"
-                        src="assets/icons/category-arrow-down.png"
-                        alt=""
-                        width="24"
-                        height="24"
-                      />
-                      <img
-                        class="create-survey-category-arrow-image create-survey-category-arrow-hover"
-                        src="assets/icons/category-arrow-down-orange.png"
-                        alt=""
-                        width="15"
-                        height="8"
-                      />
-                    }
-                  </span>
-                </button>
-                @if (isCategoryMenuOpen) {
-                  <!-- Repeat the topic options and highlight the selected category. -->
-                  <div id="create-survey-category-menu" class="create-survey-category-menu">
-                    @for (category of categories; track category) {
-                      <button
-                        type="button"
-                        class="create-survey-category-menu-item"
-                        [class.create-survey-category-menu-item-selected]="selectedCategory === category"
-                        [attr.aria-pressed]="selectedCategory === category"
-                        (click)="selectCategory(category)"
-                      >{{ category }}</button>
-                    }
+              <!-- Place the category button beside the end date field. -->
+              <div class="create-survey-date-category-row">
+                <!-- Keep the end date label above its smaller input. -->
+                <div class="create-survey-end-date-field">
+                  <label for="survey-end-date" class="create-survey-label create-survey-end-date-label">
+                    Set end date (optional)
+                  </label>
+                  <!-- Place the delete button beside the end date input. -->
+                  <div class="create-survey-input-row">
+                    <!-- Allow up to 10 characters for a date in DD.MM.YYYY format. -->
+                    <input
+                      id="survey-end-date"
+                      type="text"
+                      class="create-survey-input create-survey-end-date-input"
+                      [formControl]="endDate"
+                      maxlength="10"
+                    />
+                    <!-- Clear only the end date when this button is clicked. -->
+                    <button
+                      type="button"
+                      class="create-survey-delete-button"
+                      aria-label="Clear end date"
+                      (click)="clearEndDate()"
+                    >
+                      <img src="assets/icons/delete.png" alt="" />
+                    </button>
                   </div>
-                } @else if (selectedCategory) {
-                  <!-- Show the chosen category below the closed button. -->
-                  <div class="create-survey-category-selection">{{ selectedCategory }}</div>
-                }
+                </div>
+                <!-- Anchor the category menu below its button. -->
+                <div class="create-survey-category-control">
+                  <!-- Open or close the category menu when the button is clicked. -->
+                  <button
+                    type="button"
+                    class="create-survey-category-button"
+                    [class.create-survey-category-button-selected]="selectedCategory !== ''"
+                    [attr.aria-expanded]="isCategoryMenuOpen"
+                    aria-controls="create-survey-category-menu"
+                    (click)="toggleCategoryMenu()"
+                  >
+                    <!-- Keep the button label unchanged after a selection. -->
+                    <span class="create-survey-category-button-text">Choose category</span>
+                    <!-- Switch between the supplied arrows inside the same icon area. -->
+                    <span class="create-survey-category-button-arrow" aria-hidden="true">
+                      @if (isCategoryMenuOpen) {
+                        <img
+                          class="create-survey-category-arrow-image"
+                          src="assets/icons/category-arrow-up-orange.png"
+                          alt=""
+                          width="24"
+                          height="24"
+                        />
+                      } @else {
+                        <img
+                          class="create-survey-category-arrow-image create-survey-category-arrow-default"
+                          src="assets/icons/category-arrow-down.png"
+                          alt=""
+                          width="24"
+                          height="24"
+                        />
+                        <img
+                          class="create-survey-category-arrow-image create-survey-category-arrow-hover"
+                          src="assets/icons/category-arrow-down-orange.png"
+                          alt=""
+                          width="15"
+                          height="8"
+                        />
+                      }
+                    </span>
+                  </button>
+                  @if (isCategoryMenuOpen) {
+                    <!-- Repeat the topic options and highlight the selected category. -->
+                    <div id="create-survey-category-menu" class="create-survey-category-menu">
+                      @for (category of categories; track category) {
+                        <button
+                          type="button"
+                          class="create-survey-category-menu-item"
+                          [class.create-survey-category-menu-item-selected]="selectedCategory === category"
+                          [attr.aria-pressed]="selectedCategory === category"
+                          (click)="selectCategory(category)"
+                        >{{ category }}</button>
+                      }
+                    </div>
+                  } @else if (selectedCategory) {
+                    <!-- Show the chosen category below the closed button. -->
+                    <div class="create-survey-category-selection">{{ selectedCategory }}</div>
+                  }
+                </div>
               </div>
+            </div>
+            <!-- Keep the description label directly above its text area. -->
+            <div class="create-survey-description-field">
+              <label for="survey-description" class="create-survey-label create-survey-description-label">
+                <span>Describing text</span>
+                <span class="create-survey-description-optional">(optional)</span>
+              </label>
+              <!-- Allow several lines of optional describing text. -->
+              <textarea
+                id="survey-description"
+                class="create-survey-input create-survey-description-input"
+              ></textarea>
             </div>
           </div>
         </div>

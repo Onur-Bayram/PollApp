@@ -153,6 +153,13 @@
   background: #8e709929;
 }
 
+/* Place the description to the right of the survey details. */
+.create-survey-details-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 64px;
+}
+
 /* Keep the left column fields close together. */
 .create-survey-details-column {
   display: flex;
@@ -167,6 +174,14 @@
   flex-direction: column;
   gap: 4px;
   width: 470px;
+}
+
+/* Keep the description label and text area aligned with the name field. */
+.create-survey-description-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 452px;
 }
 
 /* Stack the end date label and input with the specified spacing. */
@@ -347,6 +362,17 @@
   width: 256px;
 }
 
+/* Set the description label width and separate its two text parts. */
+.create-survey-description-label {
+  width: 452px;
+  gap: 8px;
+}
+
+/* Use the local Mulish Regular font for the optional note. */
+.create-survey-description-optional {
+  font-weight: 400;
+}
+
 /* Align each input and its delete button vertically. */
 .create-survey-input-row {
   display: flex;
@@ -372,6 +398,13 @@
 /* Set the width of the smaller end date input. */
 .create-survey-end-date-input {
   width: 222px;
+}
+
+/* Keep the description text area at its specified size. */
+.create-survey-description-input {
+  width: 418px;
+  height: 108px;
+  resize: none;
 }
 
 /* Change the input background immediately while it is focused. */
