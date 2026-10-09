@@ -177,6 +177,153 @@
   width: 256px;
 }
 
+/* Align the end date group and category button at the top of the same row. */
+.create-survey-date-category-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Anchor the menu and selected label without moving the form fields. */
+.create-survey-category-control {
+  position: relative;
+  flex-shrink: 0;
+  width: 206px;
+}
+
+/* Keep the button and arrow in the same position for every category. */
+.create-survey-category-button {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 206px;
+  height: 32px;
+  padding: 4px 6px 4px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Match the home page's hover and selected backgrounds. */
+.create-survey-category-button:hover,
+.create-survey-category-button-selected {
+  background: #d9d9d91f;
+}
+
+/* Center the category label vertically and use the local Mulish Bold font. */
+.create-survey-category-button-text {
+  display: flex;
+  align-items: center;
+  width: 145px;
+  height: 23px;
+  color: #ffffff;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* Keep the icon area fixed while the supplied arrow images change. */
+.create-survey-category-button-arrow {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+/* Show each arrow at its exported size. */
+.create-survey-category-arrow-image {
+  display: block;
+}
+
+/* Position the smaller orange downward arrow in the same icon area. */
+.create-survey-category-arrow-hover {
+  position: absolute;
+  top: 8px;
+  left: 5px;
+  display: none;
+}
+
+/* Use the orange downward arrow on hover or after selecting a category. */
+.create-survey-category-button:hover .create-survey-category-arrow-default,
+.create-survey-category-button-selected .create-survey-category-arrow-default {
+  display: none;
+}
+
+.create-survey-category-button:hover .create-survey-category-arrow-hover,
+.create-survey-category-button-selected .create-survey-category-arrow-hover {
+  display: block;
+}
+
+/* Place the white category list directly below the button. */
+.create-survey-category-menu {
+  box-sizing: border-box;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 206px;
+  padding: 8px 4px;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+/* Fit each topic option to its text and use the home page typography. */
+.create-survey-category-menu-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  height: 26px;
+  padding: 4px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.28px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Highlight an option immediately on hover and keep the chosen one selected. */
+.create-survey-category-menu-item:hover,
+.create-survey-category-menu-item-selected {
+  background: #f4e9fb;
+}
+
+/* Show the chosen category in orange beneath the closed button. */
+.create-survey-category-selection {
+  box-sizing: border-box;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  min-width: 117px;
+  height: 26px;
+  padding: 4px 4px 4px 10px;
+  border-radius: 6px;
+  color: #ffb770;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.28px;
+  white-space: nowrap;
+}
+
 /* Share the label height, text alignment and local Mulish Bold font. */
 .create-survey-label {
   display: flex;

@@ -13,6 +13,33 @@ export class CreateSurveyComponent {
   // Connect the survey name input to a form control.
   surveyName = new FormControl('');
 
+  // Use the same topic categories as the home page.
+  categories = [
+    'Team Activities',
+    'Health & Wellness',
+    'Gaming & Entertainment',
+    'Education & Learning',
+    'Lifestyle & Preferences',
+    'Technology & Innovation',
+  ];
+
+  // Track whether the category menu is open.
+  isCategoryMenuOpen = false;
+
+  // Store the category shown below the button.
+  selectedCategory = '';
+
+  // Open or close the category menu and update its arrow.
+  toggleCategoryMenu(): void {
+    this.isCategoryMenuOpen = !this.isCategoryMenuOpen;
+  }
+
+  // Save the chosen category and close the menu.
+  selectCategory(category: string): void {
+    this.selectedCategory = category;
+    this.isCategoryMenuOpen = false;
+  }
+
   // Clear the survey name when its delete button is clicked.
   clearSurveyName(): void {
     this.surveyName.setValue('');

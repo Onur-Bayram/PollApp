@@ -32,7 +32,7 @@
         </div>
         <!-- Inner panel for the survey details and questions. -->
         <div class="create-survey-form-panel">
-          <!-- Stack the survey name and end date in the left column. -->
+          <!-- Stack the survey name and the date/category row in the left column. -->
           <div class="create-survey-details-column">
             <!-- Keep the survey name label directly above its text input. -->
             <div class="create-survey-name-field">
@@ -58,18 +58,80 @@
                 </button>
               </div>
             </div>
-            <!-- Keep the end date label above its smaller input. -->
-            <div class="create-survey-end-date-field">
-              <label for="survey-end-date" class="create-survey-label create-survey-end-date-label">
-                Set end date (optional)
-              </label>
-              <!-- Allow up to 10 characters for a date in DD.MM.YYYY format. -->
-              <input
-                id="survey-end-date"
-                type="text"
-                class="create-survey-input create-survey-end-date-input"
-                maxlength="10"
-              />
+            <!-- Place the category button beside the end date field. -->
+            <div class="create-survey-date-category-row">
+              <!-- Keep the end date label above its smaller input. -->
+              <div class="create-survey-end-date-field">
+                <label for="survey-end-date" class="create-survey-label create-survey-end-date-label">
+                  Set end date (optional)
+                </label>
+                <!-- Allow up to 10 characters for a date in DD.MM.YYYY format. -->
+                <input
+                  id="survey-end-date"
+                  type="text"
+                  class="create-survey-input create-survey-end-date-input"
+                  maxlength="10"
+                />
+              </div>
+              <!-- Anchor the category menu below its button. -->
+              <div class="create-survey-category-control">
+                <!-- Open or close the category menu when the button is clicked. -->
+                <button
+                  type="button"
+                  class="create-survey-category-button"
+                  [class.create-survey-category-button-selected]="selectedCategory !== ''"
+                  [attr.aria-expanded]="isCategoryMenuOpen"
+                  aria-controls="create-survey-category-menu"
+                  (click)="toggleCategoryMenu()"
+                >
+                  <!-- Keep the button label unchanged after a selection. -->
+                  <span class="create-survey-category-button-text">Choose category</span>
+                  <!-- Switch between the supplied arrows inside the same icon area. -->
+                  <span class="create-survey-category-button-arrow" aria-hidden="true">
+                    @if (isCategoryMenuOpen) {
+                      <img
+                        class="create-survey-category-arrow-image"
+                        src="assets/icons/category-arrow-up-orange.png"
+                        alt=""
+                        width="24"
+                        height="24"
+                      />
+                    } @else {
+                      <img
+                        class="create-survey-category-arrow-image create-survey-category-arrow-default"
+                        src="assets/icons/category-arrow-down.png"
+                        alt=""
+                        width="24"
+                        height="24"
+                      />
+                      <img
+                        class="create-survey-category-arrow-image create-survey-category-arrow-hover"
+                        src="assets/icons/category-arrow-down-orange.png"
+                        alt=""
+                        width="15"
+                        height="8"
+                      />
+                    }
+                  </span>
+                </button>
+                @if (isCategoryMenuOpen) {
+                  <!-- Repeat the topic options and highlight the selected category. -->
+                  <div id="create-survey-category-menu" class="create-survey-category-menu">
+                    @for (category of categories; track category) {
+                      <button
+                        type="button"
+                        class="create-survey-category-menu-item"
+                        [class.create-survey-category-menu-item-selected]="selectedCategory === category"
+                        [attr.aria-pressed]="selectedCategory === category"
+                        (click)="selectCategory(category)"
+                      >{{ category }}</button>
+                    }
+                  </div>
+                } @else if (selectedCategory) {
+                  <!-- Show the chosen category below the closed button. -->
+                  <div class="create-survey-category-selection">{{ selectedCategory }}</div>
+                }
+              </div>
             </div>
           </div>
         </div>
