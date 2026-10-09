@@ -4,29 +4,34 @@
   <div class="create-survey-layout">
     <!-- Dark frame for the survey form. -->
     <div class="create-survey-frame">
-      <!-- Group the status, title and close button above the form. -->
-      <div class="create-survey-heading">
-        <!-- Show the current survey status inside its badge. -->
-        <div class="create-survey-status">
-          <span class="create-survey-status-text">Draft</span>
+      <!-- Keep the heading and form panel together. -->
+      <div class="create-survey-content">
+        <!-- Group the status, title and close button above the form. -->
+        <div class="create-survey-heading">
+          <!-- Show the current survey status inside its badge. -->
+          <div class="create-survey-status">
+            <span class="create-survey-status-text">Draft</span>
+          </div>
+          <!-- Place the close button to the right of the page title. -->
+          <div class="create-survey-title-row">
+            <h1 id="create-survey-title" class="create-survey-title">Create new survey</h1>
+            <!-- Return to the home page immediately when clicked. -->
+            <button
+              type="button"
+              class="create-survey-close-button"
+              routerLink="/"
+            >
+              <!-- Visible label for cancelling survey creation. -->
+              <span class="create-survey-close-button-text">Cancel</span>
+              <!-- Decorative X icon next to the Cancel label. -->
+              <span class="create-survey-close-button-icon" aria-hidden="true">
+                <img src="assets/icons/close.png" alt="" />
+              </span>
+            </button>
+          </div>
         </div>
-        <!-- Place the close button to the right of the page title. -->
-        <div class="create-survey-title-row">
-          <h1 id="create-survey-title" class="create-survey-title">Create new survey</h1>
-          <!-- Return to the home page immediately when clicked. -->
-          <button
-            type="button"
-            class="create-survey-close-button"
-            routerLink="/"
-          >
-            <!-- Visible label for cancelling survey creation. -->
-            <span class="create-survey-close-button-text">Cancel</span>
-            <!-- Decorative X icon next to the Cancel label. -->
-            <span class="create-survey-close-button-icon" aria-hidden="true">
-              <img src="assets/icons/close.png" alt="" />
-            </span>
-          </button>
-        </div>
+        <!-- Inner panel for the survey details and questions. -->
+        <div class="create-survey-form-panel"></div>
       </div>
     </div>
   </div>

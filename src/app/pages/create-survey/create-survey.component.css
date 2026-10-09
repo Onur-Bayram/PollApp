@@ -27,6 +27,13 @@
   background: #35273a;
 }
 
+/* Stack the heading and form panel with the spacing shown in the reference. */
+.create-survey-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 /* Keep the status close to the title row. */
 .create-survey-heading {
   display: flex;
@@ -131,4 +138,17 @@
   display: block;
   width: 13.15px;
   height: 13.15px;
+}
+
+/* Set the inner panel size, content spacing and rounded top-right corner. */
+.create-survey-form-panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  width: 1052px;
+  height: 549px;
+  padding: 40px 32px;
+  border-radius: 5px 80px 5px 5px;
+  background: #8e709929;
 }
