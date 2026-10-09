@@ -153,6 +153,35 @@
   background: #8e709929;
 }
 
+/* Group the name label and input with a small vertical space. */
+.create-survey-name-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 470px;
+}
+
+/* Center the name label vertically and use the local Mulish Bold font. */
+.create-survey-name-label {
+  display: flex;
+  align-items: center;
+  width: 470px;
+  height: 22px;
+  color: #fefdff;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Align the name input and delete button vertically. */
+.create-survey-name-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 /* Keep the name input's padding inside its size and round its top-right corner. */
 .create-survey-name-input {
   box-sizing: border-box;
@@ -162,4 +191,31 @@
   border: 0;
   border-radius: 5px 20px 5px 5px;
   background: #fefdff;
+}
+
+/* Use a transparent button around the supplied delete icon. */
+.create-survey-delete-button {
+  box-sizing: border-box;
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Show the orange layer over white immediately when the button is hovered. */
+.create-survey-delete-button:hover {
+  background:
+    linear-gradient(0deg, rgba(255, 183, 112, 0.6), rgba(255, 183, 112, 0.6)),
+    linear-gradient(0deg, #ffffff, #ffffff);
+}
+
+/* The PNG includes its own spacing; offset it to keep its original size. */
+.create-survey-delete-button img {
+  display: block;
+  width: 26px;
+  height: 26px;
+  margin: -4px;
 }

@@ -32,8 +32,30 @@
         </div>
         <!-- Inner panel for the survey details and questions. -->
         <div class="create-survey-form-panel">
-          <!-- Text input for the survey name. -->
-          <input type="text" class="create-survey-name-input" aria-label="Survey name" />
+          <!-- Keep the survey name label directly above its text input. -->
+          <div class="create-survey-name-field">
+            <label for="survey-name" class="create-survey-name-label">Survey name</label>
+            <!-- Place the delete button beside the name input. -->
+            <div class="create-survey-name-input-row">
+              <!-- Limit the survey name to 80 characters. -->
+              <input
+                id="survey-name"
+                type="text"
+                class="create-survey-name-input"
+                [formControl]="surveyName"
+                maxlength="80"
+              />
+              <!-- Clear only the survey name when this button is clicked. -->
+              <button
+                type="button"
+                class="create-survey-delete-button"
+                aria-label="Clear survey name"
+                (click)="clearSurveyName()"
+              >
+                <img src="assets/icons/delete.png" alt="" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
