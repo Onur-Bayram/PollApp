@@ -19,6 +19,9 @@ export class CreateSurveyComponent {
   // Connect the optional description to its own form control.
   description = new FormControl('');
 
+  // Connect the question input to a separate form control.
+  question = new FormControl('');
+
   // Use the same topic categories as the home page.
   categories = [
     'Team Activities',
@@ -59,5 +62,10 @@ export class CreateSurveyComponent {
   // Clear only the description when its delete button is clicked.
   clearDescription(): void {
     this.description.setValue('');
+  }
+
+  // Clear only the question when its delete button is clicked.
+  clearQuestion(): void {
+    this.question.setValue('');
   }
 }

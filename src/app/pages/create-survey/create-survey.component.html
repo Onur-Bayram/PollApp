@@ -176,6 +176,32 @@
               </div>
             </div>
           </div>
+          <!-- Group the question and its answers below the survey details. -->
+          <div class="create-survey-question-group">
+            <!-- Keep the question label directly above its input. -->
+            <div class="create-survey-question-field">
+              <!-- Place the delete button beside the numbered question label. -->
+              <div class="create-survey-question-header">
+                <label for="survey-question" class="create-survey-label create-survey-question-label">1. Question</label>
+                <!-- Clear only the question when this button is clicked. -->
+                <button
+                  type="button"
+                  class="create-survey-delete-button"
+                  aria-label="Clear question"
+                  (click)="clearQuestion()"
+                >
+                  <img src="assets/icons/delete.png" alt="" />
+                </button>
+              </div>
+              <!-- Enter the survey question in this text field. -->
+              <input
+                id="survey-question"
+                type="text"
+                class="create-survey-input create-survey-question-input"
+                [formControl]="question"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

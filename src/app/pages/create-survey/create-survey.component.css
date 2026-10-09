@@ -160,6 +160,32 @@
   gap: 64px;
 }
 
+/* Stack the question content with 24px spacing inside its fixed area. */
+.create-survey-question-group {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 24px;
+  width: 429px;
+  height: 271px;
+}
+
+/* Stack the question label and input with a small vertical space. */
+.create-survey-question-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 429px;
+}
+
+/* Keep the question label and delete button side by side with a 16px gap. */
+.create-survey-question-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 441px;
+}
+
 /* Keep the left column fields close together. */
 .create-survey-details-column {
   display: flex;
@@ -357,6 +383,11 @@
   width: 470px;
 }
 
+/* Set the width of the numbered question label. */
+.create-survey-question-label {
+  width: 399px;
+}
+
 /* Set the width of the end date label. */
 .create-survey-end-date-label {
   width: 256px;
@@ -397,8 +428,9 @@
   background: #fefdff;
 }
 
-/* Set the width of the survey name input. */
-.create-survey-name-input {
+/* Use the same width for the survey name and question inputs. */
+.create-survey-name-input,
+.create-survey-question-input {
   width: 429px;
 }
 
