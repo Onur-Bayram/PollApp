@@ -160,7 +160,14 @@
   gap: 64px;
 }
 
-/* Stack the question content with 24px spacing inside its fixed area. */
+/* Align the two question groups at opposite ends of the available row. */
+.create-survey-questions-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* Stack each question's content with 24px spacing inside its fixed area. */
 .create-survey-question-group {
   display: flex;
   flex-direction: column;
@@ -237,6 +244,11 @@
   align-items: center;
   gap: 16px;
   width: 441px;
+}
+
+/* Keep the second question header at the supplied height. */
+.create-survey-second-question-header {
+  height: 26px;
 }
 
 /* Keep the left column fields close together. */

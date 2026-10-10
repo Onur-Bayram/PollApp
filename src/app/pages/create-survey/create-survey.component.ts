@@ -22,6 +22,9 @@ export class CreateSurveyComponent {
   // Connect the question input to a separate form control.
   question = new FormControl('');
 
+  // Keep the second question separate from the first question.
+  secondQuestion = new FormControl('');
+
   // Track whether this question allows multiple answers.
   allowMultipleAnswers = new FormControl(false);
 
@@ -70,5 +73,10 @@ export class CreateSurveyComponent {
   // Clear only the question when its delete button is clicked.
   clearQuestion(): void {
     this.question.setValue('');
+  }
+
+  // Clear only the second question when its delete button is clicked.
+  clearSecondQuestion(): void {
+    this.secondQuestion.setValue('');
   }
 }

@@ -176,49 +176,77 @@
               </div>
             </div>
           </div>
-          <!-- Group the question and its answers below the survey details. -->
-          <div class="create-survey-question-group">
-            <!-- Keep the question label directly above its input. -->
-            <div class="create-survey-question-field">
-              <!-- Place the delete button beside the numbered question label. -->
-              <div class="create-survey-question-header">
-                <label for="survey-question" class="create-survey-label create-survey-question-label">1. Question</label>
-                <!-- Clear only the question when this button is clicked. -->
-                <button
-                  type="button"
-                  class="create-survey-delete-button"
-                  aria-label="Clear question"
-                  (click)="clearQuestion()"
-                >
-                  <img src="assets/icons/delete.png" alt="" />
-                </button>
+          <!-- Place the question groups side by side below the survey details. -->
+          <div class="create-survey-questions-row">
+            <!-- Group the first question and its answers. -->
+            <div class="create-survey-question-group">
+              <!-- Keep the question label directly above its input. -->
+              <div class="create-survey-question-field">
+                <!-- Place the delete button beside the numbered question label. -->
+                <div class="create-survey-question-header">
+                  <label for="survey-question" class="create-survey-label create-survey-question-label">1. Question</label>
+                  <!-- Clear only the question when this button is clicked. -->
+                  <button
+                    type="button"
+                    class="create-survey-delete-button"
+                    aria-label="Clear question"
+                    (click)="clearQuestion()"
+                  >
+                    <img src="assets/icons/delete.png" alt="" />
+                  </button>
+                </div>
+                <!-- Enter the survey question in this text field. -->
+                <input
+                  id="survey-question"
+                  type="text"
+                  class="create-survey-input create-survey-question-input"
+                  [formControl]="question"
+                />
               </div>
-              <!-- Enter the survey question in this text field. -->
-              <input
-                id="survey-question"
-                type="text"
-                class="create-survey-input create-survey-question-input"
-                [formControl]="question"
-              />
+              <!-- Group the answer options below the question. -->
+              <div class="create-survey-answers-group">
+                <!-- Place the multiple answers option beside the heading. -->
+                <div class="create-survey-answers-header">
+                  <h2 class="create-survey-label create-survey-answers-label">Answers</h2>
+                  <!-- Toggle the checkbox by clicking its box or text. -->
+                  <label for="allow-multiple-answers" class="create-survey-multiple-answers-option">
+                    <!-- Keep the 15px checkbox inside its padded 21px area. -->
+                    <span class="create-survey-multiple-answers-icon">
+                      <input
+                        id="allow-multiple-answers"
+                        type="checkbox"
+                        class="create-survey-multiple-answers-checkbox"
+                        [formControl]="allowMultipleAnswers"
+                      />
+                    </span>
+                    <span class="create-survey-multiple-answers-text">Allow multiple answers.</span>
+                  </label>
+                </div>
+              </div>
             </div>
-            <!-- Group the answer options below the question. -->
-            <div class="create-survey-answers-group">
-              <!-- Place the multiple answers option beside the heading. -->
-              <div class="create-survey-answers-header">
-                <h2 class="create-survey-label create-survey-answers-label">Answers</h2>
-                <!-- Toggle the checkbox by clicking its box or text. -->
-                <label for="allow-multiple-answers" class="create-survey-multiple-answers-option">
-                  <!-- Keep the 15px checkbox inside its padded 21px area. -->
-                  <span class="create-survey-multiple-answers-icon">
-                    <input
-                      id="allow-multiple-answers"
-                      type="checkbox"
-                      class="create-survey-multiple-answers-checkbox"
-                      [formControl]="allowMultipleAnswers"
-                    />
-                  </span>
-                  <span class="create-survey-multiple-answers-text">Allow multiple answers.</span>
-                </label>
+            <!-- Group the second question with its label and delete button. -->
+            <div class="create-survey-question-group">
+              <!-- Keep the second question label directly above its input. -->
+              <div class="create-survey-question-field">
+                <div class="create-survey-question-header create-survey-second-question-header">
+                  <label for="survey-second-question" class="create-survey-label create-survey-question-label">2. Question</label>
+                  <!-- Clear only the second question when this button is clicked. -->
+                  <button
+                    type="button"
+                    class="create-survey-delete-button"
+                    aria-label="Clear second question"
+                    (click)="clearSecondQuestion()"
+                  >
+                    <img src="assets/icons/delete.png" alt="" />
+                  </button>
+                </div>
+                <!-- Enter the second question using the same input style. -->
+                <input
+                  id="survey-second-question"
+                  type="text"
+                  class="create-survey-input create-survey-question-input"
+                  [formControl]="secondQuestion"
+                />
               </div>
             </div>
           </div>
