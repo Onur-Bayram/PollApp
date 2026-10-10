@@ -222,6 +222,49 @@
                     <span class="create-survey-multiple-answers-text">Allow multiple answers.</span>
                   </label>
                 </div>
+                <!-- Stack the answer rows with space between them. -->
+                <div class="create-survey-answer-list">
+                  <!-- Place the letter, input and delete button in one row. -->
+                  <div class="create-survey-answer-row">
+                    <label for="survey-answer-a" class="create-survey-label create-survey-answer-label">A.</label>
+                    <!-- Enter answer A for the first question. -->
+                    <input
+                      id="survey-answer-a"
+                      type="text"
+                      class="create-survey-input create-survey-answer-input"
+                      [formControl]="answerA"
+                    />
+                    <!-- Clear only this answer when the delete button is clicked. -->
+                    <button
+                      type="button"
+                      class="create-survey-delete-button"
+                      aria-label="Clear answer A for question 1"
+                      (click)="clearAnswerA()"
+                    >
+                      <img src="assets/icons/delete.png" alt="" />
+                    </button>
+                  </div>
+                  <!-- Place answer B below answer A using the same field styles. -->
+                  <div class="create-survey-answer-row create-survey-answer-row-b">
+                    <label for="survey-answer-b" class="create-survey-label create-survey-answer-label">B.</label>
+                    <!-- Enter answer B for the first question. -->
+                    <input
+                      id="survey-answer-b"
+                      type="text"
+                      class="create-survey-input create-survey-answer-input"
+                      [formControl]="answerB"
+                    />
+                    <!-- Clear only this answer when the delete button is clicked. -->
+                    <button
+                      type="button"
+                      class="create-survey-delete-button"
+                      aria-label="Clear answer B for question 1"
+                      (click)="clearAnswerB()"
+                    >
+                      <img src="assets/icons/delete.png" alt="" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- Group the second question with its label and delete button. -->
@@ -247,6 +290,69 @@
                   class="create-survey-input create-survey-question-input"
                   [formControl]="secondQuestion"
                 />
+              </div>
+              <!-- Use the same answer layout for the second question. -->
+              <div class="create-survey-answers-group">
+                <!-- Place the second question's multiple answers option beside the heading. -->
+                <div class="create-survey-answers-header">
+                  <h2 class="create-survey-label create-survey-answers-label">Answers</h2>
+                  <!-- Toggle only the second question's multiple answers option. -->
+                  <label for="allow-multiple-answers-second" class="create-survey-multiple-answers-option">
+                    <!-- Keep the checkbox inside the same padded icon area. -->
+                    <span class="create-survey-multiple-answers-icon">
+                      <input
+                        id="allow-multiple-answers-second"
+                        type="checkbox"
+                        class="create-survey-multiple-answers-checkbox"
+                        [formControl]="secondAllowMultipleAnswers"
+                      />
+                    </span>
+                    <span class="create-survey-multiple-answers-text">Allow multiple answers.</span>
+                  </label>
+                </div>
+                <!-- Stack the second question's answers with the same spacing. -->
+                <div class="create-survey-answer-list">
+                  <!-- Place answer A beside its letter and delete button. -->
+                  <div class="create-survey-answer-row">
+                    <label for="survey-second-answer-a" class="create-survey-label create-survey-answer-label">A.</label>
+                    <!-- Enter answer A for the second question. -->
+                    <input
+                      id="survey-second-answer-a"
+                      type="text"
+                      class="create-survey-input create-survey-answer-input"
+                      [formControl]="secondAnswerA"
+                    />
+                    <!-- Clear only answer A for the second question. -->
+                    <button
+                      type="button"
+                      class="create-survey-delete-button"
+                      aria-label="Clear answer A for question 2"
+                      (click)="clearSecondAnswerA()"
+                    >
+                      <img src="assets/icons/delete.png" alt="" />
+                    </button>
+                  </div>
+                  <!-- Place answer B below answer A using the same field styles. -->
+                  <div class="create-survey-answer-row create-survey-answer-row-b">
+                    <label for="survey-second-answer-b" class="create-survey-label create-survey-answer-label">B.</label>
+                    <!-- Enter answer B for the second question. -->
+                    <input
+                      id="survey-second-answer-b"
+                      type="text"
+                      class="create-survey-input create-survey-answer-input"
+                      [formControl]="secondAnswerB"
+                    />
+                    <!-- Clear only answer B for the second question. -->
+                    <button
+                      type="button"
+                      class="create-survey-delete-button"
+                      aria-label="Clear answer B for question 2"
+                      (click)="clearSecondAnswerB()"
+                    >
+                      <img src="assets/icons/delete.png" alt="" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -194,6 +194,37 @@
   justify-content: space-between;
 }
 
+/* Stack the answer rows inside their fixed area with 8px spacing. */
+.create-survey-answer-list {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 8px;
+  width: 424px;
+  height: 82px;
+}
+
+/* Align the answer letter, input and delete button in the same row. */
+.create-survey-answer-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 422px;
+  height: 37px;
+}
+
+/* Use the supplied width for the second answer row. */
+.create-survey-answer-row-b {
+  width: 424px;
+}
+
+/* Keep the supplied widths for all three parts of an answer row. */
+.create-survey-answer-label,
+.create-survey-answer-input,
+.create-survey-answer-row .create-survey-delete-button {
+  flex-shrink: 0;
+}
+
 /* Keep the checkbox and its clickable label together. */
 .create-survey-multiple-answers-option {
   display: flex;
@@ -459,6 +490,12 @@
   margin: 0;
 }
 
+/* Use the shared Mulish Bold label style for each answer letter. */
+.create-survey-answer-label {
+  width: 23px;
+  height: 30px;
+}
+
 /* Style the multiple answers note with the local Mulish Regular font. */
 .create-survey-multiple-answers-text {
   display: flex;
@@ -517,6 +554,11 @@
 .create-survey-name-input,
 .create-survey-question-input {
   width: 429px;
+}
+
+/* Use the shared input style at the smaller answer field width. */
+.create-survey-answer-input {
+  width: 363px;
 }
 
 /* Set the width of the smaller end date input. */

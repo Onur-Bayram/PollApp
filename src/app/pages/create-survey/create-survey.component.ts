@@ -25,8 +25,21 @@ export class CreateSurveyComponent {
   // Keep the second question separate from the first question.
   secondQuestion = new FormControl('');
 
-  // Track whether this question allows multiple answers.
+  // Connect answer A for the first question to its own form control.
+  answerA = new FormControl('');
+
+  // Keep answer B separate from answer A for the first question.
+  answerB = new FormControl('');
+
+  // Connect each answer for the second question to its own form control.
+  secondAnswerA = new FormControl('');
+  secondAnswerB = new FormControl('');
+
+  // Track whether the first question allows multiple answers.
   allowMultipleAnswers = new FormControl(false);
+
+  // Track the multiple answers option for the second question separately.
+  secondAllowMultipleAnswers = new FormControl(false);
 
   // Use the same topic categories as the home page.
   categories = [
@@ -78,5 +91,25 @@ export class CreateSurveyComponent {
   // Clear only the second question when its delete button is clicked.
   clearSecondQuestion(): void {
     this.secondQuestion.setValue('');
+  }
+
+  // Clear only answer A for the first question.
+  clearAnswerA(): void {
+    this.answerA.setValue('');
+  }
+
+  // Clear only answer B for the first question.
+  clearAnswerB(): void {
+    this.answerB.setValue('');
+  }
+
+  // Clear only answer A for the second question.
+  clearSecondAnswerA(): void {
+    this.secondAnswerA.setValue('');
+  }
+
+  // Clear only answer B for the second question.
+  clearSecondAnswerB(): void {
+    this.secondAnswerB.setValue('');
   }
 }
