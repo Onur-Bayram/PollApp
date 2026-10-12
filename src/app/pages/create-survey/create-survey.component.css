@@ -13,14 +13,14 @@
   padding: 72px 0;
 }
 
-/* Keep the frame's padding inside its size and prepare a column for its content. */
+/* Keep the frame's padding inside its size and allow added answers to extend it. */
 .create-survey-frame {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 48px;
   width: 1166px;
-  height: 844px;
+  min-height: 844px;
   margin-left: 109px;
   padding: 40px 54px;
   border-radius: 5px 100px 5px 5px;
@@ -89,8 +89,8 @@
   letter-spacing: 0;
 }
 
-/* Keep the close button's padding inside its size and prepare space for its content. */
-.create-survey-close-button {
+/* Share the action buttons' padding, rounded corners and background. */
+.create-survey-action-button {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -102,30 +102,41 @@
   border-radius: 10px;
   background: #ffb7704d;
   cursor: pointer;
+}
+
+/* Keep the existing background transition for the Cancel button. */
+.create-survey-close-button {
   transition: background-color 200ms ease-out;
 }
 
-/* Match the lighter Cancel button background from the hover screenshot. */
-.create-survey-close-button:hover {
+/* Set the wider button size for adding the second question. */
+.create-survey-add-question-button {
+  width: 204px;
+}
+
+/* Center the underlined answer action on a transparent button. */
+.add-answer-button {
+  justify-content: center;
+  width: 146px;
+  margin-left: 31px;
+  padding: 0;
+  background: transparent;
+}
+
+/* Show when this question has reached its answer limit. */
+.add-answer-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Use the same lighter background when either action button is hovered. */
+.create-survey-close-button:hover,
+.create-survey-add-question-button:hover {
   background: #ae7e5a;
 }
 
-/* Center the Cancel label vertically and use the local Nokora Bold font. */
-.create-survey-close-button-text {
-  display: flex;
-  align-items: center;
-  width: 50px;
-  height: 21px;
-  color: #fefdff;
-  font-family: "Nokora", Arial, sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1;
-  letter-spacing: 0;
-}
-
-/* Center the supplied X inside its 24px icon area. */
-.create-survey-close-button-icon {
+/* Center each supplied icon inside its 24px area. */
+.create-survey-button-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,20 +145,20 @@
 }
 
 /* Use the Figma size for the X itself. */
-.create-survey-close-button-icon img {
+.create-survey-close-button img {
   display: block;
   width: 13.15px;
   height: 13.15px;
 }
 
-/* Set the inner panel size, content spacing and rounded top-right corner. */
+/* Keep the initial panel size and grow it when more answers are added. */
 .create-survey-form-panel {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 64px;
   width: 1052px;
-  height: 549px;
+  min-height: 549px;
   padding: 40px 32px;
   border-radius: 5px 80px 5px 5px;
   background: #8e709929;
@@ -167,24 +178,24 @@
   justify-content: space-between;
 }
 
-/* Stack each question's content with 24px spacing inside its fixed area. */
+/* Stack each question's content and allow room for additional answers. */
 .create-survey-question-group {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 24px;
   width: 429px;
-  height: 271px;
+  min-height: 271px;
 }
 
-/* Stack the answer content with 16px spacing inside its fixed area. */
+/* Stack the answer content with 16px spacing and grow with its rows. */
 .create-survey-answers-group {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 16px;
   width: 429px;
-  height: 176px;
+  min-height: 176px;
 }
 
 /* Align the answer heading on the left and the note on the right. */
@@ -194,14 +205,13 @@
   justify-content: space-between;
 }
 
-/* Stack the answer rows inside their fixed area with 8px spacing. */
+/* Stack any number of answer rows with 8px spacing. */
 .create-survey-answer-list {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 8px;
   width: 424px;
-  height: 82px;
 }
 
 /* Align the answer letter, input and delete button in the same row. */
@@ -275,10 +285,6 @@
   align-items: center;
   gap: 16px;
   width: 441px;
-}
-
-/* Keep the second question header at the supplied height. */
-.create-survey-second-question-header {
   height: 26px;
 }
 
@@ -347,21 +353,6 @@
 .create-survey-category-button:hover,
 .create-survey-category-button-selected {
   background: #d9d9d91f;
-}
-
-/* Center the category label vertically and use the local Mulish Bold font. */
-.create-survey-category-button-text {
-  display: flex;
-  align-items: center;
-  width: 145px;
-  height: 23px;
-  color: #ffffff;
-  font-family: "Mulish", Arial, sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 1;
-  letter-spacing: 0;
-  white-space: nowrap;
 }
 
 /* Keep the icon area fixed while the supplied arrow images change. */
@@ -474,6 +465,34 @@
   letter-spacing: 0;
 }
 
+/* Reuse the label typography at the category button's supplied size. */
+.create-survey-category-button-text {
+  width: 145px;
+  height: 23px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* Use Nokora Bold for button text while sharing the label alignment and color. */
+.create-survey-action-text {
+  width: 50px;
+  height: 21px;
+  font-family: "Nokora", Arial, sans-serif;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+/* Reserve the supplied text width inside Add next question. */
+.create-survey-add-question-text {
+  width: 137px;
+}
+
+/* Use the supplied Add answer text width and underline from the reference. */
+.add-answer-text {
+  width: 94px;
+  text-decoration: underline;
+}
+
 /* Set the width of the survey name label. */
 .create-survey-name-label {
   width: 470px;
@@ -554,6 +573,16 @@
 .create-survey-name-input,
 .create-survey-question-input {
   width: 429px;
+}
+
+/* Style both question inputs with the local Mulish Regular font. */
+.create-survey-question-input {
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 /* Use the shared input style at the smaller answer field width. */

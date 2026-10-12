@@ -19,27 +19,27 @@ export class CreateSurveyComponent {
   // Connect the optional description to its own form control.
   description = new FormControl('');
 
-  // Connect the question input to a separate form control.
-  question = new FormControl('');
+  // Start the first question with editable text from the design.
+  question = new FormControl('Choose the activities you prefer');
 
-  // Keep the second question separate from the first question.
-  secondQuestion = new FormControl('');
+  // Start the second question with editable text from the design.
+  secondQuestion = new FormControl('Choose the activities you prefer');
 
-  // Connect answer A for the first question to its own form control.
-  answerA = new FormControl('');
+  // Start each question with two independent answer fields.
+  answers = [new FormControl(''), new FormControl('')];
+  secondAnswers = [new FormControl(''), new FormControl('')];
 
-  // Keep answer B separate from answer A for the first question.
-  answerB = new FormControl('');
-
-  // Connect each answer for the second question to its own form control.
-  secondAnswerA = new FormControl('');
-  secondAnswerB = new FormControl('');
+  // Label up to six answers per question as shown in the design.
+  answerLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
   // Track whether the first question allows multiple answers.
   allowMultipleAnswers = new FormControl(false);
 
   // Track the multiple answers option for the second question separately.
   secondAllowMultipleAnswers = new FormControl(false);
+
+  // Show only the first question when this page opens.
+  isSecondQuestionVisible = false;
 
   // Use the same topic categories as the home page.
   categories = [
@@ -56,6 +56,18 @@ export class CreateSurveyComponent {
 
   // Store the category shown below the button.
   selectedCategory = '';
+
+  // Reveal the second question without changing the first question's inputs.
+  addNextQuestion(): void {
+    this.isSecondQuestionVisible = true;
+  }
+
+  // Add a blank field only to the answer list passed by its button.
+  addAnswer(answers: FormControl[]): void {
+    if (answers.length < this.answerLetters.length) {
+      answers.push(new FormControl(''));
+    }
+  }
 
   // Open or close the category menu and update its arrow.
   toggleCategoryMenu(): void {
@@ -93,23 +105,8 @@ export class CreateSurveyComponent {
     this.secondQuestion.setValue('');
   }
 
-  // Clear only answer A for the first question.
-  clearAnswerA(): void {
-    this.answerA.setValue('');
-  }
-
-  // Clear only answer B for the first question.
-  clearAnswerB(): void {
-    this.answerB.setValue('');
-  }
-
-  // Clear only answer A for the second question.
-  clearSecondAnswerA(): void {
-    this.secondAnswerA.setValue('');
-  }
-
-  // Clear only answer B for the second question.
-  clearSecondAnswerB(): void {
-    this.secondAnswerB.setValue('');
+  // Clear only the answer belonging to the clicked delete button.
+  clearAnswer(answer: FormControl): void {
+    answer.setValue('');
   }
 }

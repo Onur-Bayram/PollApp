@@ -18,13 +18,13 @@
             <!-- Return to the home page immediately when clicked. -->
             <button
               type="button"
-              class="create-survey-close-button"
+              class="create-survey-action-button create-survey-close-button"
               routerLink="/"
             >
               <!-- Visible label for cancelling survey creation. -->
-              <span class="create-survey-close-button-text">Cancel</span>
+              <span class="create-survey-label create-survey-action-text">Cancel</span>
               <!-- Decorative X icon next to the Cancel label. -->
-              <span class="create-survey-close-button-icon" aria-hidden="true">
+              <span class="create-survey-button-icon" aria-hidden="true">
                 <img src="assets/icons/close.png" alt="" />
               </span>
             </button>
@@ -100,7 +100,7 @@
                     (click)="toggleCategoryMenu()"
                   >
                     <!-- Keep the button label unchanged after a selection. -->
-                    <span class="create-survey-category-button-text">Choose category</span>
+                    <span class="create-survey-label create-survey-category-button-text">Choose category</span>
                     <!-- Switch between the supplied arrows inside the same icon area. -->
                     <span class="create-survey-category-button-arrow" aria-hidden="true">
                       @if (isCategoryMenuOpen) {
@@ -224,137 +224,142 @@
                 </div>
                 <!-- Stack the answer rows with space between them. -->
                 <div class="create-survey-answer-list">
-                  <!-- Place the letter, input and delete button in one row. -->
-                  <div class="create-survey-answer-row">
-                    <label for="survey-answer-a" class="create-survey-label create-survey-answer-label">A.</label>
-                    <!-- Enter answer A for the first question. -->
-                    <input
-                      id="survey-answer-a"
-                      type="text"
-                      class="create-survey-input create-survey-answer-input"
-                      [formControl]="answerA"
-                    />
-                    <!-- Clear only this answer when the delete button is clicked. -->
-                    <button
-                      type="button"
-                      class="create-survey-delete-button"
-                      aria-label="Clear answer A for question 1"
-                      (click)="clearAnswerA()"
-                    >
-                      <img src="assets/icons/delete.png" alt="" />
-                    </button>
-                  </div>
-                  <!-- Place answer B below answer A using the same field styles. -->
-                  <div class="create-survey-answer-row create-survey-answer-row-b">
-                    <label for="survey-answer-b" class="create-survey-label create-survey-answer-label">B.</label>
-                    <!-- Enter answer B for the first question. -->
-                    <input
-                      id="survey-answer-b"
-                      type="text"
-                      class="create-survey-input create-survey-answer-input"
-                      [formControl]="answerB"
-                    />
-                    <!-- Clear only this answer when the delete button is clicked. -->
-                    <button
-                      type="button"
-                      class="create-survey-delete-button"
-                      aria-label="Clear answer B for question 1"
-                      (click)="clearAnswerB()"
-                    >
-                      <img src="assets/icons/delete.png" alt="" />
-                    </button>
-                  </div>
+                  <!-- Reuse each answer's control when new rows are added. -->
+                  @for (answer of answers; track answer; let index = $index) {
+                    <div class="create-survey-answer-row" [class.create-survey-answer-row-b]="index > 0">
+                      <label [for]="'survey-answer-' + index" class="create-survey-label create-survey-answer-label">{{ answerLetters[index] }}.</label>
+                      <input
+                        [id]="'survey-answer-' + index"
+                        type="text"
+                        class="create-survey-input create-survey-answer-input"
+                        [formControl]="answer"
+                      />
+                      <!-- Clear only this answer when the delete button is clicked. -->
+                      <button
+                        type="button"
+                        class="create-survey-delete-button"
+                        [attr.aria-label]="'Clear answer ' + answerLetters[index] + ' for question 1'"
+                        (click)="clearAnswer(answer)"
+                      >
+                        <img src="assets/icons/delete.png" alt="" />
+                      </button>
+                    </div>
+                  }
                 </div>
+                <!-- Add a blank answer below the existing rows. -->
+                <button
+                  type="button"
+                  class="create-survey-action-button add-answer-button"
+                  aria-label="Add answer for question 1"
+                  [disabled]="answers.length >= answerLetters.length"
+                  (click)="addAnswer(answers)"
+                >
+                  <span class="create-survey-label create-survey-action-text add-answer-text">Add answer</span>
+                  <span class="create-survey-button-icon" aria-hidden="true">
+                    <img src="assets/icons/add-circle-white.png" alt="" width="24" height="24" />
+                  </span>
+                </button>
               </div>
             </div>
-            <!-- Group the second question with its label and delete button. -->
-            <div class="create-survey-question-group">
-              <!-- Keep the second question label directly above its input. -->
-              <div class="create-survey-question-field">
-                <div class="create-survey-question-header create-survey-second-question-header">
-                  <label for="survey-second-question" class="create-survey-label create-survey-question-label">2. Question</label>
-                  <!-- Clear only the second question when this button is clicked. -->
+            @if (isSecondQuestionVisible) {
+              <!-- Show the second question only after clicking Add next question. -->
+              <div class="create-survey-question-group">
+                <!-- Keep the second question label directly above its input. -->
+                <div class="create-survey-question-field">
+                  <div class="create-survey-question-header">
+                    <label for="survey-second-question" class="create-survey-label create-survey-question-label">2. Question</label>
+                    <!-- Clear only the second question when this button is clicked. -->
+                    <button
+                      type="button"
+                      class="create-survey-delete-button"
+                      aria-label="Clear second question"
+                      (click)="clearSecondQuestion()"
+                    >
+                      <img src="assets/icons/delete.png" alt="" />
+                    </button>
+                  </div>
+                  <!-- Enter the second question using the same input style. -->
+                  <input
+                    id="survey-second-question"
+                    type="text"
+                    class="create-survey-input create-survey-question-input"
+                    [formControl]="secondQuestion"
+                  />
+                </div>
+                <!-- Use the same answer layout for the second question. -->
+                <div class="create-survey-answers-group">
+                  <!-- Place the second question's multiple answers option beside the heading. -->
+                  <div class="create-survey-answers-header">
+                    <h2 class="create-survey-label create-survey-answers-label">Answers</h2>
+                    <!-- Toggle only the second question's multiple answers option. -->
+                    <label for="allow-multiple-answers-second" class="create-survey-multiple-answers-option">
+                      <!-- Keep the checkbox inside the same padded icon area. -->
+                      <span class="create-survey-multiple-answers-icon">
+                        <input
+                          id="allow-multiple-answers-second"
+                          type="checkbox"
+                          class="create-survey-multiple-answers-checkbox"
+                          [formControl]="secondAllowMultipleAnswers"
+                        />
+                      </span>
+                      <span class="create-survey-multiple-answers-text">Allow multiple answers.</span>
+                    </label>
+                  </div>
+                  <!-- Stack the second question's answers with the same spacing. -->
+                  <div class="create-survey-answer-list">
+                    <!-- Keep the second question's answer controls independent. -->
+                    @for (answer of secondAnswers; track answer; let index = $index) {
+                      <div class="create-survey-answer-row" [class.create-survey-answer-row-b]="index > 0">
+                        <label [for]="'survey-second-answer-' + index" class="create-survey-label create-survey-answer-label">{{ answerLetters[index] }}.</label>
+                        <input
+                          [id]="'survey-second-answer-' + index"
+                          type="text"
+                          class="create-survey-input create-survey-answer-input"
+                          [formControl]="answer"
+                        />
+                        <!-- Clear only this answer from the second question. -->
+                        <button
+                          type="button"
+                          class="create-survey-delete-button"
+                          [attr.aria-label]="'Clear answer ' + answerLetters[index] + ' for question 2'"
+                          (click)="clearAnswer(answer)"
+                        >
+                          <img src="assets/icons/delete.png" alt="" />
+                        </button>
+                      </div>
+                    }
+                  </div>
+                  <!-- Add an answer only to the second question. -->
                   <button
                     type="button"
-                    class="create-survey-delete-button"
-                    aria-label="Clear second question"
-                    (click)="clearSecondQuestion()"
+                    class="create-survey-action-button add-answer-button"
+                    aria-label="Add answer for question 2"
+                    [disabled]="secondAnswers.length >= answerLetters.length"
+                    (click)="addAnswer(secondAnswers)"
                   >
-                    <img src="assets/icons/delete.png" alt="" />
+                    <span class="create-survey-label create-survey-action-text add-answer-text">Add answer</span>
+                    <span class="create-survey-button-icon" aria-hidden="true">
+                      <img src="assets/icons/add-circle-white.png" alt="" width="24" height="24" />
+                    </span>
                   </button>
                 </div>
-                <!-- Enter the second question using the same input style. -->
-                <input
-                  id="survey-second-question"
-                  type="text"
-                  class="create-survey-input create-survey-question-input"
-                  [formControl]="secondQuestion"
-                />
               </div>
-              <!-- Use the same answer layout for the second question. -->
-              <div class="create-survey-answers-group">
-                <!-- Place the second question's multiple answers option beside the heading. -->
-                <div class="create-survey-answers-header">
-                  <h2 class="create-survey-label create-survey-answers-label">Answers</h2>
-                  <!-- Toggle only the second question's multiple answers option. -->
-                  <label for="allow-multiple-answers-second" class="create-survey-multiple-answers-option">
-                    <!-- Keep the checkbox inside the same padded icon area. -->
-                    <span class="create-survey-multiple-answers-icon">
-                      <input
-                        id="allow-multiple-answers-second"
-                        type="checkbox"
-                        class="create-survey-multiple-answers-checkbox"
-                        [formControl]="secondAllowMultipleAnswers"
-                      />
-                    </span>
-                    <span class="create-survey-multiple-answers-text">Allow multiple answers.</span>
-                  </label>
-                </div>
-                <!-- Stack the second question's answers with the same spacing. -->
-                <div class="create-survey-answer-list">
-                  <!-- Place answer A beside its letter and delete button. -->
-                  <div class="create-survey-answer-row">
-                    <label for="survey-second-answer-a" class="create-survey-label create-survey-answer-label">A.</label>
-                    <!-- Enter answer A for the second question. -->
-                    <input
-                      id="survey-second-answer-a"
-                      type="text"
-                      class="create-survey-input create-survey-answer-input"
-                      [formControl]="secondAnswerA"
-                    />
-                    <!-- Clear only answer A for the second question. -->
-                    <button
-                      type="button"
-                      class="create-survey-delete-button"
-                      aria-label="Clear answer A for question 2"
-                      (click)="clearSecondAnswerA()"
-                    >
-                      <img src="assets/icons/delete.png" alt="" />
-                    </button>
-                  </div>
-                  <!-- Place answer B below answer A using the same field styles. -->
-                  <div class="create-survey-answer-row create-survey-answer-row-b">
-                    <label for="survey-second-answer-b" class="create-survey-label create-survey-answer-label">B.</label>
-                    <!-- Enter answer B for the second question. -->
-                    <input
-                      id="survey-second-answer-b"
-                      type="text"
-                      class="create-survey-input create-survey-answer-input"
-                      [formControl]="secondAnswerB"
-                    />
-                    <!-- Clear only answer B for the second question. -->
-                    <button
-                      type="button"
-                      class="create-survey-delete-button"
-                      aria-label="Clear answer B for question 2"
-                      (click)="clearSecondAnswerB()"
-                    >
-                      <img src="assets/icons/delete.png" alt="" />
-                    </button>
-                  </div>
-                </div>
+            } @else {
+              <!-- Reserve the right column for the button before the second question appears. -->
+              <div class="create-survey-question-group">
+                <button
+                  type="button"
+                  class="create-survey-action-button create-survey-add-question-button"
+                  (click)="addNextQuestion()"
+                >
+                  <span class="create-survey-label create-survey-action-text create-survey-add-question-text">Add next question</span>
+                  <!-- Center the supplied white plus circle in the shared icon area. -->
+                  <span class="create-survey-button-icon" aria-hidden="true">
+                    <img src="assets/icons/add-circle-white.png" alt="" width="20" height="20" />
+                  </span>
+                </button>
               </div>
-            </div>
+            }
           </div>
         </div>
       </div>
