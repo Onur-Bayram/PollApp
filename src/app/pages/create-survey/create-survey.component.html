@@ -219,7 +219,7 @@
                         [formControl]="allowMultipleAnswers"
                       />
                     </span>
-                    <span class="create-survey-multiple-answers-text">Allow multiple answers.</span>
+                    <span class="answer-note">Allow multiple answers.</span>
                   </label>
                 </div>
                 <!-- Stack the answer rows with space between them. -->
@@ -246,19 +246,23 @@
                     </div>
                   }
                 </div>
-                <!-- Add a blank answer below the existing rows. -->
-                <button
-                  type="button"
-                  class="create-survey-action-button add-answer-button"
-                  aria-label="Add answer for question 1"
-                  [disabled]="answers.length >= answerLetters.length"
-                  (click)="addAnswer(answers)"
-                >
-                  <span class="create-survey-label create-survey-action-text add-answer-text">Add answer</span>
-                  <span class="create-survey-button-icon" aria-hidden="true">
-                    <img src="assets/icons/add-circle-white.png" alt="" width="24" height="24" />
-                  </span>
-                </button>
+                <!-- Align the Add answer button with its answer limit note. -->
+                <div class="create-survey-input-row">
+                  <button
+                    type="button"
+                    class="create-survey-action-button add-answer-button"
+                    aria-label="Add answer for question 1"
+                    aria-describedby="answer-limit-first"
+                    [disabled]="answers.length >= answerLetters.length"
+                    (click)="addAnswer(answers)"
+                  >
+                    <span class="create-survey-label create-survey-action-text add-answer-text">Add answer</span>
+                    <span class="create-survey-button-icon" aria-hidden="true">
+                      <img src="assets/icons/add-circle-white.png" alt="" width="24" height="24" />
+                    </span>
+                  </button>
+                  <span id="answer-limit-first" class="answer-note answer-limit-note">You can add up to 6 answer fields.</span>
+                </div>
               </div>
             </div>
             @if (isSecondQuestionVisible) {
@@ -302,7 +306,7 @@
                           [formControl]="secondAllowMultipleAnswers"
                         />
                       </span>
-                      <span class="create-survey-multiple-answers-text">Allow multiple answers.</span>
+                      <span class="answer-note">Allow multiple answers.</span>
                     </label>
                   </div>
                   <!-- Stack the second question's answers with the same spacing. -->
@@ -329,19 +333,23 @@
                       </div>
                     }
                   </div>
-                  <!-- Add an answer only to the second question. -->
-                  <button
-                    type="button"
-                    class="create-survey-action-button add-answer-button"
-                    aria-label="Add answer for question 2"
-                    [disabled]="secondAnswers.length >= answerLetters.length"
-                    (click)="addAnswer(secondAnswers)"
-                  >
-                    <span class="create-survey-label create-survey-action-text add-answer-text">Add answer</span>
-                    <span class="create-survey-button-icon" aria-hidden="true">
-                      <img src="assets/icons/add-circle-white.png" alt="" width="24" height="24" />
-                    </span>
-                  </button>
+                  <!-- Keep the second question's limit note beside its own button. -->
+                  <div class="create-survey-input-row">
+                    <button
+                      type="button"
+                      class="create-survey-action-button add-answer-button"
+                      aria-label="Add answer for question 2"
+                      aria-describedby="answer-limit-second"
+                      [disabled]="secondAnswers.length >= answerLetters.length"
+                      (click)="addAnswer(secondAnswers)"
+                    >
+                      <span class="create-survey-label create-survey-action-text add-answer-text">Add answer</span>
+                      <span class="create-survey-button-icon" aria-hidden="true">
+                        <img src="assets/icons/add-circle-white.png" alt="" width="24" height="24" />
+                      </span>
+                    </button>
+                    <span id="answer-limit-second" class="answer-note answer-limit-note">You can add up to 6 answer fields.</span>
+                  </div>
                 </div>
               </div>
             } @else {

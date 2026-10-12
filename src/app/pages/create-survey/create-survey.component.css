@@ -515,8 +515,8 @@
   height: 30px;
 }
 
-/* Style the multiple answers note with the local Mulish Regular font. */
-.create-survey-multiple-answers-text {
+/* Share the white Mulish Regular style between the answer notes. */
+.answer-note {
   display: flex;
   align-items: center;
   width: 154px;
@@ -527,6 +527,11 @@
   font-size: 14px;
   line-height: 1;
   letter-spacing: 0;
+}
+
+/* Reserve the supplied width for the six-answer limit note. */
+.answer-limit-note {
+  width: 222px;
 }
 
 /* Set the width of the end date label. */
