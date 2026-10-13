@@ -1,7 +1,8 @@
-/* Cover the browser height and share zero letter spacing with the page text. */
+/* Cover the browser height and share Mulish and zero letter spacing with the text. */
 .create-survey-page {
   min-height: 100vh;
   background: #ffffff;
+  font-family: "Mulish", Arial, sans-serif;
   letter-spacing: 0;
 }
 
@@ -70,7 +71,6 @@
   width: 39px;
   height: 20px;
   color: #221227;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 600;
   font-size: 16px;
   line-height: 1;
@@ -96,7 +96,7 @@ button {
 }
 
 /* Share the action buttons' padding, rounded corners and background. */
-.create-survey-action-button {
+.action-button {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -108,13 +108,45 @@ button {
 }
 
 /* Keep the existing background transition for the Cancel button. */
-.create-survey-close-button {
+.close-button {
   transition: background-color 200ms ease-out;
 }
 
 /* Set the wider button size for adding another question. */
-.create-survey-add-question-button {
+.add-question-button {
   width: 204px;
+}
+
+/* Keep the final action at the right edge and animate its width and color. */
+.publish-button {
+  position: relative;
+  align-self: flex-end;
+  width: 99px;
+  height: 48px;
+  padding: 12px 16px;
+  background: #ffcfa1;
+  overflow: hidden;
+  transition: width 300ms ease-out, background-color 300ms ease-out;
+}
+
+/* Expand by the same amount as New survey and use its orange hover color. */
+.publish-button:hover {
+  width: 133px;
+  background: #ffb770;
+}
+
+/* Center the supplied check and fade it in while the button expands. */
+.publish-icon {
+  position: absolute;
+  top: 16px;
+  left: 89px;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+/* Show the check only while Publish is hovered. */
+.publish-button:hover .publish-icon {
+  opacity: 1;
 }
 
 /* Align the answer text with its line and keep the button's supplied size. */
@@ -143,13 +175,13 @@ button {
 }
 
 /* Use the same lighter background when either action button is hovered. */
-.create-survey-close-button:hover,
-.create-survey-add-question-button:hover {
+.close-button:hover,
+.add-question-button:hover {
   background: #ae7e5a;
 }
 
 /* Center each supplied icon inside its 24px area. */
-.create-survey-button-icon {
+.button-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,7 +190,7 @@ button {
 }
 
 /* Use the Figma size for the X itself. */
-.create-survey-close-button img {
+.close-button img {
   display: block;
   width: 13.15px;
   height: 13.15px;
@@ -230,7 +262,7 @@ button {
 }
 
 /* Align the answer letter, input and delete button in the same row. */
-.create-survey-answer-row {
+.answer-row {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -239,14 +271,14 @@ button {
 }
 
 /* Use the supplied width for the second answer row. */
-.create-survey-answer-row-b {
+.answer-row-b {
   width: 424px;
 }
 
 /* Keep the supplied widths for all three parts of an answer row. */
-.create-survey-answer-label,
-.create-survey-answer-input,
-.create-survey-answer-row .create-survey-delete-button {
+.answer-label,
+.answer-input,
+.answer-row .delete-button {
   flex-shrink: 0;
 }
 
@@ -350,7 +382,7 @@ button {
 }
 
 /* Keep the button and arrow in the same position for every category. */
-.create-survey-category-button {
+.category-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -362,13 +394,13 @@ button {
 }
 
 /* Match the home page's hover and selected backgrounds. */
-.create-survey-category-button:hover,
-.create-survey-category-button-selected {
+.category-button:hover,
+.category-button-selected {
   background: #d9d9d91f;
 }
 
 /* Keep the icon area fixed while the supplied arrow images change. */
-.create-survey-category-button-arrow {
+.category-button-arrow {
   position: relative;
   display: block;
   flex-shrink: 0;
@@ -377,12 +409,12 @@ button {
 }
 
 /* Show each arrow at its exported size. */
-.create-survey-category-arrow-image {
+.category-arrow-image {
   display: block;
 }
 
 /* Position the smaller orange downward arrow in the same icon area. */
-.create-survey-category-arrow-hover {
+.category-arrow-hover {
   position: absolute;
   top: 8px;
   left: 5px;
@@ -390,13 +422,13 @@ button {
 }
 
 /* Use the orange downward arrow on hover or after selecting a category. */
-.create-survey-category-button:hover .create-survey-category-arrow-default,
-.create-survey-category-button-selected .create-survey-category-arrow-default {
+.category-button:hover .category-arrow-default,
+.category-button-selected .category-arrow-default {
   display: none;
 }
 
-.create-survey-category-button:hover .create-survey-category-arrow-hover,
-.create-survey-category-button-selected .create-survey-category-arrow-hover {
+.category-button:hover .category-arrow-hover,
+.category-button-selected .category-arrow-hover {
   display: block;
 }
 
@@ -462,7 +494,7 @@ button {
 }
 
 /* Share the label height, text alignment and local Mulish Bold font. */
-.create-survey-label {
+.label {
   display: flex;
   align-items: center;
   height: 22px;
@@ -474,7 +506,7 @@ button {
 }
 
 /* Reuse the label typography at the category button's supplied size. */
-.create-survey-category-button-text {
+.category-button-text {
   width: 145px;
   height: 23px;
   color: #ffffff;
@@ -482,7 +514,7 @@ button {
 }
 
 /* Use Nokora Bold for button text while sharing the label alignment and color. */
-.create-survey-action-text {
+.action-text {
   width: 50px;
   height: 21px;
   font-family: "Nokora", Arial, sans-serif;
@@ -491,8 +523,16 @@ button {
 }
 
 /* Reserve the supplied text width inside Add next question. */
-.create-survey-add-question-text {
+.add-question-text {
   width: 137px;
+}
+
+/* Use the supplied Publish text size and dark Nokora Bold color. */
+.publish-text {
+  width: 63px;
+  height: 24px;
+  color: #221227;
+  font-size: 18px;
 }
 
 /* Anchor the smaller plus to the supplied Add answer text area. */
@@ -525,7 +565,7 @@ button {
 }
 
 /* Use the shared Mulish Bold label style for each answer letter. */
-.create-survey-answer-label {
+.answer-label {
   width: 23px;
   height: 30px;
 }
@@ -537,7 +577,6 @@ button {
   width: 154px;
   height: 18px;
   color: #ffffff;
-  font-family: "Mulish", Arial, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 1;
@@ -590,12 +629,12 @@ button {
 
 /* Use the same width for the survey name and question inputs. */
 .create-survey-name-input,
-.create-survey-question-input {
+.question-input {
   width: 429px;
 }
 
 /* Style both question inputs with the local Mulish Regular font. */
-.create-survey-question-input {
+.question-input {
   color: #35273a;
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 400;
@@ -604,7 +643,7 @@ button {
 }
 
 /* Use the shared input style at the smaller answer field width. */
-.create-survey-answer-input {
+.answer-input {
   width: 363px;
 }
 
@@ -626,7 +665,7 @@ button {
 }
 
 /* Use a transparent button around the supplied delete icon. */
-.create-survey-delete-button {
+.delete-button {
   width: 26px;
   height: 26px;
   padding: 4px;
@@ -635,14 +674,14 @@ button {
 }
 
 /* Show the orange layer over white immediately when the button is hovered. */
-.create-survey-delete-button:hover {
+.delete-button:hover {
   background:
     linear-gradient(0deg, rgba(255, 183, 112, 0.6), rgba(255, 183, 112, 0.6)),
     linear-gradient(0deg, #ffffff, #ffffff);
 }
 
 /* The PNG includes its own spacing; offset it to keep its original size. */
-.create-survey-delete-button img {
+.delete-button img {
   display: block;
   width: 26px;
   height: 26px;
