@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, output } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // Connect the creation overlay to its separate template and styles.
 @Component({
@@ -12,8 +12,11 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Let the home page know when this overlay should close.
   closed = output<void>();
 
-  // Connect the survey name input to a form control.
-  surveyName = new FormControl('');
+  // Require a survey name within the existing 60-character limit.
+  surveyName = new FormControl('', [Validators.required, Validators.maxLength(60)]);
+
+  // Reveal validation messages only after Publish has been clicked.
+  showValidation = false;
 
   // Connect the optional end date input to a separate form control.
   endDate = new FormControl('');
@@ -84,10 +87,55 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Give every new question its own text, answers and checkbox.
   createQuestion() {
     return {
-      text: new FormControl('Choose the activities you prefer'),
-      answers: [new FormControl(''), new FormControl('')],
+      text: new FormControl('Choose the activities you prefer', Validators.required),
+      answers: [this.createAnswer(), this.createAnswer()],
       allowMultipleAnswers: new FormControl(false),
     };
+  }
+
+  // Apply the same required rule to initial and newly added answers.
+  createAnswer(): FormControl {
+    return new FormControl('', Validators.required);
+  }
+
+  // Treat spaces as empty text as well as checking Angular's validators.
+  isFieldInvalid(control: FormControl): boolean {
+    return control.invalid || !control.value?.trim();
+  }
+
+  // Keep field errors hidden until the first validation attempt.
+  hasError(control: FormControl): boolean {
+    return this.showValidation && this.isFieldInvalid(control);
+  }
+
+  // Check every required field, including added questions and answers.
+  isSurveyComplete(): boolean {
+    if (this.isFieldInvalid(this.surveyName)) {
+      return false;
+    }
+
+    for (const question of this.questions) {
+      if (this.isFieldInvalid(question.text)) {
+        return false;
+      }
+      for (const answer of question.answers) {
+        if (this.isFieldInvalid(answer)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // Show messages and focus the first invalid field after they render.
+  validateSurvey(): void {
+    this.showValidation = true;
+    setTimeout(() => {
+      const field = document.querySelector<HTMLInputElement>('.input-error');
+      if (field) {
+        field.focus();
+      }
+    });
   }
 
   // Add a question without replacing any existing form controls.
@@ -100,7 +148,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Add a blank field only to the answer list passed by its button.
   addAnswer(answers: FormControl[]): void {
     if (answers.length < this.answerLetters.length) {
-      answers.push(new FormControl(''));
+      answers.push(this.createAnswer());
     }
   }
 
