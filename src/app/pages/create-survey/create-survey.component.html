@@ -250,10 +250,13 @@
                       [disabled]="question.answers.length >= answerLetters.length"
                       (click)="addAnswer(question.answers)"
                     >
-                      <span class="create-survey-label create-survey-action-text add-answer-text">Add answer</span>
-                      <span class="create-survey-button-icon" aria-hidden="true">
-                        <img src="assets/icons/add-circle-white.png" alt="" width="24" height="24" />
+                      <span class="create-survey-label create-survey-action-text add-answer-text">
+                        Add answer
+                        <!-- Place the smaller white plus at the supplied text-relative position. -->
+                        <img class="answer-icon" src="assets/icons/add-circle-white.png" alt="" width="16" height="16" />
                       </span>
+                      <!-- Draw the supplied white line below the answer action. -->
+                      <span class="answer-line" aria-hidden="true"></span>
                     </button>
                     <span [id]="'answer-limit-' + questionIndex" class="answer-note answer-limit-note">You can add up to 6 answer fields.</span>
                   </div>

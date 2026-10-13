@@ -88,19 +88,23 @@
   line-height: 1;
 }
 
+/* Share border sizing and the pointer cursor across this page's buttons. */
+button {
+  box-sizing: border-box;
+  border: 0;
+  cursor: pointer;
+}
+
 /* Share the action buttons' padding, rounded corners and background. */
 .create-survey-action-button {
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 10px;
   width: 111px;
   height: 40px;
   padding: 8px 12px;
-  border: 0;
   border-radius: 10px;
   background: #ffb7704d;
-  cursor: pointer;
 }
 
 /* Keep the existing background transition for the Cancel button. */
@@ -113,13 +117,23 @@
   width: 204px;
 }
 
-/* Center the underlined answer action on a transparent button. */
+/* Align the answer text with its line and keep the button's supplied size. */
 .add-answer-button {
-  justify-content: center;
+  position: relative;
+  justify-content: flex-start;
   width: 146px;
   margin-left: 31px;
-  padding: 0;
+  padding: 0 0 0 9px;
   background: transparent;
+}
+
+/* Draw the 117px white line without changing the button's layout. */
+.answer-line {
+  position: absolute;
+  left: 9px;
+  bottom: 6px;
+  width: 117px;
+  border-top: 1px solid #ffffff;
 }
 
 /* Show when this question has reached its answer limit. */
@@ -337,17 +351,14 @@
 
 /* Keep the button and arrow in the same position for every category. */
 .create-survey-category-button {
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 206px;
   height: 32px;
   padding: 4px 6px 4px 10px;
-  border: 0;
   border-radius: 6px;
   background: transparent;
-  cursor: pointer;
 }
 
 /* Match the home page's hover and selected backgrounds. */
@@ -407,13 +418,11 @@
 
 /* Fit each topic option to its text and use the home page typography. */
 .create-survey-category-menu-item {
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   align-self: flex-start;
   height: 26px;
   padding: 4px;
-  border: 0;
   border-radius: 6px;
   background: transparent;
   color: #35273a;
@@ -423,7 +432,6 @@
   line-height: 1;
   letter-spacing: 0.28px;
   white-space: nowrap;
-  cursor: pointer;
 }
 
 /* Highlight an option immediately on hover and keep the chosen one selected. */
@@ -487,10 +495,17 @@
   width: 137px;
 }
 
-/* Use the supplied Add answer text width and underline from the reference. */
+/* Anchor the smaller plus to the supplied Add answer text area. */
 .add-answer-text {
+  position: relative;
   width: 94px;
-  text-decoration: underline;
+}
+
+/* Use the supplied offsets for the 16px white plus. */
+.answer-icon {
+  position: absolute;
+  top: 2px;
+  left: 100.5px;
 }
 
 /* Set the width of the survey name label. */
@@ -612,14 +627,11 @@
 
 /* Use a transparent button around the supplied delete icon. */
 .create-survey-delete-button {
-  box-sizing: border-box;
   width: 26px;
   height: 26px;
   padding: 4px;
-  border: 0;
   border-radius: 3px;
   background: transparent;
-  cursor: pointer;
 }
 
 /* Show the orange layer over white immediately when the button is hovered. */
