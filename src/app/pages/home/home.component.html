@@ -1,5 +1,5 @@
 <!-- Home page with its logo, introduction, illustration and survey section. -->
-<main class="home" aria-label="Umfrageübersicht">
+<main class="home" aria-label="Umfrageübersicht" [attr.inert]="isCreateSurveyOpen ? '' : null">
   <!-- Brand logo at the top of the page. -->
   <header class="home-header">
     <img
@@ -20,8 +20,14 @@
         Create and share surveys in minutes – from team events to workplace culture.
         Collect opinions, engage your audience, and turn feedback into action.
       </p>
-      <!-- Open the create survey page; show the plus icon on hover. -->
-      <button type="button" class="home-create-button" routerLink="/create-survey">
+      <!-- Open the form overlay while keeping this page and its state. -->
+      <button
+        #newSurveyButton
+        type="button"
+        class="home-create-button"
+        aria-haspopup="dialog"
+        (click)="openCreateSurvey()"
+      >
         <span class="home-create-button-text">New survey</span>
         <img
           class="home-create-button-icon"
@@ -263,3 +269,7 @@
     </div>
   </section>
 </main>
+@if (isCreateSurveyOpen) {
+  <!-- Close the overlay when its component sends the closed event. -->
+  <app-create-survey (closed)="closeCreateSurvey(newSurveyButton)"></app-create-survey>
+}

@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { CreateSurveyComponent } from '../create-survey/create-survey.component';
 
 // Connect the home page template and styles to this Angular component.
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [CreateSurveyComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  // Show the creation overlay without leaving the home page.
+  isCreateSurveyOpen = false;
+
   // Keep the six example cards in the order shown in the design.
   surveyCards = [
     {
@@ -51,6 +54,23 @@ export class HomeComponent {
 
   // Store the category shown below the button and highlighted in the menu.
   selectedCategory = '';
+
+  // Focus the name field after Angular has created the overlay.
+  openCreateSurvey(): void {
+    this.isCreateSurveyOpen = true;
+    setTimeout(() => {
+      const nameInput = document.getElementById('survey-name');
+      if (nameInput) {
+        nameInput.focus();
+      }
+    });
+  }
+
+  // Restore focus after the home page becomes interactive again.
+  closeCreateSurvey(button: HTMLButtonElement): void {
+    this.isCreateSurveyOpen = false;
+    setTimeout(() => button.focus());
+  }
 
   // Select a button, or clear the selection when it is clicked again.
   toggleSurveyStatus(status: string) {

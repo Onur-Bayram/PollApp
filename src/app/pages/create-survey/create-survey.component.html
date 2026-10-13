@@ -1,5 +1,13 @@
-<!-- White page background for creating a new survey. -->
-<main class="create-survey-page" aria-labelledby="create-survey-title">
+<!-- Cover the home page with a labelled, keyboard-accessible dialog. -->
+<div
+  class="create-survey-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="create-survey-title"
+  tabindex="-1"
+  (document:keydown.escape)="close()"
+  (keydown)="keepFocusInside($event, cancelButton, publishButton)"
+>
   <!-- Center the desktop design area in wider browser windows. -->
   <div class="create-survey-layout">
     <!-- Dark frame for the survey form. -->
@@ -15,11 +23,12 @@
           <!-- Place the close button to the right of the page title. -->
           <div class="create-survey-title-row">
             <h1 id="create-survey-title" class="create-survey-title">Create new survey</h1>
-            <!-- Return to the home page immediately when clicked. -->
+            <!-- Ask the home page to close this overlay immediately. -->
             <button
+              #cancelButton
               type="button"
               class="action-button close-button"
-              routerLink="/"
+              (click)="close()"
             >
               <!-- Visible label for cancelling survey creation. -->
               <span class="label action-text">Cancel</span>
@@ -282,11 +291,11 @@
         </div>
       </div>
       <!-- Show the final action with its supplied button typography. -->
-      <button type="button" class="action-button publish-button">
+      <button #publishButton type="button" class="action-button publish-button">
         <span class="label action-text publish-text">Publish</span>
         <!-- Reveal the supplied check icon during the hover animation. -->
         <img class="publish-icon" src="assets/icons/publish-check.png" alt="" width="18" height="16" />
       </button>
     </div>
   </div>
-</main>
+</div>

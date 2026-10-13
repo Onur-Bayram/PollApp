@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 
-// Connect the create survey page to its separate template and styles.
+// Connect the creation overlay to its separate template and styles.
 @Component({
   selector: 'app-create-survey',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './create-survey.component.html',
   styleUrl: './create-survey.component.css',
 })
-export class CreateSurveyComponent {
+export class CreateSurveyComponent implements OnInit, OnDestroy {
+  // Let the home page know when this overlay should close.
+  closed = output<void>();
+
   // Connect the survey name input to a form control.
   surveyName = new FormControl('');
 
@@ -41,6 +43,43 @@ export class CreateSurveyComponent {
 
   // Store the category shown below the button.
   selectedCategory = '';
+
+  // Lock background scrolling while this overlay is on screen.
+  ngOnInit(): void {
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Restore page scrolling when the overlay is removed.
+  ngOnDestroy(): void {
+    document.body.style.overflow = '';
+  }
+
+  // Close the overlay without navigating to another page.
+  close(): void {
+    this.closed.emit();
+  }
+
+  // Keep Tab and Shift+Tab inside the dialog's first and last buttons.
+  keepFocusInside(event: KeyboardEvent, first: HTMLButtonElement, last: HTMLButtonElement): void {
+    if (event.key !== 'Tab') {
+      return;
+    }
+
+    if (event.target === event.currentTarget) {
+      event.preventDefault();
+      if (event.shiftKey) {
+        last.focus();
+      } else {
+        first.focus();
+      }
+    } else if (event.shiftKey && event.target === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && event.target === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
 
   // Give every new question its own text, answers and checkbox.
   createQuestion() {

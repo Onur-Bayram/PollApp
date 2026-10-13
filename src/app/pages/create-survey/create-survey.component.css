@@ -1,7 +1,14 @@
-/* Cover the browser height and share Mulish and zero letter spacing with the text. */
-.create-survey-page {
-  min-height: 100vh;
-  background: #ffffff;
+/* Cover the viewport and let long forms scroll over the dimmed home page. */
+.create-survey-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: #00000080;
   font-family: "Mulish", Arial, sans-serif;
   letter-spacing: 0;
 }
