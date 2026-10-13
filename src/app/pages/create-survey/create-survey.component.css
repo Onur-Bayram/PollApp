@@ -1,7 +1,8 @@
-/* Cover at least the browser height with the white page background. */
+/* Cover the browser height and share zero letter spacing with the page text. */
 .create-survey-page {
   min-height: 100vh;
   background: #ffffff;
+  letter-spacing: 0;
 }
 
 /* Center the 1440px desktop area and leave space above and below the frame. */
@@ -73,7 +74,6 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 1;
-  letter-spacing: 0;
 }
 
 /* Style the page heading with the local Nerko One font. */
@@ -86,7 +86,6 @@
   font-weight: 400;
   font-size: 56px;
   line-height: 1;
-  letter-spacing: 0;
 }
 
 /* Share the action buttons' padding, rounded corners and background. */
@@ -109,7 +108,7 @@
   transition: background-color 200ms ease-out;
 }
 
-/* Set the wider button size for adding the second question. */
+/* Set the wider button size for adding another question. */
 .create-survey-add-question-button {
   width: 204px;
 }
@@ -171,11 +170,13 @@
   gap: 64px;
 }
 
-/* Align the two question groups at opposite ends of the available row. */
+/* Keep two questions per desktop row and continue on the next row. */
 .create-survey-questions-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
+  row-gap: 64px;
 }
 
 /* Stack each question's content and allow room for additional answers. */
@@ -462,7 +463,6 @@
   font-weight: 700;
   font-size: 18px;
   line-height: 1;
-  letter-spacing: 0;
 }
 
 /* Reuse the label typography at the category button's supplied size. */
@@ -526,7 +526,6 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1;
-  letter-spacing: 0;
 }
 
 /* Reserve the supplied width for the six-answer limit note. */
@@ -587,7 +586,6 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 1;
-  letter-spacing: 0;
 }
 
 /* Use the shared input style at the smaller answer field width. */

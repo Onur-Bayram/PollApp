@@ -176,156 +176,63 @@
               </div>
             </div>
           </div>
-          <!-- Place the question groups side by side below the survey details. -->
+          <!-- Repeat independent questions in the desktop columns. -->
           <div class="create-survey-questions-row">
-            <!-- Group the first question and its answers. -->
-            <div class="create-survey-question-group">
-              <!-- Keep the question label directly above its input. -->
-              <div class="create-survey-question-field">
-                <!-- Place the delete button beside the numbered question label. -->
-                <div class="create-survey-question-header">
-                  <label for="survey-question" class="create-survey-label create-survey-question-label">1. Question</label>
-                  <!-- Clear only the question when this button is clicked. -->
-                  <button
-                    type="button"
-                    class="create-survey-delete-button"
-                    aria-label="Clear question"
-                    (click)="clearQuestion()"
-                  >
-                    <img src="assets/icons/delete.png" alt="" />
-                  </button>
-                </div>
-                <!-- Enter the survey question in this text field. -->
-                <input
-                  id="survey-question"
-                  type="text"
-                  class="create-survey-input create-survey-question-input"
-                  [formControl]="question"
-                />
-              </div>
-              <!-- Group the answer options below the question. -->
-              <div class="create-survey-answers-group">
-                <!-- Place the multiple answers option beside the heading. -->
-                <div class="create-survey-answers-header">
-                  <h2 class="create-survey-label create-survey-answers-label">Answers</h2>
-                  <!-- Toggle the checkbox by clicking its box or text. -->
-                  <label for="allow-multiple-answers" class="create-survey-multiple-answers-option">
-                    <!-- Keep the 15px checkbox inside its padded 21px area. -->
-                    <span class="create-survey-multiple-answers-icon">
-                      <input
-                        id="allow-multiple-answers"
-                        type="checkbox"
-                        class="create-survey-multiple-answers-checkbox"
-                        [formControl]="allowMultipleAnswers"
-                      />
-                    </span>
-                    <span class="answer-note">Allow multiple answers.</span>
-                  </label>
-                </div>
-                <!-- Stack the answer rows with space between them. -->
-                <div class="create-survey-answer-list">
-                  <!-- Reuse each answer's control when new rows are added. -->
-                  @for (answer of answers; track answer; let index = $index) {
-                    <div class="create-survey-answer-row" [class.create-survey-answer-row-b]="index > 0">
-                      <label [for]="'survey-answer-' + index" class="create-survey-label create-survey-answer-label">{{ answerLetters[index] }}.</label>
-                      <input
-                        [id]="'survey-answer-' + index"
-                        type="text"
-                        class="create-survey-input create-survey-answer-input"
-                        [formControl]="answer"
-                      />
-                      <!-- Clear only this answer when the delete button is clicked. -->
-                      <button
-                        type="button"
-                        class="create-survey-delete-button"
-                        [attr.aria-label]="'Clear answer ' + answerLetters[index] + ' for question 1'"
-                        (click)="clearAnswer(answer)"
-                      >
-                        <img src="assets/icons/delete.png" alt="" />
-                      </button>
-                    </div>
-                  }
-                </div>
-                <!-- Align the Add answer button with its answer limit note. -->
-                <div class="create-survey-input-row">
-                  <button
-                    type="button"
-                    class="create-survey-action-button add-answer-button"
-                    aria-label="Add answer for question 1"
-                    aria-describedby="answer-limit-first"
-                    [disabled]="answers.length >= answerLetters.length"
-                    (click)="addAnswer(answers)"
-                  >
-                    <span class="create-survey-label create-survey-action-text add-answer-text">Add answer</span>
-                    <span class="create-survey-button-icon" aria-hidden="true">
-                      <img src="assets/icons/add-circle-white.png" alt="" width="24" height="24" />
-                    </span>
-                  </button>
-                  <span id="answer-limit-first" class="answer-note answer-limit-note">You can add up to 6 answer fields.</span>
-                </div>
-              </div>
-            </div>
-            @if (isSecondQuestionVisible) {
-              <!-- Show the second question only after clicking Add next question. -->
+            @for (question of questions; track question; let questionIndex = $index) {
+              <!-- Keep each question together with its own answers. -->
               <div class="create-survey-question-group">
-                <!-- Keep the second question label directly above its input. -->
                 <div class="create-survey-question-field">
+                  <!-- Number the question and clear only its text. -->
                   <div class="create-survey-question-header">
-                    <label for="survey-second-question" class="create-survey-label create-survey-question-label">2. Question</label>
-                    <!-- Clear only the second question when this button is clicked. -->
+                    <label [for]="'survey-question-' + questionIndex" class="create-survey-label create-survey-question-label">{{ questionIndex + 1 }}. Question</label>
                     <button
                       type="button"
                       class="create-survey-delete-button"
-                      aria-label="Clear second question"
-                      (click)="clearSecondQuestion()"
+                      [attr.aria-label]="'Clear question ' + (questionIndex + 1)"
+                      (click)="clearQuestion(question.text)"
                     >
                       <img src="assets/icons/delete.png" alt="" />
                     </button>
                   </div>
-                  <!-- Enter the second question using the same input style. -->
                   <input
-                    id="survey-second-question"
+                    [id]="'survey-question-' + questionIndex"
                     type="text"
                     class="create-survey-input create-survey-question-input"
-                    [formControl]="secondQuestion"
+                    [formControl]="question.text"
                   />
                 </div>
-                <!-- Use the same answer layout for the second question. -->
+                <!-- Keep the checkbox and answers independent for every question. -->
                 <div class="create-survey-answers-group">
-                  <!-- Place the second question's multiple answers option beside the heading. -->
                   <div class="create-survey-answers-header">
                     <h2 class="create-survey-label create-survey-answers-label">Answers</h2>
-                    <!-- Toggle only the second question's multiple answers option. -->
-                    <label for="allow-multiple-answers-second" class="create-survey-multiple-answers-option">
-                      <!-- Keep the checkbox inside the same padded icon area. -->
+                    <label [for]="'allow-multiple-answers-' + questionIndex" class="create-survey-multiple-answers-option">
                       <span class="create-survey-multiple-answers-icon">
                         <input
-                          id="allow-multiple-answers-second"
+                          [id]="'allow-multiple-answers-' + questionIndex"
                           type="checkbox"
                           class="create-survey-multiple-answers-checkbox"
-                          [formControl]="secondAllowMultipleAnswers"
+                          [formControl]="question.allowMultipleAnswers"
                         />
                       </span>
                       <span class="answer-note">Allow multiple answers.</span>
                     </label>
                   </div>
-                  <!-- Stack the second question's answers with the same spacing. -->
+                  <!-- Preserve each answer control when more fields are added. -->
                   <div class="create-survey-answer-list">
-                    <!-- Keep the second question's answer controls independent. -->
-                    @for (answer of secondAnswers; track answer; let index = $index) {
-                      <div class="create-survey-answer-row" [class.create-survey-answer-row-b]="index > 0">
-                        <label [for]="'survey-second-answer-' + index" class="create-survey-label create-survey-answer-label">{{ answerLetters[index] }}.</label>
+                    @for (answer of question.answers; track answer; let answerIndex = $index) {
+                      <div class="create-survey-answer-row" [class.create-survey-answer-row-b]="answerIndex > 0">
+                        <label [for]="'survey-answer-' + questionIndex + '-' + answerIndex" class="create-survey-label create-survey-answer-label">{{ answerLetters[answerIndex] }}.</label>
                         <input
-                          [id]="'survey-second-answer-' + index"
+                          [id]="'survey-answer-' + questionIndex + '-' + answerIndex"
                           type="text"
                           class="create-survey-input create-survey-answer-input"
                           [formControl]="answer"
                         />
-                        <!-- Clear only this answer from the second question. -->
+                        <!-- Clear only the answer passed by this button. -->
                         <button
                           type="button"
                           class="create-survey-delete-button"
-                          [attr.aria-label]="'Clear answer ' + answerLetters[index] + ' for question 2'"
+                          [attr.aria-label]="'Clear answer ' + answerLetters[answerIndex] + ' for question ' + (questionIndex + 1)"
                           (click)="clearAnswer(answer)"
                         >
                           <img src="assets/icons/delete.png" alt="" />
@@ -333,35 +240,35 @@
                       </div>
                     }
                   </div>
-                  <!-- Keep the second question's limit note beside its own button. -->
+                  <!-- Add answers only to this question and show its limit. -->
                   <div class="create-survey-input-row">
                     <button
                       type="button"
                       class="create-survey-action-button add-answer-button"
-                      aria-label="Add answer for question 2"
-                      aria-describedby="answer-limit-second"
-                      [disabled]="secondAnswers.length >= answerLetters.length"
-                      (click)="addAnswer(secondAnswers)"
+                      [attr.aria-label]="'Add answer for question ' + (questionIndex + 1)"
+                      [attr.aria-describedby]="'answer-limit-' + questionIndex"
+                      [disabled]="question.answers.length >= answerLetters.length"
+                      (click)="addAnswer(question.answers)"
                     >
                       <span class="create-survey-label create-survey-action-text add-answer-text">Add answer</span>
                       <span class="create-survey-button-icon" aria-hidden="true">
                         <img src="assets/icons/add-circle-white.png" alt="" width="24" height="24" />
                       </span>
                     </button>
-                    <span id="answer-limit-second" class="answer-note answer-limit-note">You can add up to 6 answer fields.</span>
+                    <span [id]="'answer-limit-' + questionIndex" class="answer-note answer-limit-note">You can add up to 6 answer fields.</span>
                   </div>
                 </div>
               </div>
-            } @else {
-              <!-- Reserve the right column for the button before the second question appears. -->
-              <div class="create-survey-question-group">
+            }
+            @if (questions.length < maxQuestions) {
+              <!-- Put the button in the next free column until six questions exist. -->
+              <div class="create-survey-question-field">
                 <button
                   type="button"
                   class="create-survey-action-button create-survey-add-question-button"
                   (click)="addNextQuestion()"
                 >
                   <span class="create-survey-label create-survey-action-text create-survey-add-question-text">Add next question</span>
-                  <!-- Center the supplied white plus circle in the shared icon area. -->
                   <span class="create-survey-button-icon" aria-hidden="true">
                     <img src="assets/icons/add-circle-white.png" alt="" width="20" height="20" />
                   </span>

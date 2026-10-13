@@ -19,27 +19,12 @@ export class CreateSurveyComponent {
   // Connect the optional description to its own form control.
   description = new FormControl('');
 
-  // Start the first question with editable text from the design.
-  question = new FormControl('Choose the activities you prefer');
-
-  // Start the second question with editable text from the design.
-  secondQuestion = new FormControl('Choose the activities you prefer');
-
-  // Start each question with two independent answer fields.
-  answers = [new FormControl(''), new FormControl('')];
-  secondAnswers = [new FormControl(''), new FormControl('')];
+  // Allow up to six questions and start with only one question.
+  maxQuestions = 6;
+  questions = [this.createQuestion()];
 
   // Label up to six answers per question as shown in the design.
   answerLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
-
-  // Track whether the first question allows multiple answers.
-  allowMultipleAnswers = new FormControl(false);
-
-  // Track the multiple answers option for the second question separately.
-  secondAllowMultipleAnswers = new FormControl(false);
-
-  // Show only the first question when this page opens.
-  isSecondQuestionVisible = false;
 
   // Use the same topic categories as the home page.
   categories = [
@@ -57,9 +42,20 @@ export class CreateSurveyComponent {
   // Store the category shown below the button.
   selectedCategory = '';
 
-  // Reveal the second question without changing the first question's inputs.
+  // Give every new question its own text, answers and checkbox.
+  createQuestion() {
+    return {
+      text: new FormControl('Choose the activities you prefer'),
+      answers: [new FormControl(''), new FormControl('')],
+      allowMultipleAnswers: new FormControl(false),
+    };
+  }
+
+  // Add a question without replacing any existing form controls.
   addNextQuestion(): void {
-    this.isSecondQuestionVisible = true;
+    if (this.questions.length < this.maxQuestions) {
+      this.questions.push(this.createQuestion());
+    }
   }
 
   // Add a blank field only to the answer list passed by its button.
@@ -95,14 +91,9 @@ export class CreateSurveyComponent {
     this.description.setValue('');
   }
 
-  // Clear only the question when its delete button is clicked.
-  clearQuestion(): void {
-    this.question.setValue('');
-  }
-
-  // Clear only the second question when its delete button is clicked.
-  clearSecondQuestion(): void {
-    this.secondQuestion.setValue('');
+  // Clear only the text of the question passed by its delete button.
+  clearQuestion(question: FormControl): void {
+    question.setValue('');
   }
 
   // Clear only the answer belonging to the clicked delete button.
