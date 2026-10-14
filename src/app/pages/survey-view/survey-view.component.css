@@ -318,7 +318,25 @@
   font-weight: 700;
 }
 
-/* Keep the date text in its specified 220px area. */
+/* Keep the answer text in its specified 220px area. */
 .survey-answer-value {
   width: 220px;
+}
+
+/* Leave 40px for answers that wrap onto two lines. */
+.survey-answer-multiline {
+  height: 40px;
+  align-items: flex-start;
+}
+
+/* Give the longer text room while keeping it aligned at the top. */
+.survey-answer-multiline .survey-answer-text,
+.survey-answer-multiline .survey-answer-value {
+  height: 40px;
+  align-items: flex-start;
+}
+
+/* Align the answer letter with the first line instead of centering it. */
+.survey-answer-multiline .survey-answer-letter {
+  align-items: flex-start;
 }
