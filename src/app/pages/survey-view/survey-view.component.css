@@ -201,8 +201,9 @@
   min-height: 242px;
 }
 
-/* Add 16px to the panel's 8px gap for 24px between question rows. */
+/* Use the lower row's content height and leave 24px between question rows. */
 .survey-questions-row-bottom {
+  min-height: 0;
   margin-top: 16px;
 }
 
@@ -344,4 +345,35 @@
 /* Align the answer letter with the first line instead of centering it. */
 .survey-answer-multiline .survey-answer-letter {
   align-items: flex-start;
+}
+
+/* Keep the Home link at the panel's bottom-right corner. */
+.complete-survey-button {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  flex-shrink: 0;
+  gap: 10px;
+  width: 151px;
+  height: 37px;
+  margin-top: auto;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #ffb7704d;
+  text-decoration: none;
+}
+
+/* Match the label's size and local Nokora Bold typography. */
+.complete-survey-button-text {
+  display: flex;
+  align-items: center;
+  width: 127px;
+  height: 21px;
+  color: #35273a;
+  font-family: "Nokora", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
 }
