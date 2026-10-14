@@ -91,3 +91,16 @@
 .create-survey-button:hover .create-survey-button-icon {
   opacity: 1;
 }
+
+/* Keep the padding inside the survey panel and round its top-right corner. */
+.survey-panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 702px;
+  height: 855px;
+  padding: 40px;
+  border-top-right-radius: 160px;
+  background: #8e70991a;
+}
