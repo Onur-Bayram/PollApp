@@ -22,7 +22,7 @@
   margin-left: 110px;
 }
 
-/* Align the logo with the header's left edge. */
+/* Place the logo and creation button at opposite edges of the header. */
 .survey-view-header {
   display: flex;
   align-items: center;
@@ -34,4 +34,60 @@
   display: block;
   width: 119px;
   height: 43.76px;
+}
+
+/* Match the New survey button's width and background transitions. */
+.create-survey-button {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 149px;
+  height: 48px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #ffcfa1;
+  cursor: pointer;
+  overflow: hidden;
+  transition: width 300ms ease-out, background-color 300ms ease-out;
+}
+
+/* Make room for the plus icon while keeping the header's right edge fixed. */
+.create-survey-button:hover {
+  width: 183px;
+  background: #ffb770;
+}
+
+/* Keep the label size unchanged while the button expands. */
+.create-survey-button-text {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 117px;
+  height: 24px;
+  color: #221227;
+  font-family: "Nokora", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Hide the existing plus icon until the button is hovered. */
+.create-survey-button-icon {
+  position: absolute;
+  top: 14px;
+  left: 145px;
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+/* Fade in the plus icon with the same timing as the button expansion. */
+.create-survey-button:hover .create-survey-button-icon {
+  opacity: 1;
 }

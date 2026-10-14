@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrl: './create-survey.component.css',
 })
 export class CreateSurveyComponent implements OnInit, OnDestroy {
-  // Let the home page know when this overlay should close.
+  // Let the parent page know when this overlay should close.
   closed = output<void>();
 
   // Require a survey name within the existing 60-character limit.
@@ -139,12 +139,13 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  // Open the survey page only when every required field is complete.
+  // Close the form and open the survey page only when all fields are valid.
   validateSurvey(endDateInput: HTMLInputElement): void {
     this.checkEndDate(endDateInput);
     this.showValidation = true;
 
     if (this.isSurveyComplete()) {
+      this.close();
       this.router.navigate(['/survey']).then(() => {
         window.scrollTo(0, 0);
       });

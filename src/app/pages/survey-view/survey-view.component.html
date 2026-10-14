@@ -1,5 +1,5 @@
 <!-- Center the desktop area used to position the content frame. -->
-<main class="survey-view-layout" aria-label="Survey details">
+<main class="survey-view-layout" aria-label="Survey details" [attr.inert]="isCreateSurveyOpen ? '' : null">
   <!-- Keep the header and future survey content inside the Figma frame. -->
   <div class="survey-view-frame">
     <!-- Place the supplied logo at the top-left of the header. -->
@@ -14,6 +14,28 @@
           height="44"
         />
       </a>
+      <!-- Open the creation overlay immediately from the header button. -->
+      <button
+        #createSurveyButton
+        type="button"
+        class="create-survey-button"
+        aria-haspopup="dialog"
+        (click)="openCreateSurvey()"
+      >
+        <span class="create-survey-button-text">Create survey</span>
+        <!-- Reuse the same plus icon and hover fade as the New survey button. -->
+        <img
+          class="create-survey-button-icon"
+          src="assets/icons/add-circle.png"
+          alt=""
+          width="20"
+          height="20"
+        />
+      </button>
     </header>
   </div>
 </main>
+@if (isCreateSurveyOpen) {
+  <!-- Close the shared form when it sends the closed event. -->
+  <app-create-survey (closed)="closeCreateSurvey(createSurveyButton)"></app-create-survey>
+}
