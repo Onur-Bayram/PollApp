@@ -13,6 +13,14 @@ export class SurveyViewComponent {
   // Show the existing creation overlay above the survey details.
   isCreateSurveyOpen = false;
 
+  // Keep the first question's example answers in their Figma order.
+  firstQuestionAnswers = [
+    { letter: 'A.', text: '19.09.2025, Friday' },
+    { letter: 'B.', text: '10.10.2025, Friday' },
+    { letter: 'C.', text: '11.10.2025, Saturday' },
+    { letter: 'D.', text: '31.10.2025, Friday' },
+  ];
+
   // Focus the name field after Angular has created the overlay.
   openCreateSurvey(): void {
     this.isCreateSurveyOpen = true;
