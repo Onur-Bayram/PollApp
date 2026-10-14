@@ -191,3 +191,12 @@
   line-height: 1;
   letter-spacing: 0;
 }
+
+/* Reserve the specified space and gap for the first pair of questions. */
+.survey-questions-row {
+  display: flex;
+  gap: 24px;
+  flex-shrink: 0;
+  width: 622px;
+  height: 242px;
+}
