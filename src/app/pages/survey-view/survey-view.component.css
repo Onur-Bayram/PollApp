@@ -1,0 +1,23 @@
+/* Fill the browser with the white page shown in the reference. */
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* Center the desktop area and leave 39px above and below the frame. */
+.survey-view-layout {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 39px 0;
+}
+
+/* Apply the Figma frame size, left offset and spacing for its future content. */
+.survey-view-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 1218px;
+  min-height: 943px;
+  margin-left: 110px;
+}

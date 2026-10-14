@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, output } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 // Connect the creation overlay to its separate template and styles.
 @Component({
@@ -46,6 +47,9 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
 
   // Store the category shown below the button.
   selectedCategory = '';
+
+  // Use Angular's router to open the survey detail page.
+  constructor(private router: Router) {}
 
   // Lock background scrolling while this overlay is on screen.
   ngOnInit(): void {
@@ -127,9 +131,18 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  // Show messages and focus the first invalid field after they render.
+  // Open the survey page only when every required field is complete.
   validateSurvey(): void {
     this.showValidation = true;
+
+    if (this.isSurveyComplete()) {
+      this.router.navigate(['/survey']).then(() => {
+        window.scrollTo(0, 0);
+      });
+      return;
+    }
+
+    // Keep the form open and focus the first error after the messages render.
     setTimeout(() => {
       const field = document.querySelector<HTMLInputElement>('.input-error');
       if (field) {
