@@ -200,3 +200,23 @@
   width: 622px;
   height: 242px;
 }
+
+/* Use one 299px column for each question in the row. */
+.survey-question {
+  width: 299px;
+}
+
+/* Align the question number and text with the local Mulish Bold font. */
+.survey-question-title {
+  display: flex;
+  gap: 4px;
+  width: 299px;
+  height: 46px;
+  margin: 0;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0;
+}
