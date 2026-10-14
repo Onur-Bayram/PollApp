@@ -220,3 +220,22 @@
   line-height: 1;
   letter-spacing: 0;
 }
+
+/* Reserve space for the number so the question and hint share one text edge. */
+.survey-question-number {
+  flex-shrink: 0;
+  width: 16px;
+}
+
+/* Align the hint below the question text and use local Mulish Regular. */
+.survey-question-hint {
+  width: 257px;
+  height: 17px;
+  margin: 0 0 0 20px;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
+}
