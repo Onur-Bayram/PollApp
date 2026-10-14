@@ -133,7 +133,7 @@
   letter-spacing: 0;
 }
 
-/* Keep the end date and category on one row below the status. */
+/* Align the date and category and share their local Mulish Medium font. */
 .survey-meta {
   display: flex;
   align-items: center;
@@ -141,18 +141,27 @@
   flex-shrink: 0;
   width: 608px;
   height: 18px;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
-/* Style the end date with the local Mulish Medium font. */
+/* Set the end date's text area and color. */
 .survey-end-date {
   display: flex;
   align-items: center;
   width: 182px;
   height: 18px;
   color: #35273a;
-  font-family: "Mulish", Arial, sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1;
-  letter-spacing: 0;
+}
+
+/* Set the category's text area and color at the right end of the row. */
+.survey-category {
+  display: flex;
+  align-items: center;
+  width: 165px;
+  height: 18px;
+  color: #221227;
 }
