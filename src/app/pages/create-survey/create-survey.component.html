@@ -80,19 +80,26 @@
               <!-- Place the category button beside the end date field. -->
               <div class="create-survey-date-category-row">
                 <!-- Keep the end date label above its smaller input. -->
-                <div class="create-survey-end-date-field">
+                <div class="end-date-field">
                   <label for="survey-end-date" class="label">
                     Set end date (optional)
                   </label>
                   <!-- Place the delete button beside the end date input. -->
                   <div class="input-row">
-                    <!-- Allow up to 10 characters for a date in DD.MM.YYYY format. -->
+                    <!-- Use numeric date segments and the browser's calendar picker. -->
                     <input
+                      #endDateInput
                       id="survey-end-date"
-                      type="text"
-                      class="survey-input create-survey-end-date-input"
+                      type="date"
+                      class="survey-input input-text end-date-input"
                       [formControl]="endDate"
-                      maxlength="10"
+                      inputmode="numeric"
+                      max="9999-12-31"
+                      (input)="checkEndDate(endDateInput)"
+                      (blur)="checkEndDate(endDateInput)"
+                      [class.input-error]="showValidation && isEndDateInvalid"
+                      [attr.aria-invalid]="showValidation && isEndDateInvalid"
+                      [attr.aria-describedby]="showValidation && isEndDateInvalid ? 'end-date-error' : null"
                     />
                     <!-- Clear only the end date when this button is clicked. -->
                     <button
@@ -104,6 +111,9 @@
                       <img src="assets/icons/delete.png" alt="" />
                     </button>
                   </div>
+                  @if (showValidation && isEndDateInvalid) {
+                    <p id="end-date-error" class="field-error">Enter a valid date.</p>
+                  }
                 </div>
                 <!-- Anchor the category menu below its button. -->
                 <div class="create-survey-category-control">
@@ -214,7 +224,7 @@
                   <input
                     [id]="'survey-question-' + questionIndex"
                     type="text"
-                    class="survey-input question-input"
+                    class="survey-input input-text question-input"
                     [formControl]="question.text"
                     required
                     [class.input-error]="hasError(question.text)"
@@ -322,14 +332,14 @@
             @if (isSurveyComplete()) {
               All required fields are complete.
             } @else {
-              Please complete the required fields.
+              Please check the highlighted fields.
             }
           } @else {
             * Required fields
           }
         </p>
         <!-- Validate the fields while keeping the existing hover animation. -->
-        <button #publishButton type="button" class="action-button publish-button" (click)="validateSurvey()">
+        <button #publishButton type="button" class="action-button publish-button" (click)="validateSurvey(endDateInput)">
           <span class="label action-text publish-text">Publish</span>
           <img class="publish-icon" src="assets/icons/publish-check.png" alt="" width="18" height="16" />
         </button>

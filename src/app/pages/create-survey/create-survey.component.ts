@@ -22,6 +22,9 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Connect the optional end date input to a separate form control.
   endDate = new FormControl('');
 
+  // Track incomplete dates and dates rejected by the browser.
+  isEndDateInvalid = false;
+
   // Connect the optional description to its own form control.
   description = new FormControl('');
 
@@ -112,9 +115,14 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     return this.showValidation && this.isFieldInvalid(control);
   }
 
-  // Check every required field, including added questions and answers.
+  // Let the native date input check the calendar date; an empty value is allowed.
+  checkEndDate(field: HTMLInputElement): void {
+    this.isEndDateInvalid = !field.validity.valid;
+  }
+
+  // Check the optional date and every required question and answer.
   isSurveyComplete(): boolean {
-    if (this.isFieldInvalid(this.surveyName)) {
+    if (this.isEndDateInvalid || this.isFieldInvalid(this.surveyName)) {
       return false;
     }
 
@@ -132,7 +140,8 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   }
 
   // Open the survey page only when every required field is complete.
-  validateSurvey(): void {
+  validateSurvey(endDateInput: HTMLInputElement): void {
+    this.checkEndDate(endDateInput);
     this.showValidation = true;
 
     if (this.isSurveyComplete()) {
@@ -184,6 +193,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Clear only the end date when its delete button is clicked.
   clearEndDate(): void {
     this.endDate.setValue('');
+    this.isEndDateInvalid = false;
   }
 
   // Clear only the description when its delete button is clicked.

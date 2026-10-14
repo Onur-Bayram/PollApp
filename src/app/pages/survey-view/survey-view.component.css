@@ -21,3 +21,17 @@
   min-height: 943px;
   margin-left: 110px;
 }
+
+/* Align the logo with the header's left edge. */
+.survey-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Use the supplied logo size and remove the inline image's baseline space. */
+.survey-view-logo {
+  display: block;
+  width: 119px;
+  height: 43.76px;
+}

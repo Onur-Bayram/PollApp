@@ -1,5 +1,19 @@
 <!-- Center the desktop area used to position the content frame. -->
 <main class="survey-view-layout" aria-label="Survey details">
-  <!-- Keep the frame ready for the next elements from Figma. -->
-  <div class="survey-view-frame"></div>
+  <!-- Keep the header and future survey content inside the Figma frame. -->
+  <div class="survey-view-frame">
+    <!-- Place the supplied logo at the top-left of the header. -->
+    <header class="survey-view-header">
+      <!-- Return to Home immediately when the logo is clicked. -->
+      <a routerLink="/" aria-label="Poll App home">
+        <img
+          class="survey-view-logo"
+          src="assets/icons/poll-app-logo-dark.png"
+          alt="Poll App"
+          width="119"
+          height="44"
+        />
+      </a>
+    </header>
+  </div>
 </main>

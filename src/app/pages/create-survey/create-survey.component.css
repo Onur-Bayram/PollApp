@@ -367,7 +367,7 @@ button {
 }
 
 /* Stack the end date label and input with the specified spacing. */
-.create-survey-end-date-field {
+.end-date-field {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -629,8 +629,8 @@ button {
   width: 429px;
 }
 
-/* Style both question inputs with the local Mulish Regular font. */
-.question-input {
+/* Share the local Mulish Regular font between question and date inputs. */
+.input-text {
   color: #35273a;
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 400;
@@ -644,7 +644,7 @@ button {
 }
 
 /* Set the width of the smaller end date input. */
-.create-survey-end-date-input {
+.end-date-input {
   width: 222px;
 }
 
