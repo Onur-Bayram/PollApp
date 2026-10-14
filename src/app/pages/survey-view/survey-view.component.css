@@ -104,3 +104,31 @@
   border-top-right-radius: 160px;
   background: #8e70991a;
 }
+
+/* Keep the status padding inside its size and round the top-right corner. */
+.survey-status {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 10px;
+  width: 94px;
+  height: 26px;
+  padding: 3px 12px 3px 8px;
+  border-top-right-radius: 14px;
+  background: #ffb770;
+}
+
+/* Use the local Mulish SemiBold font and center the status text vertically. */
+.survey-status-text {
+  display: flex;
+  align-items: center;
+  width: 74px;
+  height: 20px;
+  color: #221227;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+}
