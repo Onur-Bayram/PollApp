@@ -165,3 +165,16 @@
   height: 18px;
   color: #221227;
 }
+
+/* Display the survey title in the local Nerko One font without default margins. */
+.survey-title {
+  width: 622px;
+  height: 103px;
+  margin: 0;
+  color: #ee9236;
+  font-family: "Nerko One", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 56px;
+  line-height: 50px;
+  letter-spacing: 0;
+}
