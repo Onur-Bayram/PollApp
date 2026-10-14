@@ -21,6 +21,29 @@ export class SurveyViewComponent {
     { letter: 'D.', text: '31.10.2025, Friday' },
   ];
 
+  // Keep the lower questions and their example answers in screenshot order.
+  additionalQuestions = [
+    {
+      number: 3,
+      text: 'What’s most important to you in a team event?',
+      answers: [
+        { letter: 'A.', text: 'Team bonding', multiline: false },
+        { letter: 'B.', text: 'Food and drinks', multiline: false },
+        { letter: 'C.', text: 'Trying something new', multiline: false },
+        { letter: 'D.', text: 'Keeping it low-key and stress-free', multiline: true },
+      ],
+    },
+    {
+      number: 4,
+      text: 'How long would you prefer the event to last?',
+      answers: [
+        { letter: 'A.', text: 'Half a day', multiline: false },
+        { letter: 'B.', text: 'Full day', multiline: false },
+        { letter: 'C.', text: 'Evening only', multiline: false },
+      ],
+    },
+  ];
+
   // Focus the name field after Angular has created the overlay.
   openCreateSurvey(): void {
     this.isCreateSurveyOpen = true;

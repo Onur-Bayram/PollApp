@@ -192,13 +192,18 @@
   letter-spacing: 0;
 }
 
-/* Reserve the specified space and gap for the first pair of questions. */
+/* Keep two question columns and let each row grow with its answers. */
 .survey-questions-row {
   display: flex;
   gap: 24px;
   flex-shrink: 0;
   width: 622px;
-  height: 242px;
+  min-height: 242px;
+}
+
+/* Add 16px to the panel's 8px gap for 24px between question rows. */
+.survey-questions-row-bottom {
+  margin-top: 16px;
 }
 
 /* Use one 299px column for each question in the row. */

@@ -147,6 +147,31 @@
           </div>
         </div>
       </div>
+      <!-- Place questions three and four below the first pair. -->
+      <div class="survey-questions-row survey-questions-row-bottom">
+        @for (question of additionalQuestions; track question.number) {
+          <div class="survey-question">
+            <h2 class="survey-question-title">
+              <span class="survey-question-number">{{ question.number }}.</span>
+              <span>{{ question.text }}</span>
+            </h2>
+            <!-- Reuse the answer layout and allow longer text to take two lines. -->
+            <div class="survey-answers">
+              @for (answer of question.answers; track answer.letter) {
+                <label class="survey-answer" [class.survey-answer-multiline]="answer.multiline">
+                  <span class="survey-answer-checkbox-area">
+                    <input type="checkbox" class="survey-answer-checkbox" />
+                  </span>
+                  <span class="survey-answer-text">
+                    <span class="survey-answer-letter">{{ answer.letter }}</span>
+                    <span class="survey-answer-value">{{ answer.text }}</span>
+                  </span>
+                </label>
+              }
+            </div>
+          </div>
+        }
+      </div>
     </div>
   </div>
 </main>
