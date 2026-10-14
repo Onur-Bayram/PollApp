@@ -239,3 +239,86 @@
   line-height: 1;
   letter-spacing: 0;
 }
+
+/* Stack the answer rows below the question. */
+.survey-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 291px;
+  margin-top: 16px;
+}
+
+/* Separate the checkbox area and answer text with the corrected 8px gap. */
+.survey-answer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 291px;
+  height: 21px;
+  cursor: pointer;
+}
+
+/* Use the supplied 21px area and 3px padding around the checkbox. */
+.survey-answer-checkbox-area {
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+  width: 21px;
+  height: 21px;
+  padding: 3px;
+}
+
+/* Reuse the form's checkbox style with a dark border for the light panel. */
+.survey-answer-checkbox {
+  appearance: none;
+  box-sizing: border-box;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  border: 1.5px solid #35273a;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Use the browser's check mark and the app's primary orange when selected. */
+.survey-answer-checkbox:checked {
+  appearance: auto;
+  accent-color: #ffb770;
+}
+
+/* Share the local Mulish Regular font between the answer letter and text. */
+.survey-answer-text {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 4px;
+  width: 241px;
+  height: 20px;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Center both text areas vertically inside the answer row. */
+.survey-answer-letter,
+.survey-answer-value {
+  display: flex;
+  align-items: center;
+  height: 20px;
+}
+
+/* Use the specified width and bold weight for the answer letter. */
+.survey-answer-letter {
+  width: 17px;
+  font-weight: 700;
+}
+
+/* Keep the date text in its specified 220px area. */
+.survey-answer-value {
+  width: 220px;
+}
