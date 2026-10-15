@@ -1,0 +1,39 @@
+/* Keep the supplied surface above the page without moving its content. */
+.publish-feedback {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 110;
+  pointer-events: none;
+  width: 357px;
+  height: 86px;
+  border-radius: 5px 50px 5px 5px;
+  background: #fee9d4;
+  animation: publish-feedback-enter 300ms ease-out;
+}
+
+/* Position the message inside the surface using the supplied text layout. */
+.publish-feedback-text {
+  position: absolute;
+  top: 14px;
+  left: 26px;
+  width: 268px;
+  height: 58px;
+  margin: 0;
+  color: #35273a;
+  font-family: "Nerko One", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0.48px;
+}
+
+/* Bring the feedback in from the right using the confirmed timing. */
+@keyframes publish-feedback-enter {
+  from {
+    transform: translateX(381px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

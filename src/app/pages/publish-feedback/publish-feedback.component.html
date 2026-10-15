@@ -1,0 +1,9 @@
+<!-- Announce the message when it appears, without moving keyboard focus. -->
+<div role="status" aria-live="polite" aria-atomic="true">
+  @if (feedback.isVisible()) {
+    <!-- Place the supplied text inside the existing feedback surface. -->
+    <div class="publish-feedback">
+      <p class="publish-feedback-text">Your survey is now published</p>
+    </div>
+  }
+</div>

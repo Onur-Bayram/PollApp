@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, output } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PublishFeedbackService } from '../../services/publish-feedback.service';
 
 // Connect the creation overlay to its separate template and styles.
 @Component({
@@ -51,11 +52,12 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Store the category shown below the button.
   selectedCategory = '';
 
-  // Use Angular's router to open the survey detail page.
-  constructor(private router: Router) {}
+  // Use the router and share feedback with the application's outer component.
+  constructor(private router: Router, private publishFeedback: PublishFeedbackService) {}
 
   // Lock background scrolling while this overlay is on screen.
   ngOnInit(): void {
+    this.publishFeedback.hide();
     document.body.style.overflow = 'hidden';
   }
 
@@ -146,8 +148,12 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
 
     if (this.isSurveyComplete()) {
       this.close();
-      this.router.navigate(['/survey']).then(() => {
-        window.scrollTo(0, 0);
+      this.router.navigate(['/survey']).then((navigated) => {
+        // Also show feedback when a new form was opened on the survey page.
+        if (navigated || this.router.url === '/survey') {
+          window.scrollTo(0, 0);
+          this.publishFeedback.show();
+        }
       });
       return;
     }
