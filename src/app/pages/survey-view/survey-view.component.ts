@@ -13,12 +13,12 @@ export class SurveyViewComponent {
   // Show the existing creation overlay above the survey details.
   isCreateSurveyOpen = false;
 
-  // Keep the first question's example answers in their Figma order.
+  // Keep the first question's answers and screenshot results together.
   firstQuestionAnswers = [
-    { letter: 'A.', text: '19.09.2025, Friday' },
-    { letter: 'B.', text: '10.10.2025, Friday' },
-    { letter: 'C.', text: '11.10.2025, Saturday' },
-    { letter: 'D.', text: '31.10.2025, Friday' },
+    { letter: 'A.', text: '19.09.2025, Friday', fillWidth: 97, percentage: 27 },
+    { letter: 'B.', text: '10.10.2025, Friday', fillWidth: 130, percentage: 44 },
+    { letter: 'C.', text: '11.10.2025, Saturday', fillWidth: 9, percentage: 3 },
+    { letter: 'D.', text: '31.10.2025, Friday', fillWidth: 93, percentage: 26 },
   ];
 
   // Keep the lower questions and their example answers in screenshot order.

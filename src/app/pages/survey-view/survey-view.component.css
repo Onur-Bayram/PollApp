@@ -215,9 +215,8 @@
   background: #ededed;
 }
 
-/* Use the supplied width and primary orange for answer A's example fill. */
+/* Color the example result fills with primary orange. */
 .survey-result-fill {
-  width: 97px;
   background: #ffb770;
 }
 

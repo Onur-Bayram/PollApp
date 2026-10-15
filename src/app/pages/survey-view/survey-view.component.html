@@ -202,21 +202,16 @@
           <div class="survey-result-tracks" aria-hidden="true">
             @for (answer of firstQuestionAnswers; track answer.letter) {
               <div class="survey-result-track">
-                <!-- Show the supplied example fill for answer A. -->
-                @if (answer.letter === 'A.') {
-                  <div class="survey-result-fill"></div>
-                }
+                <!-- Apply this answer's example width in pixels. -->
+                <div class="survey-result-fill" [style.width.px]="answer.fillWidth"></div>
               </div>
             }
           </div>
-          <!-- Reserve a percentage position for every answer. -->
+          <!-- Show each answer's example percentage in the same order. -->
           <div class="survey-result-percentages">
             @for (answer of firstQuestionAnswers; track answer.letter) {
               <div class="survey-result-percentage-area">
-                <!-- Show the supplied percentage for answer A. -->
-                @if (answer.letter === 'A.') {
-                  <span class="survey-result-percentage">27%</span>
-                }
+                <span class="survey-result-percentage">{{ answer.percentage }}%</span>
               </div>
             }
           </div>
