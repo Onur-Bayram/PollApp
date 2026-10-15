@@ -263,6 +263,12 @@
   letter-spacing: 0;
 }
 
+/* Fit the shared question heading to the results column. */
+.survey-result-question-title {
+  flex-shrink: 0;
+  width: 315px;
+}
+
 /* Reserve space for the number so the question and hint share one text edge. */
 .survey-question-number {
   flex-shrink: 0;
