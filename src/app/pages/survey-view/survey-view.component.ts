@@ -30,7 +30,15 @@ export class SurveyViewComponent {
     { letter: 'E.', text: 'Escape room', multiline: false, fillWidth: 0, percentage: 0 },
   ];
 
-  // Reuse one results layout with the screenshot sizes for each question.
+  // Share the third question's answers and example results in the same way.
+  thirdQuestionAnswers = [
+    { letter: 'A.', text: 'Team bonding', multiline: false, fillWidth: 130, percentage: 44 },
+    { letter: 'B.', text: 'Food and drinks', multiline: false, fillWidth: 9, percentage: 3 },
+    { letter: 'C.', text: 'Trying something new', multiline: false, fillWidth: 93, percentage: 26 },
+    { letter: 'D.', text: 'Keeping it low-key and stress-free', multiline: true, fillWidth: 97, percentage: 27 },
+  ];
+
+  // Reuse one results layout with the supplied sizes for each question.
   resultQuestions = [
     {
       number: 1,
@@ -46,6 +54,13 @@ export class SurveyViewComponent {
       chartHeight: 134,
       answers: this.secondQuestionAnswers,
     },
+    {
+      number: 3,
+      text: 'What’s most important to you in a team event?',
+      headingHeight: 46,
+      chartHeight: 97,
+      answers: this.thirdQuestionAnswers,
+    },
   ];
 
   // Keep the lower questions and their example answers in screenshot order.
@@ -53,12 +68,7 @@ export class SurveyViewComponent {
     {
       number: 3,
       text: 'What’s most important to you in a team event?',
-      answers: [
-        { letter: 'A.', text: 'Team bonding', multiline: false },
-        { letter: 'B.', text: 'Food and drinks', multiline: false },
-        { letter: 'C.', text: 'Trying something new', multiline: false },
-        { letter: 'D.', text: 'Keeping it low-key and stress-free', multiline: true },
-      ],
+      answers: this.thirdQuestionAnswers,
     },
     {
       number: 4,
