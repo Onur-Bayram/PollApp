@@ -38,6 +38,13 @@ export class SurveyViewComponent {
     { letter: 'D.', text: 'Keeping it low-key and stress-free', multiline: true, fillWidth: 97, percentage: 27 },
   ];
 
+  // Share the final question's answers and example results.
+  fourthQuestionAnswers = [
+    { letter: 'A.', text: 'Half a day', multiline: false, fillWidth: 46, percentage: 14 },
+    { letter: 'B.', text: 'Full day', multiline: false, fillWidth: 214, percentage: 86 },
+    { letter: 'C.', text: 'Evening only', multiline: false, fillWidth: 0, percentage: 0 },
+  ];
+
   // Reuse one results layout with the supplied sizes for each question.
   resultQuestions = [
     {
@@ -61,6 +68,13 @@ export class SurveyViewComponent {
       chartHeight: 97,
       answers: this.thirdQuestionAnswers,
     },
+    {
+      number: 4,
+      text: 'How long would you prefer the event to last?',
+      headingHeight: 46,
+      chartHeight: 74,
+      answers: this.fourthQuestionAnswers,
+    },
   ];
 
   // Keep the lower questions and their example answers in screenshot order.
@@ -73,11 +87,7 @@ export class SurveyViewComponent {
     {
       number: 4,
       text: 'How long would you prefer the event to last?',
-      answers: [
-        { letter: 'A.', text: 'Half a day', multiline: false },
-        { letter: 'B.', text: 'Full day', multiline: false },
-        { letter: 'C.', text: 'Evening only', multiline: false },
-      ],
+      answers: this.fourthQuestionAnswers,
     },
   ];
 
