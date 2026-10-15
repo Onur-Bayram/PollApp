@@ -58,6 +58,15 @@ body {
   font-display: swap;
 }
 
+/* Load the local Mulish ExtraBold font for result percentages. */
+@font-face {
+  font-family: "Mulish";
+  src: url("../public/assets/fonts/Mulish-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Load the local Nokora Regular font for survey filter labels. */
 @font-face {
   font-family: "Nokora";

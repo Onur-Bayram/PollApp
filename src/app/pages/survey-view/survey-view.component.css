@@ -128,17 +128,18 @@
   color: #ffb770;
 }
 
-/* Place the result tracks beside their answer letters. */
+/* Fit letters, tracks and percentages inside the 315px results column. */
 .survey-result-chart {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  gap: 8px;
+  gap: 7px;
 }
 
-/* Use the same vertical spacing for the letters and tracks. */
+/* Use the same vertical spacing for all three result columns. */
 .survey-result-letters,
-.survey-result-tracks {
+.survey-result-tracks,
+.survey-result-percentages {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -146,19 +147,25 @@
   height: 105px;
 }
 
-/* Keep the supplied letter column width and shared typography. */
-.survey-result-letters {
-  width: 15px;
-  color: #35273a;
+/* Share the local Mulish font and text size between result labels. */
+.survey-result-letters,
+.survey-result-percentages {
   font-family: "Mulish", Arial, sans-serif;
-  font-weight: 700;
   font-size: 14px;
   line-height: 1;
   letter-spacing: 0;
 }
 
-/* Center the shorter letter box against a 14px track. */
-.survey-result-letter-area {
+/* Keep the supplied letter column width and bold weight. */
+.survey-result-letters {
+  width: 15px;
+  color: #35273a;
+  font-weight: 700;
+}
+
+/* Center each label against its 14px result track. */
+.survey-result-letter-area,
+.survey-result-percentage-area {
   display: flex;
   align-items: center;
   height: 14px;
@@ -170,6 +177,23 @@
   align-items: center;
   width: 11px;
   height: 10px;
+}
+
+/* Use the supplied percentage column size and ExtraBold font weight. */
+.survey-result-percentages {
+  width: 31px;
+  color: #d79451;
+  font-weight: 800;
+  text-align: right;
+}
+
+/* Center the percentage vertically and align its text to the right. */
+.survey-result-percentage {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 31px;
+  height: 15px;
 }
 
 /* Keep every track at the supplied width. */

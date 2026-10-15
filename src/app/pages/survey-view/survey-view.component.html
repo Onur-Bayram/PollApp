@@ -209,6 +209,17 @@
               </div>
             }
           </div>
+          <!-- Reserve a percentage position for every answer. -->
+          <div class="survey-result-percentages">
+            @for (answer of firstQuestionAnswers; track answer.letter) {
+              <div class="survey-result-percentage-area">
+                <!-- Show the supplied percentage for answer A. -->
+                @if (answer.letter === 'A.') {
+                  <span class="survey-result-percentage">27%</span>
+                }
+              </div>
+            }
+          </div>
         </div>
       </aside>
     </div>
