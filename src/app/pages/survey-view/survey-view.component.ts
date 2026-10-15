@@ -21,6 +21,33 @@ export class SurveyViewComponent {
     { letter: 'D.', text: '31.10.2025, Friday', fillWidth: 93, percentage: 26 },
   ];
 
+  // Share the second question's answers between voting and example results.
+  secondQuestionAnswers = [
+    { letter: 'A.', text: 'Outdoor adventure like kayaking', multiline: true, fillWidth: 163, percentage: 60 },
+    { letter: 'B.', text: 'Office Costume Party', multiline: false, fillWidth: 0, percentage: 0 },
+    { letter: 'C.', text: 'Bowling, mini-golf, volleyball', multiline: false, fillWidth: 46, percentage: 14 },
+    { letter: 'D.', text: 'Beach party, Music & cocktails', multiline: true, fillWidth: 93, percentage: 26 },
+    { letter: 'E.', text: 'Escape room', multiline: false, fillWidth: 0, percentage: 0 },
+  ];
+
+  // Reuse one results layout with the screenshot sizes for each question.
+  resultQuestions = [
+    {
+      number: 1,
+      text: 'Which date would work best for you?',
+      headingHeight: 46,
+      chartHeight: 105,
+      answers: this.firstQuestionAnswers,
+    },
+    {
+      number: 2,
+      text: 'Choose the activities you prefer?',
+      headingHeight: 23,
+      chartHeight: 134,
+      answers: this.secondQuestionAnswers,
+    },
+  ];
+
   // Keep the lower questions and their example answers in screenshot order.
   additionalQuestions = [
     {

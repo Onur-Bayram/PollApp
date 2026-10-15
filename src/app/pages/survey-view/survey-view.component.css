@@ -128,10 +128,19 @@
   color: #ffb770;
 }
 
-/* Fit letters, tracks and percentages inside the 315px results column. */
+/* Keep each question's heading and chart together with the supplied gap. */
+.survey-result-question {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 16px;
+  width: 315px;
+}
+
+/* Stretch the three columns to this question's chart height. */
 .survey-result-chart {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   flex-shrink: 0;
   gap: 7px;
 }
@@ -144,7 +153,6 @@
   flex-direction: column;
   justify-content: space-between;
   flex-shrink: 0;
-  height: 105px;
 }
 
 /* Share the local Mulish font and text size between result labels. */
