@@ -137,6 +137,11 @@
   width: 315px;
 }
 
+/* Match the first result block's supplied height before the next question. */
+.survey-result-question-first {
+  min-height: 172px;
+}
+
 /* Stretch the three columns to this question's chart height. */
 .survey-result-chart {
   display: flex;

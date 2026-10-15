@@ -146,7 +146,7 @@
         <h2 class="survey-results-title">Survey results <span class="survey-results-live">LIVE</span></h2>
         <!-- Render each example result with the same heading and chart styles. -->
         @for (question of resultQuestions; track question.number) {
-          <div class="survey-result-question">
+          <div class="survey-result-question" [class.survey-result-question-first]="question.number === 1">
             <h3 class="survey-question-title survey-result-question-title" [style.height.px]="question.headingHeight">
               <span class="survey-question-number">{{ question.number }}.</span>
               <span>{{ question.text }}</span>
