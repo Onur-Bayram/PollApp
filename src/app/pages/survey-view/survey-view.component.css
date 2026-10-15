@@ -128,14 +128,27 @@
   color: #ffb770;
 }
 
-/* Spread the answer letters evenly down the supplied column. */
-.survey-result-letters {
+/* Place the result tracks beside their answer letters. */
+.survey-result-chart {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+/* Use the same vertical spacing for the letters and tracks. */
+.survey-result-letters,
+.survey-result-tracks {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex-shrink: 0;
-  width: 15px;
   height: 105px;
+}
+
+/* Keep the supplied letter column width and shared typography. */
+.survey-result-letters {
+  width: 15px;
   color: #35273a;
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 700;
@@ -144,12 +157,33 @@
   letter-spacing: 0;
 }
 
+/* Center the shorter letter box against a 14px track. */
+.survey-result-letter-area {
+  display: flex;
+  align-items: center;
+  height: 14px;
+}
+
 /* Center each letter vertically inside its specified text area. */
 .survey-result-letter {
   display: flex;
   align-items: center;
   width: 11px;
   height: 10px;
+}
+
+/* Keep every track at the supplied width. */
+.survey-result-tracks {
+  width: 255px;
+}
+
+/* Round only the right corners of the gray result backgrounds. */
+.survey-result-track {
+  width: 255px;
+  height: 14px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background: #ededed;
 }
 
 /* Keep the padding inside the survey panel and round its top-right corner. */
