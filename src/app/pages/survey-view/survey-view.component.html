@@ -188,6 +188,12 @@
           <span class="survey-question-number">1.</span>
           <span>Which date would work best for you?</span>
         </h3>
+        <!-- Reuse the answer letters without their dots for the results. -->
+        <div class="survey-result-letters">
+          @for (answer of firstQuestionAnswers; track answer.letter) {
+            <span class="survey-result-letter">{{ answer.letter[0] }}</span>
+          }
+        </div>
       </aside>
     </div>
   </div>

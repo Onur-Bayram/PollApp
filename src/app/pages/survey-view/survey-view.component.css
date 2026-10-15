@@ -128,6 +128,30 @@
   color: #ffb770;
 }
 
+/* Spread the answer letters evenly down the supplied column. */
+.survey-result-letters {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 15px;
+  height: 105px;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Center each letter vertically inside its specified text area. */
+.survey-result-letter {
+  display: flex;
+  align-items: center;
+  width: 11px;
+  height: 10px;
+}
+
 /* Keep the padding inside the survey panel and round its top-right corner. */
 .survey-panel {
   box-sizing: border-box;
