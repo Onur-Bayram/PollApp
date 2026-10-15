@@ -265,6 +265,11 @@
   cursor: pointer;
 }
 
+/* Highlight the whole answer row immediately when hovered. */
+.survey-answer:hover {
+  background: #ffcfa166;
+}
+
 /* Use the supplied 21px area and 3px padding around the checkbox. */
 .survey-answer-checkbox-area {
   box-sizing: border-box;
@@ -362,6 +367,12 @@
   border-radius: 10px;
   background: #ffb7704d;
   text-decoration: none;
+  transition: background-color 200ms ease-out;
+}
+
+/* Highlight the completion link with primary orange when hovered. */
+.complete-survey-button:hover {
+  background: #ffb770;
 }
 
 /* Match the label's size and local Nokora Bold typography. */
