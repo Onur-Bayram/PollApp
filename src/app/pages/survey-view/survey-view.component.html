@@ -198,10 +198,15 @@
               </div>
             }
           </div>
-          <!-- Prepare the gray backgrounds for the upcoming result fills. -->
+          <!-- Keep the gray backgrounds behind the colored result fills. -->
           <div class="survey-result-tracks" aria-hidden="true">
             @for (answer of firstQuestionAnswers; track answer.letter) {
-              <div class="survey-result-track"></div>
+              <div class="survey-result-track">
+                <!-- Show the supplied example fill for answer A. -->
+                @if (answer.letter === 'A.') {
+                  <div class="survey-result-fill"></div>
+                }
+              </div>
             }
           </div>
         </div>

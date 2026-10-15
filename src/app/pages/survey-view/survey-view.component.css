@@ -177,13 +177,24 @@
   width: 255px;
 }
 
-/* Round only the right corners of the gray result backgrounds. */
-.survey-result-track {
-  width: 255px;
+/* Share the bar height and right corners between backgrounds and fills. */
+.survey-result-track,
+.survey-result-fill {
   height: 14px;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
+}
+
+/* Keep the full result background gray. */
+.survey-result-track {
+  width: 255px;
   background: #ededed;
+}
+
+/* Use the supplied width and primary orange for answer A's example fill. */
+.survey-result-fill {
+  width: 97px;
+  background: #ffb770;
 }
 
 /* Keep the padding inside the survey panel and round its top-right corner. */
