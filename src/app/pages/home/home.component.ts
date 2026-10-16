@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
 
 // Connect the home page template and styles to this Angular component.
 @Component({
   selector: 'app-home',
-  imports: [CreateSurveyComponent],
+  imports: [RouterLink, CreateSurveyComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

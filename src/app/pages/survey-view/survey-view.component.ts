@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
 
@@ -9,7 +9,7 @@ import { CreateSurveyComponent } from '../create-survey/create-survey.component'
   templateUrl: './survey-view.component.html',
   styleUrl: './survey-view.component.css',
 })
-export class SurveyViewComponent {
+export class SurveyViewComponent implements OnInit {
   // Show the existing creation overlay above the survey details.
   isCreateSurveyOpen = false;
 
@@ -90,6 +90,11 @@ export class SurveyViewComponent {
       answers: this.fourthQuestionAnswers,
     },
   ];
+
+  // Start at the heading when a card is opened from further down the home page.
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
+  }
 
   // Focus the name field after Angular has created the overlay.
   openCreateSurvey(): void {
