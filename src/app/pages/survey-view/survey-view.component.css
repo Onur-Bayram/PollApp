@@ -56,7 +56,7 @@
 }
 
 /* Make room for the plus icon while keeping the header's right edge fixed. */
-.create-survey-button:hover {
+.create-survey-button:hover:not(:disabled) {
   width: 183px;
   background: #ffb770;
 }
@@ -88,7 +88,7 @@
 }
 
 /* Fade in the plus icon with the same timing as the button expansion. */
-.create-survey-button:hover .create-survey-button-icon {
+.create-survey-button:hover:not(:disabled) .create-survey-button-icon {
   opacity: 1;
 }
 
@@ -413,8 +413,14 @@
 }
 
 /* Highlight the whole answer row immediately when hovered. */
-.survey-answer:hover {
+.survey-answer:hover:not(.survey-answer-disabled) {
   background: #ffcfa166;
+}
+
+/* Keep closed surveys readable without suggesting an available selection. */
+.survey-answer-disabled,
+.survey-answer-checkbox:disabled {
+  cursor: default;
 }
 
 /* Use the supplied 21px area and 3px padding around the checkbox. */
@@ -520,8 +526,19 @@
 }
 
 /* Highlight the completion link with primary orange when hovered. */
-.complete-survey-button:hover {
+.complete-survey-button:hover:not(:disabled) {
   background: #ffb770;
+}
+
+/* Keep saving controls still and place the results retry beside its message. */
+.complete-survey-button:disabled,
+.create-survey-button:disabled {
+  cursor: default;
+}
+
+.results-retry-button {
+  margin-top: 0;
+  align-self: flex-start;
 }
 
 /* Match the label's size and local Nokora Bold typography. */
@@ -549,8 +566,15 @@
 }
 
 .saved-survey .survey-results {
+  width: 324px;
   height: auto;
   min-height: 761px;
+}
+
+/* Leave room for 100% in real results while preserving the Figma preview. */
+.saved-survey .survey-result-percentages,
+.saved-survey .survey-result-percentage {
+  width: 40px;
 }
 
 .saved-survey .survey-title {

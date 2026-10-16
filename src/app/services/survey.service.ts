@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { NewSurvey, Survey } from '../models/survey';
+import { RealtimeChannel } from '@supabase/supabase-js';
+import { AnswerVoteCount, NewSurvey, Survey } from '../models/survey';
 import { SupabaseService } from './supabase.service';
 
 // Save and load surveys through the existing shared Supabase client.
@@ -81,6 +82,56 @@ export class SurveyService {
       throw error;
     }
     return this.prepareSurveys(data)[0] || null;
+  }
+
+  // Save all selected answers together; one row represents one choice.
+  async saveVote(answerIds: number[]): Promise<void> {
+    const rows = answerIds.map(answerId => ({ answer_id: answerId }));
+    const { error } = await this.supabase.client.from('votes').insert(rows);
+    if (error) {
+      throw error;
+    }
+  }
+
+  // Count in Supabase so the usual row limit cannot truncate the totals.
+  async getVoteCounts(answerIds: number[]): Promise<AnswerVoteCount[]> {
+    const { data, error } = await this.supabase.client
+      .from('answers')
+      .select('id,votes(count)')
+      .in('id', answerIds);
+    if (error) {
+      throw error;
+    }
+    if (data.length !== answerIds.length) {
+      throw new Error('Some answer results are unavailable.');
+    }
+    return data.map(answer => ({ answerId: answer.id, count: answer.votes[0]?.count ?? 0 }));
+  }
+
+  // Listen only to new votes for the answers on the current survey page.
+  watchVotes(answerIds: number[], onChange: () => void, onStatus: (status: string) => void): RealtimeChannel {
+    return this.supabase.client
+      // Show LIVE only after Supabase confirms that database changes are ready.
+      .channel('survey-votes-' + answerIds.join('-'), {
+        config: { postgres_changes_options: { wait: true } },
+      })
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'votes',
+        filter: 'answer_id=in.(' + answerIds.join(',') + ')',
+      }, onChange)
+      .subscribe(status => {
+        onStatus(status);
+        if (status === 'SUBSCRIBED') {
+          onChange();
+        }
+      });
+  }
+
+  // Remove the old subscription when its survey is no longer displayed.
+  stopWatchingVotes(channel: RealtimeChannel): void {
+    this.supabase.client.removeChannel(channel);
   }
 
   // Hide unfinished writes and restore question/answer order on every load.

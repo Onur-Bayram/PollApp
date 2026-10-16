@@ -34,3 +34,9 @@ export interface NewSurvey {
     answers: string[];
   }[];
 }
+
+// Return one total per answer without downloading every individual vote.
+export interface AnswerVoteCount {
+  answerId: number;
+  count: number;
+}

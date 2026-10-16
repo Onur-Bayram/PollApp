@@ -1,6 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RealtimeChannel } from '@supabase/supabase-js';
 import { Subscription } from 'rxjs';
 import { SurveyService } from '../../services/survey.service';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
@@ -10,10 +12,11 @@ interface ResultQuestion {
   number: number;
   text: string;
   votingText?: string;
-  showHint: boolean;
+  allowMultipleAnswers: boolean;
   headingHeight: number;
   chartHeight: number;
   answers: {
+    id?: number;
     letter: string;
     text: string;
     multiline?: boolean;
@@ -25,7 +28,7 @@ interface ResultQuestion {
 // Connect the survey detail view to its separate template and styles.
 @Component({
   selector: 'app-survey-view',
-  imports: [DatePipe, RouterLink, CreateSurveyComponent],
+  imports: [DatePipe, RouterLink, ReactiveFormsModule, CreateSurveyComponent],
   templateUrl: './survey-view.component.html',
   styleUrl: './survey-view.component.css',
 })
@@ -70,7 +73,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     {
       number: 1,
       text: 'Which date would work best for you?',
-      showHint: true,
+      allowMultipleAnswers: true,
       headingHeight: 46,
       chartHeight: 105,
       answers: this.firstQuestionAnswers,
@@ -79,7 +82,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       number: 2,
       text: 'Choose the activities you prefer?',
       votingText: 'Choose the activities you prefer.',
-      showHint: true,
+      allowMultipleAnswers: true,
       headingHeight: 23,
       chartHeight: 134,
       answers: this.secondQuestionAnswers,
@@ -87,7 +90,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     {
       number: 3,
       text: 'What’s most important to you in a team event?',
-      showHint: false,
+      allowMultipleAnswers: false,
       headingHeight: 46,
       chartHeight: 97,
       answers: this.thirdQuestionAnswers,
@@ -95,7 +98,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     {
       number: 4,
       text: 'How long would you prefer the event to last?',
-      showHint: false,
+      allowMultipleAnswers: false,
       headingHeight: 46,
       chartHeight: 74,
       answers: this.fourthQuestionAnswers,
@@ -112,8 +115,23 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   category: string | null = null;
   resultQuestions: ResultQuestion[] = [];
   questionRows: ResultQuestion[][] = [];
+  // Bind each answer's check mark to its own form control.
+  answerControls: FormControl<boolean>[][] = [];
+  // Show success only after the selected answers have been saved.
+  isSubmitting = signal(false);
+  voteSaved = signal(false);
+  voteError = signal('');
+  showVoteValidation = false;
+  isLoadingResults = signal(false);
+  resultsLoaded = signal(false);
+  resultsError = signal('');
+  hasVotes = signal(false);
+  liveStatus = signal('');
   private routeSubscription?: Subscription;
+  private voteChannel?: RealtimeChannel;
+  private resultsTimer?: ReturnType<typeof setTimeout>;
   private loadRequest = 0;
+  private resultsRequest = 0;
 
   constructor(private route: ActivatedRoute, private surveys: SurveyService) {}
 
@@ -127,15 +145,27 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeSubscription?.unsubscribe();
     this.loadRequest++;
+    this.stopWatchingResults();
   }
 
   async loadSurvey(): Promise<void> {
     const request = ++this.loadRequest;
+    this.stopWatchingResults();
     const id = this.route.snapshot.paramMap.get('id');
     this.isPreview = id === null;
     this.loadError.set('');
     this.resultQuestions = [];
     this.questionRows = [];
+    this.answerControls = [];
+    this.isSubmitting.set(false);
+    this.voteSaved.set(false);
+    this.voteError.set('');
+    this.showVoteValidation = false;
+    this.resultsLoaded.set(false);
+    this.isLoadingResults.set(false);
+    this.resultsError.set('');
+    this.hasVotes.set(false);
+    this.liveStatus.set('');
 
     if (this.isPreview) {
       this.isLoading.set(false);
@@ -174,10 +204,11 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       this.resultQuestions = survey.questions.map((question, index) => ({
         number: index + 1,
         text: question.text,
-        showHint: question.allow_multiple_answers,
+        allowMultipleAnswers: question.allow_multiple_answers,
         headingHeight: 46,
         chartHeight: (question.answers.length - 1) * 30 + 14,
         answers: question.answers.map((answer, answerIndex) => ({
+          id: answer.id,
           letter: letters[answerIndex],
           text: answer.text,
           fillWidth: 0,
@@ -185,6 +216,8 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
         })),
       }));
       this.groupQuestions();
+      this.watchResults();
+      this.loadResults();
     } catch {
       if (request === this.loadRequest) {
         this.loadError.set('Could not load this survey. Please try again.');
@@ -196,8 +229,179 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Keep two questions per row, including surveys with up to six questions.
+  // Allow voting until the end of the stored deadline's final day.
+  isSurveyClosed(): boolean {
+    return !this.isPreview && this.endDate !== null
+      && new Date(this.endDate + 'T23:59:59.999').getTime() < Date.now();
+  }
+
+  // Keep one checked answer unless the creator enabled multiple answers.
+  selectAnswer(question: ResultQuestion, answerIndex: number, checked: boolean): void {
+    const controls = this.answerControls[question.number - 1];
+    if (this.isSurveyClosed()) {
+      controls[answerIndex].setValue(!checked);
+      this.answerControls.forEach(questionControls => questionControls.forEach(control => control.disable()));
+      return;
+    }
+    if (checked && !question.allowMultipleAnswers) {
+      controls.forEach((control, index) => {
+        if (index !== answerIndex) {
+          control.setValue(false);
+        }
+      });
+    }
+  }
+
+  // Require at least one selected answer for every question before saving.
+  needsAnswer(question: ResultQuestion): boolean {
+    return this.showVoteValidation
+      && !this.answerControls[question.number - 1].some(control => control.value);
+  }
+
+  async submitVote(): Promise<void> {
+    if (this.isPreview || this.isSubmitting() || this.voteSaved()) {
+      return;
+    }
+    this.voteError.set('');
+    this.showVoteValidation = true;
+    if (this.isSurveyClosed()) {
+      this.setAnswersDisabled(true);
+      return;
+    }
+    if (this.resultQuestions.some(question => this.needsAnswer(question))) {
+      return;
+    }
+
+    const selectedIds: number[] = [];
+    for (const question of this.resultQuestions) {
+      question.answers.forEach((answer, index) => {
+        if (this.answerControls[question.number - 1][index].value && answer.id !== undefined) {
+          selectedIds.push(answer.id);
+        }
+      });
+    }
+    const request = this.loadRequest;
+    this.isSubmitting.set(true);
+    this.setAnswersDisabled(true);
+    try {
+      await this.surveys.saveVote(selectedIds);
+      if (request !== this.loadRequest) {
+        return;
+      }
+      this.voteSaved.set(true);
+      this.showVoteValidation = false;
+      await this.loadResults();
+    } catch {
+      if (request === this.loadRequest) {
+        this.voteError.set('Could not save your vote. Please try again.');
+      }
+    } finally {
+      if (request === this.loadRequest) {
+        this.isSubmitting.set(false);
+        this.setAnswersDisabled(this.voteSaved() || this.isSurveyClosed());
+      }
+    }
+  }
+
+  // Start another explicit submission without counting the previous vote twice.
+  voteAgain(): void {
+    if (this.isSubmitting() || this.isSurveyClosed()) {
+      return;
+    }
+    this.voteSaved.set(false);
+    this.voteError.set('');
+    this.showVoteValidation = false;
+    this.answerControls.forEach(controls => controls.forEach(control => control.reset(false)));
+    this.setAnswersDisabled(false);
+  }
+
+  // Read actual totals and ignore results belonging to a previous route/request.
+  async loadResults(): Promise<void> {
+    if (this.isPreview || this.resultQuestions.length === 0) {
+      return;
+    }
+    const surveyRequest = this.loadRequest;
+    const request = ++this.resultsRequest;
+    this.isLoadingResults.set(true);
+    this.resultsError.set('');
+    try {
+      const counts = await this.surveys.getVoteCounts(this.getAnswerIds());
+      if (surveyRequest !== this.loadRequest || request !== this.resultsRequest) {
+        return;
+      }
+      for (const question of this.resultQuestions) {
+        const totals = question.answers.map(answer => counts.find(row => row.answerId === answer.id)?.count ?? 0);
+        const total = totals.reduce((sum, count) => sum + count, 0);
+        question.answers.forEach((answer, index) => {
+          const share = total > 0 ? totals[index] / total : 0;
+          answer.percentage = Math.round(share * 100);
+          answer.fillWidth = Math.round(share * 255);
+        });
+      }
+      this.hasVotes.set(counts.some(answer => answer.count > 0));
+      this.resultsLoaded.set(true);
+    } catch {
+      if (surveyRequest === this.loadRequest && request === this.resultsRequest) {
+        this.resultsError.set('Could not load the results. Please try again.');
+      }
+    } finally {
+      if (surveyRequest === this.loadRequest && request === this.resultsRequest) {
+        this.isLoadingResults.set(false);
+      }
+    }
+  }
+
+  // Group a burst of inserted answer rows into one results refresh.
+  private watchResults(): void {
+    const request = this.loadRequest;
+    this.voteChannel = this.surveys.watchVotes(this.getAnswerIds(), () => {
+      if (request === this.loadRequest) {
+        clearTimeout(this.resultsTimer);
+        this.resultsTimer = setTimeout(() => this.loadResults(), 100);
+      }
+    }, status => {
+      if (request === this.loadRequest) {
+        this.liveStatus.set(status);
+      }
+    });
+  }
+
+  private stopWatchingResults(): void {
+    clearTimeout(this.resultsTimer);
+    this.resultsRequest++;
+    if (this.voteChannel) {
+      this.surveys.stopWatchingVotes(this.voteChannel);
+      this.voteChannel = undefined;
+    }
+  }
+
+  private getAnswerIds(): number[] {
+    const ids: number[] = [];
+    for (const question of this.resultQuestions) {
+      for (const answer of question.answers) {
+        if (answer.id !== undefined) {
+          ids.push(answer.id);
+        }
+      }
+    }
+    return ids;
+  }
+
+  private setAnswersDisabled(disabled: boolean): void {
+    this.answerControls.forEach(controls => controls.forEach(control => {
+      if (disabled) {
+        control.disable();
+      } else {
+        control.enable();
+      }
+    }));
+  }
+
+  // Start with empty selections and keep two questions per row.
   private groupQuestions(): void {
+    this.answerControls = this.resultQuestions.map(question => question.answers.map(() =>
+      new FormControl({ value: false, disabled: this.isSurveyClosed() }, { nonNullable: true })
+    ));
     for (let index = 0; index < this.resultQuestions.length; index += 2) {
       this.questionRows.push(this.resultQuestions.slice(index, index + 2));
     }
@@ -205,6 +409,9 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
 
   // Focus the name field after Angular has created the overlay.
   openCreateSurvey(): void {
+    if (this.isSubmitting()) {
+      return;
+    }
     this.isCreateSurveyOpen = true;
     setTimeout(() => {
       const nameInput = document.getElementById('survey-name');
