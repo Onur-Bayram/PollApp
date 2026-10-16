@@ -96,12 +96,13 @@
                       class="survey-input input-text end-date-input"
                       [formControl]="endDate"
                       inputmode="numeric"
+                      [min]="minimumEndDate"
                       max="9999-12-31"
                       (input)="checkEndDate(endDateInput)"
                       (blur)="checkEndDate(endDateInput)"
-                      [class.input-error]="showValidation && isEndDateInvalid"
-                      [attr.aria-invalid]="showValidation && isEndDateInvalid"
-                      [attr.aria-describedby]="showValidation && isEndDateInvalid ? 'end-date-error' : null"
+                      [class.input-error]="showValidation && endDateError !== ''"
+                      [attr.aria-invalid]="showValidation && endDateError !== ''"
+                      [attr.aria-describedby]="showValidation && endDateError !== '' ? 'end-date-error' : null"
                     />
                     <!-- Clear only the end date when this button is clicked. -->
                     <button
@@ -113,8 +114,8 @@
                       <img src="assets/icons/delete.png" alt="" />
                     </button>
                   </div>
-                  @if (showValidation && isEndDateInvalid) {
-                    <p id="end-date-error" class="field-error">Enter a valid date.</p>
+                  @if (showValidation && endDateError) {
+                    <p id="end-date-error" class="field-error">{{ endDateError }}</p>
                   }
                 </div>
                 <!-- Anchor the category menu below its button. -->

@@ -29,8 +29,9 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Connect the optional end date input to a separate form control.
   endDate = new FormControl('');
 
-  // Track incomplete dates and dates rejected by the browser.
-  isEndDateInvalid = false;
+  // Keep new surveys open at least until the end of the current local day.
+  minimumEndDate = this.getToday();
+  endDateError = '';
 
   // Connect the optional description to its own form control.
   description = new FormControl('', Validators.maxLength(300));
@@ -129,14 +130,28 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     return this.showValidation && this.isFieldInvalid(control);
   }
 
-  // Let the native date input check the calendar date; an empty value is allowed.
+  // Format the local date without shifting it to another day in UTC.
+  private getToday(): string {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    return today.getFullYear() + '-' + (month < 10 ? '0' : '') + month
+      + '-' + (day < 10 ? '0' : '') + day;
+  }
+
+  // Allow an empty date, but reject past deadlines before saving a new survey.
   checkEndDate(field: HTMLInputElement): void {
-    this.isEndDateInvalid = !field.validity.valid;
+    this.minimumEndDate = this.getToday();
+    if (field.value.length === 10 && field.value < this.minimumEndDate) {
+      this.endDateError = 'Choose today or a future date.';
+    } else {
+      this.endDateError = field.validity.valid ? '' : 'Enter a valid date.';
+    }
   }
 
   // Check the optional date and every required question and answer.
   isSurveyComplete(): boolean {
-    if (this.isEndDateInvalid || this.description.invalid || this.isFieldInvalid(this.surveyName)) {
+    if (this.endDateError || this.description.invalid || this.isFieldInvalid(this.surveyName)) {
       return false;
     }
 
@@ -238,7 +253,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Clear only the end date when its delete button is clicked.
   clearEndDate(): void {
     this.endDate.setValue('');
-    this.isEndDateInvalid = false;
+    this.endDateError = '';
   }
 
   // Clear only the description when its delete button is clicked.
