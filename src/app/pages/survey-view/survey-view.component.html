@@ -1,190 +1,123 @@
-<!-- Center the desktop area used to position the content frame. -->
-<main class="survey-view-layout" aria-label="Survey details" [attr.inert]="isCreateSurveyOpen ? '' : null">
-  <!-- Keep the header and future survey content inside the Figma frame. -->
+<!-- Load real surveys by ID and keep the existing design preview separate. -->
+<main class="survey-view-layout" [class.saved-survey]="!isPreview" aria-label="Survey details" [attr.inert]="isCreateSurveyOpen ? '' : null">
   <div class="survey-view-frame">
-    <!-- Place the supplied logo at the top-left of the header. -->
     <header class="survey-view-header">
-      <!-- Return to Home immediately when the logo is clicked. -->
       <a routerLink="/" aria-label="Poll App home">
-        <img
-          class="survey-view-logo"
-          src="assets/icons/poll-app-logo-dark.png"
-          alt="Poll App"
-          width="119"
-          height="44"
-        />
+        <img class="survey-view-logo" src="assets/icons/poll-app-logo-dark.png" alt="Poll App" width="119" height="44" />
       </a>
-      <!-- Open the creation overlay immediately from the header button. -->
-      <button
-        #createSurveyButton
-        type="button"
-        class="create-survey-button"
-        aria-haspopup="dialog"
-        (click)="openCreateSurvey()"
-      >
+      <!-- Reuse the same creation overlay and hover effect as Home. -->
+      <button #createSurveyButton type="button" class="create-survey-button" aria-haspopup="dialog" (click)="openCreateSurvey()">
         <span class="create-survey-button-text">Create survey</span>
-        <!-- Reuse the same plus icon and hover fade as the New survey button. -->
-        <img
-          class="create-survey-button-icon"
-          src="assets/icons/add-circle.png"
-          alt=""
-          width="20"
-          height="20"
-        />
+        <img class="create-survey-button-icon" src="assets/icons/add-circle.png" alt="" width="20" height="20" />
       </button>
     </header>
-    <!-- Keep the survey and its results next to each other on desktop. -->
-    <div class="survey-view-content">
-      <!-- Panel for the survey information, questions and answers. -->
-      <div class="survey-panel">
-        <!-- Show the published status at the top of the survey panel. -->
-        <div class="survey-status">
-          <span class="survey-status-text">Published</span>
-        </div>
-        <!-- Keep the end date and category at opposite ends of this row. -->
-        <div class="survey-meta">
-          <!-- Show the Figma examples until survey data is connected. -->
-          <span class="survey-end-date">Ends on 01.09.2025</span>
-          <span class="survey-category">Category: Team activities</span>
-        </div>
-        <!-- Use the Figma title until the created survey's name is connected. -->
-        <h1 class="survey-title">Let’s Plan the Next Team Event Together</h1>
-        <!-- Show the Figma description until the survey's own text is connected. -->
-        <p class="survey-description">
-          We want to create team activities that everyone will enjoy – share your
-          preferences and ideas in our survey to help us plan better experiences together.
-        </p>
-        <!-- Row for the first two questions, placed next to each other. -->
-        <div class="survey-questions-row">
-          <!-- Keep the first question in the left column. -->
-          <div class="survey-question">
-            <!-- Separate the number so wrapped text stays aligned. -->
-            <h2 class="survey-question-title">
-              <span class="survey-question-number">1.</span>
-              <span>Which date would work best for you?</span>
-            </h2>
-            <!-- Explain that the example question allows more than one answer. -->
-            <p class="survey-question-hint">More than one answers are possible.</p>
-            <!-- Stack the answer rows below the question's hint. -->
-            <div class="survey-answers">
-              <!-- Render every example answer with the same row styles. -->
-              @for (answer of firstQuestionAnswers; track answer.letter) {
-                <!-- Make the whole answer row select its own checkbox. -->
-                <label class="survey-answer">
-                  <!-- Leave 3px around the checkbox inside its 21px area. -->
-                  <span class="survey-answer-checkbox-area">
-                    <input type="checkbox" class="survey-answer-checkbox" />
-                  </span>
-                  <!-- Keep the bold answer letter beside its regular text. -->
-                  <span class="survey-answer-text">
-                    <span class="survey-answer-letter">{{ answer.letter }}</span>
-                    <span class="survey-answer-value">{{ answer.text }}</span>
-                  </span>
-                </label>
+    @if (isLoading()) {
+      <p class="survey-message" role="status">Loading survey…</p>
+    } @else if (loadError()) {
+      <p class="survey-message" role="alert">{{ loadError() }}</p>
+      <button type="button" class="complete-survey-button" (click)="loadSurvey()">
+        <span class="complete-survey-button-text">Try again</span>
+      </button>
+    } @else {
+      <!-- Keep the questions and results next to each other on desktop. -->
+      <div class="survey-view-content">
+        <div class="survey-panel">
+          <div class="survey-status">
+            <span class="survey-status-text">Published</span>
+          </div>
+          <div class="survey-meta">
+            <span class="survey-end-date">
+              @if (endDate) {
+                Ends on {{ endDate | date:'dd.MM.yyyy' }}
+              } @else {
+                No deadline
+              }
+            </span>
+            @if (category) {
+              <span class="survey-category">Category: {{ category }}</span>
+            }
+          </div>
+          <h1 class="survey-title">{{ surveyTitle }}</h1>
+          @if (description) {
+            <p class="survey-description">{{ description }}</p>
+          }
+          <!-- Render the same question layout for one to six questions. -->
+          @for (row of questionRows; track $index; let rowIndex = $index) {
+            <div class="survey-questions-row" [class.survey-questions-row-bottom]="rowIndex > 0">
+              @for (question of row; track question.number) {
+                <div class="survey-question">
+                  <h2 class="survey-question-title">
+                    <span class="survey-question-number">{{ question.number }}.</span>
+                    <span>{{ question.votingText || question.text }}</span>
+                  </h2>
+                  @if (question.showHint) {
+                    <p class="survey-question-hint">More than one answers are possible.</p>
+                  }
+                  <div class="survey-answers">
+                    @for (answer of question.answers; track answer.letter) {
+                      <label class="survey-answer" [class.survey-answer-multiline]="answer.multiline">
+                        <span class="survey-answer-checkbox-area">
+                          <!-- Stored surveys show their options while vote storage is added separately. -->
+                          <input type="checkbox" class="survey-answer-checkbox" [disabled]="!isPreview" />
+                        </span>
+                        <span class="survey-answer-text">
+                          <span class="survey-answer-letter">{{ answer.letter }}</span>
+                          <span class="survey-answer-value">{{ answer.text }}</span>
+                        </span>
+                      </label>
+                    }
+                  </div>
+                </div>
               }
             </div>
-          </div>
-          <!-- Keep the second question in the right column. -->
-          <div class="survey-question">
-            <!-- Reuse the same number alignment and heading style. -->
-            <h2 class="survey-question-title">
-              <span class="survey-question-number">2.</span>
-              <span>Choose the activities you prefer.</span>
-            </h2>
-            <!-- Use the same multiple-answer hint as the first question. -->
-            <p class="survey-question-hint">More than one answers are possible.</p>
-            <!-- Stack the activity answers with the shared spacing. -->
-            <div class="survey-answers">
-              @for (answer of secondQuestionAnswers; track answer.letter) {
-                <!-- Keep longer answers in the existing two-line layout. -->
-                <label class="survey-answer" [class.survey-answer-multiline]="answer.multiline">
-                  <span class="survey-answer-checkbox-area">
-                    <input type="checkbox" class="survey-answer-checkbox" />
-                  </span>
-                  <span class="survey-answer-text">
-                    <span class="survey-answer-letter">{{ answer.letter }}</span>
-                    <span class="survey-answer-value">{{ answer.text }}</span>
-                  </span>
-                </label>
-              }
-            </div>
-          </div>
+          }
+          <!-- Return to the list without implying that new votes were saved. -->
+          <a routerLink="/" class="complete-survey-button">
+            <span class="complete-survey-button-text">{{ isPreview ? 'Complete survey' : 'Back to surveys' }}</span>
+          </a>
         </div>
-        <!-- Place questions three and four below the first pair. -->
-        <div class="survey-questions-row survey-questions-row-bottom">
-          @for (question of additionalQuestions; track question.number) {
-            <div class="survey-question">
-              <h2 class="survey-question-title">
+        <aside class="survey-results" aria-label="Survey results">
+          <h2 class="survey-results-title">Survey results @if (isPreview) {<span class="survey-results-live">LIVE</span>}</h2>
+          @if (!isPreview) {
+            <p class="survey-message">No votes yet.</p>
+          }
+          @for (question of resultQuestions; track question.number) {
+            <div class="survey-result-question" [class.survey-result-question-first]="isPreview && question.number === 1">
+              <h3 class="survey-question-title survey-result-question-title" [style.height.px]="isPreview ? question.headingHeight : null">
                 <span class="survey-question-number">{{ question.number }}.</span>
                 <span>{{ question.text }}</span>
-              </h2>
-              <!-- Reuse the answer layout and allow longer text to take two lines. -->
-              <div class="survey-answers">
-                @for (answer of question.answers; track answer.letter) {
-                  <label class="survey-answer" [class.survey-answer-multiline]="answer.multiline">
-                    <span class="survey-answer-checkbox-area">
-                      <input type="checkbox" class="survey-answer-checkbox" />
-                    </span>
-                    <span class="survey-answer-text">
-                      <span class="survey-answer-letter">{{ answer.letter }}</span>
-                      <span class="survey-answer-value">{{ answer.text }}</span>
-                    </span>
-                  </label>
-                }
+              </h3>
+              <!-- Derive the chart height from the number of stored answer options. -->
+              <div class="survey-result-chart" [style.height.px]="question.chartHeight">
+                <div class="survey-result-letters">
+                  @for (answer of question.answers; track answer.letter) {
+                    <div class="survey-result-letter-area">
+                      <span class="survey-result-letter">{{ answer.letter[0] }}</span>
+                    </div>
+                  }
+                </div>
+                <div class="survey-result-tracks" aria-hidden="true">
+                  @for (answer of question.answers; track answer.letter) {
+                    <div class="survey-result-track">
+                      <div class="survey-result-fill" [style.width.px]="answer.fillWidth"></div>
+                    </div>
+                  }
+                </div>
+                <div class="survey-result-percentages">
+                  @for (answer of question.answers; track answer.letter) {
+                    <div class="survey-result-percentage-area">
+                      <span class="survey-result-percentage">{{ answer.percentage }}%</span>
+                    </div>
+                  }
+                </div>
               </div>
             </div>
           }
-        </div>
-        <!-- Return to Home immediately after clicking Complete survey. -->
-        <a routerLink="/" class="complete-survey-button">
-          <span class="complete-survey-button-text">Complete survey</span>
-        </a>
+        </aside>
       </div>
-      <!-- Keep the results column beside the survey's questions. -->
-      <aside class="survey-results" aria-label="Survey results">
-        <!-- Share the heading font and highlight LIVE with its own color. -->
-        <h2 class="survey-results-title">Survey results <span class="survey-results-live">LIVE</span></h2>
-        <!-- Render each example result with the same heading and chart styles. -->
-        @for (question of resultQuestions; track question.number) {
-          <div class="survey-result-question" [class.survey-result-question-first]="question.number === 1">
-            <h3 class="survey-question-title survey-result-question-title" [style.height.px]="question.headingHeight">
-              <span class="survey-question-number">{{ question.number }}.</span>
-              <span>{{ question.text }}</span>
-            </h3>
-            <!-- Stretch all three columns to the height needed by this answer list. -->
-            <div class="survey-result-chart" [style.height.px]="question.chartHeight">
-              <div class="survey-result-letters">
-                @for (answer of question.answers; track answer.letter) {
-                  <div class="survey-result-letter-area">
-                    <span class="survey-result-letter">{{ answer.letter[0] }}</span>
-                  </div>
-                }
-              </div>
-              <!-- Keep the gray backgrounds behind the colored result fills. -->
-              <div class="survey-result-tracks" aria-hidden="true">
-                @for (answer of question.answers; track answer.letter) {
-                  <div class="survey-result-track">
-                    <!-- A zero width leaves only the gray background visible. -->
-                    <div class="survey-result-fill" [style.width.px]="answer.fillWidth"></div>
-                  </div>
-                }
-              </div>
-              <!-- Show each answer's example percentage in the same order. -->
-              <div class="survey-result-percentages">
-                @for (answer of question.answers; track answer.letter) {
-                  <div class="survey-result-percentage-area">
-                    <span class="survey-result-percentage">{{ answer.percentage }}%</span>
-                  </div>
-                }
-              </div>
-            </div>
-          </div>
-        }
-      </aside>
-    </div>
+    }
   </div>
 </main>
 @if (isCreateSurveyOpen) {
-  <!-- Close the shared form when it sends the closed event. -->
   <app-create-survey (closed)="closeCreateSurvey(createSurveyButton)"></app-create-survey>
 }

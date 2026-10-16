@@ -511,6 +511,8 @@
   height: 37px;
   margin-top: auto;
   padding: 8px 12px;
+  border: 0;
+  cursor: pointer;
   border-radius: 10px;
   background: #ffb7704d;
   text-decoration: none;
@@ -534,4 +536,80 @@
   font-size: 16px;
   line-height: 1;
   letter-spacing: 0;
+}
+
+/* Let real survey content grow without changing the fixed Figma preview. */
+.saved-survey .survey-view-content {
+  align-items: flex-start;
+}
+
+.saved-survey .survey-panel {
+  height: auto;
+  min-height: 855px;
+}
+
+.saved-survey .survey-results {
+  height: auto;
+  min-height: 761px;
+}
+
+.saved-survey .survey-title {
+  height: auto;
+  min-height: 103px;
+  overflow-wrap: anywhere;
+}
+
+.saved-survey .survey-description {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 20px;
+}
+
+.saved-survey .survey-meta,
+.saved-survey .survey-category {
+  height: auto;
+  min-height: 18px;
+}
+
+.saved-survey .survey-category {
+  width: auto;
+  max-width: 300px;
+  overflow-wrap: anywhere;
+}
+
+.saved-survey .survey-questions-row {
+  min-height: 0;
+  margin-top: 16px;
+}
+
+.saved-survey .survey-question-title {
+  height: auto;
+  min-height: 46px;
+  overflow-wrap: anywhere;
+}
+
+.saved-survey .survey-answer,
+.saved-survey .survey-answer-text,
+.saved-survey .survey-answer-value {
+  height: auto;
+  min-height: 21px;
+  align-items: flex-start;
+}
+
+.saved-survey .survey-answer-value {
+  display: block;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 20px;
+}
+
+.saved-survey .survey-answer-letter {
+  flex-shrink: 0;
+}
+
+/* Share readable text for loading, missing surveys and empty results. */
+.survey-message {
+  margin: 0;
+  color: #35273a;
+  font: 400 16px/20px "Mulish", Arial, sans-serif;
 }

@@ -7,8 +7,10 @@ import { ThumbnailComponent } from './pages/thumbnail/thumbnail.component';
 export const routes: Routes = [
   // Show the home page at the site root.
   { path: '', component: HomeComponent },
-  // Open the survey detail view after a valid Publish action.
+  // Keep the Team Activities design preview available from its own card.
   { path: 'survey', component: SurveyViewComponent },
+  // Load a saved survey by the ID returned from Supabase.
+  { path: 'survey/:id', component: SurveyViewComponent },
   // Show the project thumbnail at /thumbnail.
   { path: 'thumbnail', component: ThumbnailComponent },
   // Redirect unknown URLs to the home page.

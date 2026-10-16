@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit, output } from '@angular/core';
+import { Component, OnDestroy, OnInit, output, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PublishFeedbackService } from '../../services/publish-feedback.service';
+import { SurveyService } from '../../services/survey.service';
 
 // Connect the creation overlay to its separate template and styles.
 @Component({
@@ -20,6 +21,11 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Reveal validation messages only after Publish has been clicked.
   showValidation = false;
 
+  // Prevent repeated submissions and keep failures visible inside the form.
+  isSaving = signal(false);
+  publishError = signal('');
+  savedSurveyId: number | null = null;
+
   // Connect the optional end date input to a separate form control.
   endDate = new FormControl('');
 
@@ -27,7 +33,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   isEndDateInvalid = false;
 
   // Connect the optional description to its own form control.
-  description = new FormControl('');
+  description = new FormControl('', Validators.maxLength(300));
 
   // Allow up to six questions and start with only one question.
   maxQuestions = 6;
@@ -53,7 +59,11 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   selectedCategory = '';
 
   // Use the router and share feedback with the application's outer component.
-  constructor(private router: Router, private publishFeedback: PublishFeedbackService) {}
+  constructor(
+    private router: Router,
+    private publishFeedback: PublishFeedbackService,
+    private surveys: SurveyService,
+  ) {}
 
   // Lock background scrolling while this overlay is on screen.
   ngOnInit(): void {
@@ -68,7 +78,9 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
 
   // Close the overlay without navigating to another page.
   close(): void {
-    this.closed.emit();
+    if (!this.isSaving()) {
+      this.closed.emit();
+    }
   }
 
   // Keep Tab and Shift+Tab inside the dialog's first and last buttons.
@@ -124,7 +136,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
 
   // Check the optional date and every required question and answer.
   isSurveyComplete(): boolean {
-    if (this.isEndDateInvalid || this.isFieldInvalid(this.surveyName)) {
+    if (this.isEndDateInvalid || this.description.invalid || this.isFieldInvalid(this.surveyName)) {
       return false;
     }
 
@@ -141,20 +153,46 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  // Close the form and open the survey page only when all fields are valid.
-  validateSurvey(endDateInput: HTMLInputElement): void {
+  // Save valid values before closing the form or showing success feedback.
+  async validateSurvey(endDateInput: HTMLInputElement): Promise<void> {
+    if (this.isSaving()) {
+      return;
+    }
     this.checkEndDate(endDateInput);
     this.showValidation = true;
+    this.publishError.set('');
 
     if (this.isSurveyComplete()) {
-      this.close();
-      this.router.navigate(['/survey']).then((navigated) => {
-        // Also show feedback when a new form was opened on the survey page.
-        if (navigated || this.router.url === '/survey') {
-          window.scrollTo(0, 0);
-          this.publishFeedback.show();
+      this.isSaving.set(true);
+      try {
+        // Reuse a successfully saved ID if only the page navigation failed.
+        if (this.savedSurveyId === null) {
+          this.savedSurveyId = await this.surveys.createSurvey({
+            title: this.surveyName.value!.trim(),
+            description: this.description.value?.trim() || null,
+            category: this.selectedCategory || null,
+            end_date: this.endDate.value || null,
+            questions: this.questions.map((question) => ({
+              text: question.text.value!.trim(),
+              allow_multiple_answers: question.allowMultipleAnswers.value === true,
+              answers: question.answers.map((answer) => answer.value.trim()),
+            })),
+          });
         }
-      });
+        const navigated = await this.router.navigate(['/survey', this.savedSurveyId]);
+        if (!navigated && this.router.url !== '/survey/' + this.savedSurveyId) {
+          throw new Error('The saved survey page could not open.');
+        }
+        this.closed.emit();
+        window.scrollTo(0, 0);
+        this.publishFeedback.show();
+      } catch {
+        this.publishError.set(this.savedSurveyId === null
+          ? 'Could not save your survey. Your entries are still here. Please try again.'
+          : 'Your survey was saved. Click Publish again to open it.');
+      } finally {
+        this.isSaving.set(false);
+      }
       return;
     }
 

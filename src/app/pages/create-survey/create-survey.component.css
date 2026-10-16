@@ -206,6 +206,8 @@ button {
 /* Keep the initial panel size and grow it when more answers are added. */
 .create-survey-form-panel {
   box-sizing: border-box;
+  margin: 0;
+  border: 0;
   display: flex;
   flex-direction: column;
   gap: 64px;

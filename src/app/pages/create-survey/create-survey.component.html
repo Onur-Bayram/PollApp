@@ -5,6 +5,7 @@
   aria-modal="true"
   aria-labelledby="create-survey-title"
   tabindex="-1"
+  [attr.aria-busy]="isSaving()"
   (document:keydown.escape)="close()"
   (keydown)="keepFocusInside($event, cancelButton, publishButton)"
 >
@@ -28,6 +29,7 @@
               #cancelButton
               type="button"
               class="action-button close-button"
+              [disabled]="isSaving()"
               (click)="close()"
             >
               <!-- Visible label for cancelling survey creation. -->
@@ -40,7 +42,7 @@
           </div>
         </div>
         <!-- Inner panel for the survey details and questions. -->
-        <div class="create-survey-form-panel">
+        <fieldset class="create-survey-form-panel" aria-label="Survey details and questions" [disabled]="isSaving() || savedSurveyId !== null">
           <!-- Arrange the survey details and description side by side. -->
           <div class="create-survey-details-row">
             <!-- Stack the survey name and the date/category row in the left column. -->
@@ -190,6 +192,9 @@
                   class="survey-input create-survey-description-input"
                   [formControl]="description"
                   maxlength="300"
+                  [class.input-error]="showValidation && description.invalid"
+                  [attr.aria-invalid]="showValidation && description.invalid"
+                  [attr.aria-describedby]="showValidation && description.invalid ? 'description-error' : null"
                 ></textarea>
                 <!-- Clear only the description when this button is clicked. -->
                 <button
@@ -201,6 +206,9 @@
                   <img src="assets/icons/delete.png" alt="" />
                 </button>
               </div>
+              @if (showValidation && description.invalid) {
+                <p id="description-error" class="field-error">Use up to 300 characters.</p>
+              }
             </div>
           </div>
           <!-- Repeat independent questions in the desktop columns. -->
@@ -323,12 +331,16 @@
               </div>
             }
           </div>
-        </div>
+        </fieldset>
       </div>
       <!-- Explain required fields and announce the current validation result. -->
       <div class="publish-actions">
         <p class="validation-message" aria-live="polite">
-          @if (showValidation) {
+          @if (publishError()) {
+            {{ publishError() }}
+          } @else if (isSaving()) {
+            Publishing your survey…
+          } @else if (showValidation) {
             @if (isSurveyComplete()) {
               All required fields are complete.
             } @else {
@@ -339,7 +351,7 @@
           }
         </p>
         <!-- Validate the fields while keeping the existing hover animation. -->
-        <button #publishButton type="button" class="action-button publish-button" (click)="validateSurvey(endDateInput)">
+        <button #publishButton type="button" class="action-button publish-button" [disabled]="isSaving()" (click)="validateSurvey(endDateInput)">
           <span class="label action-text publish-text">Publish</span>
           <img class="publish-icon" src="assets/icons/publish-check.png" alt="" width="18" height="16" />
         </button>

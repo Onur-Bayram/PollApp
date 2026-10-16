@@ -249,11 +249,18 @@
         }
       </div>
     </div>
-    <!-- List of survey cards below the controls. -->
+    <!-- Announce loading and keep retry available if Supabase is unreachable. -->
+    @if (isLoading()) {
+      <p class="home-data-message" role="status">Loading saved surveys…</p>
+    } @else if (loadError()) {
+      <p class="home-data-message" role="alert">{{ loadError() }}</p>
+      <button type="button" class="home-past-survey-button" (click)="loadSurveys()">Try again</button>
+    }
+    <!-- List saved surveys before the existing design examples. -->
     <div class="home-survey-list">
-      <!-- Repeat the same card layout for each static design example. -->
-      @for (survey of surveyCards; track $index) {
-        <div class="home-survey-card">
+      <!-- Reuse the card layout and open each saved survey by its own ID. -->
+      @for (survey of surveyCards(); track $index) {
+        <a class="home-survey-card" [routerLink]="survey.link">
           <!-- Group the category and title above the deadline area. -->
           <div class="home-survey-card-content">
             <p class="home-survey-card-category">{{ survey.category }}</p>
@@ -263,10 +270,10 @@
           <div class="home-survey-card-deadline">
             <span class="home-survey-card-deadline-text">{{ survey.deadline }}</span>
           </div>
-        </div>
+        </a>
+      } @empty {
+        <p class="home-data-message">No surveys found.</p>
       }
-      <!-- Visible scroll indicator for the current static survey list design. -->
-      <div class="home-survey-scrollbar" aria-hidden="true"></div>
     </div>
   </section>
 </main>

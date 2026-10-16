@@ -1,6 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Survey } from '../../models/survey';
+import { SurveyService } from '../../services/survey.service';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
+
+interface SurveyCard {
+  category: string;
+  title: string;
+  deadline: string;
+  link: string | null;
+  isPast: boolean;
+}
 
 // Connect the home page template and styles to this Angular component.
 @Component({
@@ -9,12 +19,12 @@ import { CreateSurveyComponent } from '../create-survey/create-survey.component'
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   // Show the creation overlay without leaving the home page.
   isCreateSurveyOpen = false;
 
   // Keep the six example cards in the order shown in the design.
-  surveyCards = [
+  private exampleCards = [
     {
       category: 'Team activities',
       title: 'Let’s Plan the Next Team Event Together',
@@ -47,6 +57,82 @@ export class HomeComponent {
     },
   ];
 
+  // Keep saved surveys in Supabase; only the current list is held on this page.
+  surveyCards = signal<SurveyCard[]>([]);
+  private savedSurveys: Survey[] = [];
+  isLoading = signal(false);
+  loadError = signal('');
+  private loadRequest = 0;
+
+  constructor(private surveys: SurveyService) {}
+
+  ngOnInit(): void {
+    this.updateSurveyCards();
+    this.loadSurveys();
+  }
+
+  async loadSurveys(): Promise<void> {
+    const request = ++this.loadRequest;
+    this.isLoading.set(true);
+    this.loadError.set('');
+    try {
+      const surveys = await this.surveys.getSurveys();
+      if (request === this.loadRequest) {
+        this.savedSurveys = surveys;
+        this.updateSurveyCards();
+      }
+    } catch {
+      if (request === this.loadRequest) {
+        this.loadError.set('Could not load saved surveys. Please try again.');
+      }
+    } finally {
+      if (request === this.loadRequest) {
+        this.isLoading.set(false);
+      }
+    }
+  }
+
+  // Add real survey links while keeping the existing design examples available.
+  private updateSurveyCards(): void {
+    const cards: SurveyCard[] = this.savedSurveys.map((survey) => ({
+      category: survey.category || '',
+      title: survey.title,
+      deadline: this.getDeadline(survey.end_date),
+      link: '/survey/' + survey.id,
+      isPast: survey.end_date !== null && new Date(survey.end_date + 'T23:59:59').getTime() < Date.now(),
+    }));
+    for (const example of this.exampleCards) {
+      cards.push({
+        ...example,
+        link: example.category === 'Team activities' ? '/survey' : null,
+        isPast: false,
+      });
+    }
+    this.surveyCards.set(cards.filter((card) => {
+      const statusMatches = this.selectedSurveyStatus === ''
+        || (this.selectedSurveyStatus === 'past' ? card.isPast : !card.isPast);
+      let category = card.category;
+      if (category === 'Team activities') category = 'Team Activities';
+      if (category === 'Gaming') category = 'Gaming & Entertainment';
+      if (category === 'Healthy Lifestyle') category = 'Health & Wellness';
+      const categoryMatches = !this.selectedCategory || this.selectedCategory === 'All Surveys'
+        || category === this.selectedCategory;
+      return statusMatches && categoryMatches;
+    }));
+  }
+
+  // Interpret a saved date in local time and count calendar days across DST.
+  private getDeadline(endDate: string | null): string {
+    if (!endDate) return 'No deadline';
+    const today = new Date();
+    const end = new Date(endDate + 'T00:00:00');
+    const days = Math.round((Date.UTC(end.getFullYear(), end.getMonth(), end.getDate())
+      - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())) / 86400000);
+    if (days < 0) return 'Ended';
+    if (days === 0) return 'Ends today';
+    return 'Ends in ' + days + (days === 1 ? ' Day' : ' Days');
+  }
+
   // Store which survey status button is currently selected.
   selectedSurveyStatus = 'active';
 
@@ -70,6 +156,7 @@ export class HomeComponent {
   // Restore focus after the home page becomes interactive again.
   closeCreateSurvey(button: HTMLButtonElement): void {
     this.isCreateSurveyOpen = false;
+    this.loadSurveys();
     setTimeout(() => button.focus());
   }
 
@@ -80,6 +167,7 @@ export class HomeComponent {
     } else {
       this.selectedSurveyStatus = status;
     }
+    this.updateSurveyCards();
   }
 
   // Open or close the category menu and update its arrow.
@@ -91,5 +179,6 @@ export class HomeComponent {
   selectCategory(category: string) {
     this.selectedCategory = category;
     this.isSortMenuOpen = false;
+    this.updateSurveyCards();
   }
 }
