@@ -59,6 +59,7 @@ export class HomeComponent implements OnInit {
 
   // Keep saved surveys in Supabase; only the current list is held on this page.
   surveyCards = signal<SurveyCard[]>([]);
+  endingSoonCards = signal<SurveyCard[]>([]);
   private savedSurveys: Survey[] = [];
   isLoading = signal(false);
   loadError = signal('');
@@ -94,13 +95,17 @@ export class HomeComponent implements OnInit {
 
   // Add real survey links while keeping the existing design examples available.
   private updateSurveyCards(): void {
-    const cards: SurveyCard[] = this.savedSurveys.map((survey) => ({
-      category: survey.category || '',
-      title: survey.title,
-      deadline: this.getDeadline(survey.end_date),
-      link: '/survey/' + survey.id,
-      isPast: survey.end_date !== null && new Date(survey.end_date + 'T23:59:59').getTime() < Date.now(),
-    }));
+    const cards = this.savedSurveys.map(survey => this.createSurveyCard(survey));
+    // Highlight the three nearest active deadlines without a fixed day limit.
+    const endingSoon = this.savedSurveys.filter(survey => {
+      if (!survey.end_date) return false;
+      return this.getRemainingDays(survey.end_date) >= 0;
+    });
+    endingSoon.sort((first, second) =>
+      (first.end_date || '').localeCompare(second.end_date || '') || first.id - second.id
+    );
+    this.endingSoonCards.set(endingSoon.slice(0, 3).map(survey => this.createSurveyCard(survey)));
+
     for (const example of this.exampleCards) {
       cards.push({
         ...example,
@@ -121,16 +126,32 @@ export class HomeComponent implements OnInit {
     }));
   }
 
-  // Interpret a saved date in local time and count calendar days across DST.
+  // Use the same saved fields and ID links in both home card layouts.
+  private createSurveyCard(survey: Survey): SurveyCard {
+    return {
+      category: survey.category || '',
+      title: survey.title,
+      deadline: this.getDeadline(survey.end_date),
+      link: '/survey/' + survey.id,
+      isPast: survey.end_date !== null && this.getRemainingDays(survey.end_date) < 0,
+    };
+  }
+
+  // Keep the deadline label current without borrowing a design example's date.
   private getDeadline(endDate: string | null): string {
     if (!endDate) return 'No deadline';
-    const today = new Date();
-    const end = new Date(endDate + 'T00:00:00');
-    const days = Math.round((Date.UTC(end.getFullYear(), end.getMonth(), end.getDate())
-      - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())) / 86400000);
+    const days = this.getRemainingDays(endDate);
     if (days < 0) return 'Ended';
     if (days === 0) return 'Ends today';
     return 'Ends in ' + days + (days === 1 ? ' Day' : ' Days');
+  }
+
+  // Count local calendar days correctly even when daylight saving time changes.
+  private getRemainingDays(endDate: string): number {
+    const today = new Date();
+    const end = new Date(endDate + 'T00:00:00');
+    return Math.round((Date.UTC(end.getFullYear(), end.getMonth(), end.getDate())
+      - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())) / 86400000);
   }
 
   // Store which survey status button is currently selected.

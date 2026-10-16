@@ -63,48 +63,32 @@
     <h2 id="home-surveys-title" class="home-surveys-title">Your surveys</h2>
     <!-- Label the surveys that are ending soon. -->
     <h3 class="home-surveys-subtitle">Ending soon surveys</h3>
-    <!-- Three highlight cards for surveys that are ending soon. -->
-    <div class="home-highlight-cards">
-      <!-- Open the existing Team Activities view from its own highlight card. -->
-      <a class="home-highlight-card" routerLink="/survey">
-        <!-- Keep the category and survey title in one aligned text column. -->
-        <div class="home-highlight-card-content">
-          <!-- Category label above the survey title. -->
-          <p class="home-highlight-card-category">Team activities</p>
-          <!-- Title of the highlighted team event survey. -->
-          <h4 class="home-highlight-card-title">Let’s Plan the Next Team Event Together</h4>
-          <!-- Show how soon the team event survey ends. -->
-          <div class="home-highlight-card-deadline">
-            <span class="home-highlight-card-deadline-text">Ends in 1 Day</span>
+    <!-- Share one loading/error state for both lists of saved surveys. -->
+    @if (isLoading()) {
+      <p class="home-data-message" role="status">Loading saved surveys…</p>
+    } @else if (loadError()) {
+      <p class="home-data-message" role="alert">{{ loadError() }}</p>
+      <button type="button" class="home-past-survey-button" (click)="loadSurveys()">
+        <span class="home-past-survey-button-text">Try again</span>
+      </button>
+    }
+    <!-- Open each real ending-soon survey by its own saved ID. -->
+    <div class="home-highlight-cards" [attr.aria-busy]="isLoading()">
+      @for (survey of endingSoonCards(); track survey.link) {
+        <a class="home-highlight-card" [routerLink]="survey.link">
+          <div class="home-highlight-card-content">
+            <p class="home-highlight-card-category">{{ survey.category }}</p>
+            <h4 class="home-highlight-card-title">{{ survey.title }}</h4>
+            <div class="home-highlight-card-deadline">
+              <span class="home-highlight-card-deadline-text">{{ survey.deadline }}</span>
+            </div>
           </div>
-        </div>
-      </a>
-      <div class="home-highlight-card">
-        <!-- Keep the category and survey title in one aligned text column. -->
-        <div class="home-highlight-card-content">
-          <!-- Category label above the survey title. -->
-          <p class="home-highlight-card-category">Health &amp; Wellness</p>
-          <!-- Title of the highlighted wellness survey. -->
-          <h4 class="home-highlight-card-title home-highlight-card-title-short">Fit &amp; wellness survey!</h4>
-          <!-- Show how soon the wellness survey ends. -->
-          <div class="home-highlight-card-deadline">
-            <span class="home-highlight-card-deadline-text">Ends in 2 Days</span>
-          </div>
-        </div>
-      </div>
-      <div class="home-highlight-card">
-        <!-- Keep the category and survey title in one aligned text column. -->
-        <div class="home-highlight-card-content">
-          <!-- Category label above the survey title. -->
-          <p class="home-highlight-card-category">Gaming &amp; Entertainment</p>
-          <!-- Title of the highlighted gaming survey. -->
-          <h4 class="home-highlight-card-title">Gaming habits and favorite games!</h4>
-          <!-- Show how soon the gaming survey ends. -->
-          <div class="home-highlight-card-deadline">
-            <span class="home-highlight-card-deadline-text">Ends in 3 Days</span>
-          </div>
-        </div>
-      </div>
+        </a>
+      } @empty {
+        @if (!isLoading() && !loadError()) {
+          <p class="home-data-message">No surveys ending soon.</p>
+        }
+      }
     </div>
     <!-- Place the survey controls below the highlight cards. -->
     <div class="home-survey-controls">
@@ -249,13 +233,6 @@
         }
       </div>
     </div>
-    <!-- Announce loading and keep retry available if Supabase is unreachable. -->
-    @if (isLoading()) {
-      <p class="home-data-message" role="status">Loading saved surveys…</p>
-    } @else if (loadError()) {
-      <p class="home-data-message" role="alert">{{ loadError() }}</p>
-      <button type="button" class="home-past-survey-button" (click)="loadSurveys()">Try again</button>
-    }
     <!-- List saved surveys before the existing design examples. -->
     <div class="home-survey-list">
       <!-- Reuse the card layout and open each saved survey by its own ID. -->

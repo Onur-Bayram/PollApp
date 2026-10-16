@@ -188,17 +188,18 @@
   display: flex;
   justify-content: center;
   gap: 32px;
+  min-height: 310px;
   margin-top: 24px;
 }
 
-/* Keep the padding inside each card's fixed size and round its top-right corner. */
+/* Keep the card width fixed and let long saved titles increase its height. */
 .home-highlight-card {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   width: 321px;
-  height: 310px;
+  min-height: 310px;
   padding: 40px 18px;
   border-top-right-radius: 80px;
   background: #faf5fe;
@@ -214,9 +215,10 @@
 .home-highlight-card-content {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   gap: 10px;
   width: 233px;
-  height: 230px;
+  min-height: 230px;
   margin: 0 auto;
 }
 
@@ -233,8 +235,10 @@
 
 /* Style the survey title with the local Mulish Bold font. */
 .home-highlight-card-title {
+  flex-shrink: 0;
   width: 220px;
-  height: 99px;
+  min-height: 99px;
+  overflow-wrap: anywhere;
   margin: 0;
   color: #35273a;
   font-weight: 700;
@@ -242,39 +246,43 @@
   line-height: 1;
 }
 
-/* Use a shorter text area for a survey title that spans two lines. */
-.home-highlight-card-title-short {
-  height: 66px;
-}
-
-/* Keep the deadline badges at the same position near the bottom of each card. */
-.home-highlight-card-deadline {
+/* Share the badge appearance between both home card layouts. */
+.home-highlight-card-deadline,
+.home-survey-card-deadline {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  align-self: flex-start;
-  flex-shrink: 0;
   gap: 10px;
   min-width: 102px;
   height: 24px;
-  margin: auto 0 20px;
   padding: 3px 6px;
   border-top-right-radius: 14px;
   background: #ffcfa1;
 }
 
-/* Style each deadline label with the local Mulish Medium font. */
-.home-highlight-card-deadline-text {
+/* Keep highlight deadlines at the same distance from the card's bottom. */
+.home-highlight-card-deadline {
+  align-self: flex-start;
+  flex-shrink: 0;
+  margin: auto 0 20px;
+}
+
+/* Share the deadline label size and local Mulish Medium font. */
+.home-highlight-card-deadline-text,
+.home-survey-card-deadline-text {
   display: flex;
   align-items: center;
   /* Allow the longer labels with "Days" to widen their badges. */
   min-width: 90px;
   height: 18px;
-  color: #35273a;
   font-weight: 500;
   font-size: 14px;
   line-height: 1;
   white-space: nowrap;
+}
+
+.home-highlight-card-deadline-text {
+  color: #35273a;
 }
 
 /* Align the survey controls below the highlight cards. */
@@ -623,27 +631,10 @@
 
 /* Align the deadline field to the right and include its padding in the size. */
 .home-survey-card-deadline {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
   align-self: flex-end;
-  gap: 10px;
-  min-width: 102px;
-  height: 24px;
-  padding: 3px 6px;
-  border-top-right-radius: 14px;
-  background: #ffcfa1;
 }
 
 /* Center the deadline label vertically and use the local Mulish Medium font. */
 .home-survey-card-deadline-text {
-  display: flex;
-  align-items: center;
-  min-width: 90px;
-  height: 18px;
   color: #221227;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1;
-  white-space: nowrap;
 }
