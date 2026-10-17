@@ -92,21 +92,23 @@
     </div>
     <!-- Place the survey controls below the highlight cards. -->
     <div class="home-survey-controls">
-      <!-- Toggle the active survey button's selected state on each click. -->
+      <!-- Show active surveys and keep the selected status. -->
       <button
         type="button"
         class="home-active-survey-button"
         [class.home-survey-button-selected]="selectedSurveyStatus === 'active'"
-        (click)="toggleSurveyStatus('active')"
+        [attr.aria-pressed]="selectedSurveyStatus === 'active'"
+        (click)="selectSurveyStatus('active')"
       >
         <span class="home-active-survey-button-text">Active survey</span>
       </button>
-      <!-- Toggle the past survey button's selected state on each click. -->
+      <!-- Show past surveys without mixing them with active ones. -->
       <button
         type="button"
         class="home-past-survey-button"
         [class.home-survey-button-selected]="selectedSurveyStatus === 'past'"
-        (click)="toggleSurveyStatus('past')"
+        [attr.aria-pressed]="selectedSurveyStatus === 'past'"
+        (click)="selectSurveyStatus('past')"
       >
         <span class="home-past-survey-button-text">Past survey</span>
       </button>
@@ -233,10 +235,10 @@
         }
       </div>
     </div>
-    <!-- List saved surveys before the existing design examples. -->
-    <div class="home-survey-list">
+    <!-- List only saved surveys with their own working detail links. -->
+    <div class="home-survey-list" [attr.aria-busy]="isLoading()">
       <!-- Reuse the card layout and open each saved survey by its own ID. -->
-      @for (survey of surveyCards(); track $index) {
+      @for (survey of surveyCards(); track survey.link) {
         <a class="home-survey-card" [routerLink]="survey.link">
           <!-- Group the category and title above the deadline area. -->
           <div class="home-survey-card-content">
@@ -249,7 +251,9 @@
           </div>
         </a>
       } @empty {
-        <p class="home-data-message">No surveys found.</p>
+        @if (!isLoading() && !loadError()) {
+          <p class="home-data-message">No surveys found.</p>
+        }
       }
     </div>
   </section>

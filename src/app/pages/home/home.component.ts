@@ -8,7 +8,7 @@ interface SurveyCard {
   category: string;
   title: string;
   deadline: string;
-  link: string | null;
+  link: string;
   isPast: boolean;
 }
 
@@ -23,40 +23,6 @@ export class HomeComponent implements OnInit {
   // Show the creation overlay without leaving the home page.
   isCreateSurveyOpen = false;
 
-  // Keep the six example cards in the order shown in the design.
-  private exampleCards = [
-    {
-      category: 'Team activities',
-      title: 'Let’s Plan the Next Team Event Together',
-      deadline: 'Ends in 1 Day',
-    },
-    {
-      category: 'Gaming',
-      title: 'Gaming habits and favorite games!',
-      deadline: 'Ends in 3 Day',
-    },
-    {
-      category: 'Gaming',
-      title: 'Gaming habits and favorite games!',
-      deadline: 'Ends in 3 Day',
-    },
-    {
-      category: 'Healthy Lifestyle',
-      title: 'Healthier future: Fit & wellness survey!',
-      deadline: 'Ends in 2 Day',
-    },
-    {
-      category: 'Healthy Lifestyle',
-      title: 'Healthier future: Fit & wellness survey!',
-      deadline: 'Ends in 2 Day',
-    },
-    {
-      category: 'Team activities',
-      title: 'Let’s Plan the Next Team Event Together',
-      deadline: 'Ends in 1 Day',
-    },
-  ];
-
   // Keep saved surveys in Supabase; only the current list is held on this page.
   surveyCards = signal<SurveyCard[]>([]);
   endingSoonCards = signal<SurveyCard[]>([]);
@@ -68,7 +34,6 @@ export class HomeComponent implements OnInit {
   constructor(private surveys: SurveyService) {}
 
   ngOnInit(): void {
-    this.updateSurveyCards();
     this.loadSurveys();
   }
 
@@ -93,7 +58,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  // Add real survey links while keeping the existing design examples available.
+  // Show only saved surveys with working links to their own detail pages.
   private updateSurveyCards(): void {
     const cards = this.savedSurveys.map(survey => this.createSurveyCard(survey));
     // Highlight the three nearest active deadlines without a fixed day limit.
@@ -106,22 +71,10 @@ export class HomeComponent implements OnInit {
     );
     this.endingSoonCards.set(endingSoon.slice(0, 3).map(survey => this.createSurveyCard(survey)));
 
-    for (const example of this.exampleCards) {
-      cards.push({
-        ...example,
-        link: example.category === 'Team activities' ? '/survey' : null,
-        isPast: false,
-      });
-    }
     this.surveyCards.set(cards.filter((card) => {
-      const statusMatches = this.selectedSurveyStatus === ''
-        || (this.selectedSurveyStatus === 'past' ? card.isPast : !card.isPast);
-      let category = card.category;
-      if (category === 'Team activities') category = 'Team Activities';
-      if (category === 'Gaming') category = 'Gaming & Entertainment';
-      if (category === 'Healthy Lifestyle') category = 'Health & Wellness';
+      const statusMatches = this.selectedSurveyStatus === 'past' ? card.isPast : !card.isPast;
       const categoryMatches = !this.selectedCategory || this.selectedCategory === 'All Surveys'
-        || category === this.selectedCategory;
+        || card.category === this.selectedCategory;
       return statusMatches && categoryMatches;
     }));
   }
@@ -129,7 +82,7 @@ export class HomeComponent implements OnInit {
   // Use the same saved fields and ID links in both home card layouts.
   private createSurveyCard(survey: Survey): SurveyCard {
     return {
-      category: survey.category || '',
+      category: survey.category || 'No category',
       title: survey.title,
       deadline: this.getDeadline(survey.end_date),
       link: '/survey/' + survey.id,
@@ -181,13 +134,9 @@ export class HomeComponent implements OnInit {
     setTimeout(() => button.focus());
   }
 
-  // Select a button, or clear the selection when it is clicked again.
-  toggleSurveyStatus(status: string) {
-    if (this.selectedSurveyStatus === status) {
-      this.selectedSurveyStatus = '';
-    } else {
-      this.selectedSurveyStatus = status;
-    }
+  // Keep active and past surveys separate, including repeated clicks.
+  selectSurveyStatus(status: string) {
+    this.selectedSurveyStatus = status;
     this.updateSurveyCards();
   }
 
