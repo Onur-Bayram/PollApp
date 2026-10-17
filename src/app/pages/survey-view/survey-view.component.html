@@ -86,6 +86,9 @@
           @if (voteSaved()) {
             <p class="survey-message" role="status">Your vote has been saved.</p>
           }
+          @if (voteMemoryNotice()) {
+            <p class="survey-message" role="status">{{ voteMemoryNotice() }}</p>
+          }
           <!-- Keep real voters on this page after a successful submission. -->
           @if (isPreview || isSurveyClosed()) {
             <a routerLink="/" class="complete-survey-button">

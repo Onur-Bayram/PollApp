@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { RealtimeChannel } from '@supabase/supabase-js';
+import { environment } from '../../environments/environment';
 import { AnswerVoteCount, NewSurvey, Survey } from '../models/survey';
 import { SupabaseService } from './supabase.service';
 
 // Save and load surveys through the existing shared Supabase client.
 @Injectable({ providedIn: 'root' })
 export class SurveyService {
+  private voteStoragePrefix = 'pollapp-vote-' + environment.supabaseUrl + '-';
+  private rememberedVotes: { surveyId: number; answerIds: number[]; persistent: boolean }[] = [];
+
   constructor(private supabase: SupabaseService) {}
 
   async createSurvey(input: NewSurvey): Promise<number> {
@@ -90,6 +94,45 @@ export class SurveyService {
     const { error } = await this.supabase.client.from('votes').insert(rows);
     if (error) {
       throw error;
+    }
+  }
+
+  // Read this browser's last submitted choices, separately from database totals.
+  getSavedVote(surveyId: number): number[] {
+    const remembered = this.rememberedVotes.find(vote => vote.surveyId === surveyId);
+    // Prefer the latest submitted choices if writing the browser marker failed.
+    if (remembered && !remembered.persistent) {
+      return remembered.answerIds;
+    }
+    try {
+      const stored = localStorage.getItem(this.voteStoragePrefix + surveyId);
+      if (!stored) {
+        return [];
+      }
+      const answerIds: unknown = JSON.parse(stored);
+      if (Array.isArray(answerIds) && answerIds.length <= 36
+        && answerIds.every(id => Number.isSafeInteger(id) && id > 0)) {
+        return answerIds;
+      }
+      return [];
+    } catch {
+      // Keep navigation working when the browser blocks persistent storage.
+      return remembered?.answerIds || [];
+    }
+  }
+
+  // Call only after Supabase confirms the vote; never store an unsent selection.
+  rememberVote(surveyId: number, answerIds: number[]): boolean {
+    this.rememberedVotes = this.rememberedVotes.filter(vote => vote.surveyId !== surveyId);
+    const remembered = { surveyId, answerIds: [...answerIds], persistent: false };
+    this.rememberedVotes.push(remembered);
+    try {
+      // localStorage stores text, so convert the ID array to JSON and back on read.
+      localStorage.setItem(this.voteStoragePrefix + surveyId, JSON.stringify(answerIds));
+      remembered.persistent = true;
+      return true;
+    } catch {
+      return false;
     }
   }
 

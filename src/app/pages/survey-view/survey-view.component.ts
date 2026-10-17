@@ -122,6 +122,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   isSubmitting = signal(false);
   voteSaved = signal(false);
   voteError = signal('');
+  voteMemoryNotice = signal('');
   showVoteValidation = false;
   isLoadingResults = signal(false);
   resultsLoaded = signal(false);
@@ -129,6 +130,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   hasVotes = signal(false);
   liveStatus = signal('');
   private voteCounts: AnswerVoteCount[] = [];
+  private surveyId = 0;
   private routeSubscription?: Subscription;
   private voteChannel?: RealtimeChannel;
   private resultsTimer?: ReturnType<typeof setTimeout>;
@@ -155,6 +157,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.stopWatchingResults();
     const id = this.route.snapshot.paramMap.get('id');
     this.isPreview = id === null;
+    this.surveyId = 0;
     this.loadError.set('');
     this.resultQuestions = [];
     this.questionRows = [];
@@ -163,6 +166,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.isSubmitting.set(false);
     this.voteSaved.set(false);
     this.voteError.set('');
+    this.voteMemoryNotice.set('');
     this.showVoteValidation = false;
     this.resultsLoaded.set(false);
     this.isLoadingResults.set(false);
@@ -198,6 +202,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
         this.loadError.set('This survey is not available.');
         return;
       }
+      this.surveyId = survey.id;
       this.surveyTitle = survey.title;
       this.description = survey.description;
       this.category = survey.category;
@@ -219,6 +224,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
         })),
       }));
       this.groupQuestions();
+      this.restoreSavedVote();
       this.watchResults();
       this.loadResults();
     } catch {
@@ -270,10 +276,11 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   }
 
   async submitVote(): Promise<void> {
-    if (this.isPreview || this.isSubmitting() || this.voteSaved()) {
+    if (this.isPreview || this.isLoading() || !this.surveyId || this.isSubmitting() || this.voteSaved()) {
       return;
     }
     this.voteError.set('');
+    this.voteMemoryNotice.set('');
     this.showVoteValidation = true;
     if (this.isSurveyClosed()) {
       this.setAnswersDisabled(true);
@@ -293,14 +300,19 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       });
     }
     const request = this.loadRequest;
+    const surveyId = this.surveyId;
     this.isSubmitting.set(true);
     this.setAnswersDisabled(true);
     try {
       await this.surveys.saveVote(selectedIds);
+      const remembered = this.surveys.rememberVote(surveyId, selectedIds);
       if (request !== this.loadRequest) {
         return;
       }
       this.voteSaved.set(true);
+      if (!remembered) {
+        this.voteMemoryNotice.set('Your vote was saved, but this browser could not remember your selection after a restart.');
+      }
       this.showVoteValidation = false;
       await this.loadResults();
     } catch {
@@ -322,10 +334,33 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
     this.voteSaved.set(false);
     this.voteError.set('');
+    this.voteMemoryNotice.set('');
     this.showVoteValidation = false;
     this.answerControls.forEach(controls => controls.forEach(control => control.reset(false)));
     this.setAnswersDisabled(false);
     this.updateResults();
+  }
+
+  // Restore only a complete submitted selection that still matches this survey.
+  private restoreSavedVote(): void {
+    const selectedIds = this.surveys.getSavedVote(this.surveyId);
+    const answerIds = this.getAnswerIds();
+    if (selectedIds.length === 0 || selectedIds.some(id => !answerIds.includes(id))) {
+      return;
+    }
+    for (const question of this.resultQuestions) {
+      const count = question.answers.filter(answer => answer.id !== undefined && selectedIds.includes(answer.id)).length;
+      if (count === 0 || (!question.allowMultipleAnswers && count > 1)) {
+        return;
+      }
+    }
+    this.voteSaved.set(true);
+    for (const question of this.resultQuestions) {
+      question.answers.forEach((answer, index) => {
+        this.answerControls[question.number - 1][index].setValue(answer.id !== undefined && selectedIds.includes(answer.id));
+      });
+    }
+    this.setAnswersDisabled(true);
   }
 
   // Read actual totals and ignore results belonging to a previous route/request.
