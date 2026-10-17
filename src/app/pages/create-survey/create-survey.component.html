@@ -218,13 +218,13 @@
               <!-- Keep each question together with its own answers. -->
               <div class="question-group">
                 <div class="question-field">
-                  <!-- Number each question and remove added question groups. -->
+                  <!-- Clear the first question's fields or remove an added question group. -->
                   <div class="question-header">
                     <label [for]="'survey-question-' + questionIndex" class="label question-label">{{ questionIndex + 1 }}. Question <span class="required-mark" aria-hidden="true">*</span></label>
                     <button
                       type="button"
                       class="delete-button"
-                      [attr.aria-label]="questionIndex === 0 ? 'Clear question 1' : 'Remove question ' + (questionIndex + 1)"
+                      [attr.aria-label]="questionIndex === 0 ? 'Clear question 1 and its answers' : 'Remove question ' + (questionIndex + 1)"
                       (click)="removeQuestion(questionIndex)"
                     >
                       <img src="assets/icons/delete.png" alt="" />

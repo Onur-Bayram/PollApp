@@ -261,11 +261,12 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     this.description.setValue('');
   }
 
-  // Remove added questions while keeping the first question as the base field.
+  // Clear the first question and its answers; remove added questions completely.
   removeQuestion(questionIndex: number): void {
     if (this.isSaving()) return;
     if (questionIndex === 0) {
       this.questions[0].text.setValue('');
+      this.questions[0].answers.forEach(answer => answer.setValue(''));
       return;
     }
     this.questions = this.questions.filter((_, index) => index !== questionIndex);
