@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { Subscription } from 'rxjs';
-import { AnswerVoteCount } from '../../models/survey';
+import { AnswerVoteCount, SavedVote } from '../../models/survey';
 import { SurveyService } from '../../services/survey.service';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
 
@@ -120,6 +120,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   answerControls: FormControl<boolean>[][] = [];
   // Show success only after the selected answers have been saved.
   isSubmitting = signal(false);
+  isResetting = signal(false);
   voteSaved = signal(false);
   voteError = signal('');
   voteMemoryNotice = signal('');
@@ -130,6 +131,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   hasVotes = signal(false);
   liveStatus = signal('');
   private voteCounts: AnswerVoteCount[] = [];
+  private savedVote: SavedVote | null = null;
   private surveyId = 0;
   private routeSubscription?: Subscription;
   private voteChannel?: RealtimeChannel;
@@ -164,6 +166,8 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.answerControls = [];
     this.voteCounts = [];
     this.isSubmitting.set(false);
+    this.isResetting.set(false);
+    this.savedVote = null;
     this.voteSaved.set(false);
     this.voteError.set('');
     this.voteMemoryNotice.set('');
@@ -304,11 +308,12 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.isSubmitting.set(true);
     this.setAnswersDisabled(true);
     try {
-      await this.surveys.saveVote(selectedIds);
-      const remembered = this.surveys.rememberVote(surveyId, selectedIds);
+      const savedVote = await this.surveys.saveVote(selectedIds);
+      const remembered = this.surveys.rememberVote(surveyId, savedVote);
       if (request !== this.loadRequest) {
         return;
       }
+      this.savedVote = savedVote;
       this.voteSaved.set(true);
       if (!remembered) {
         this.voteMemoryNotice.set('Your vote was saved, but this browser could not remember your selection after a restart.');
@@ -327,23 +332,56 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Start another explicit submission without counting the previous vote twice.
-  voteAgain(): void {
-    if (this.isSubmitting() || this.isSurveyClosed()) {
+  // Remove the previous submission before allowing a replacement vote.
+  async voteAgain(): Promise<void> {
+    if (this.isPreview || !this.voteSaved() || this.isSubmitting() || this.isSurveyClosed()) {
       return;
     }
-    this.voteSaved.set(false);
     this.voteError.set('');
     this.voteMemoryNotice.set('');
-    this.showVoteValidation = false;
-    this.answerControls.forEach(controls => controls.forEach(control => control.reset(false)));
-    this.setAnswersDisabled(false);
-    this.updateResults();
+    if (!this.savedVote || this.savedVote.voteIds.length !== this.savedVote.answerIds.length) {
+      this.voteError.set('This earlier vote cannot be reset automatically. Its vote IDs were not recorded.');
+      return;
+    }
+    const request = this.loadRequest;
+    const surveyId = this.surveyId;
+    this.isSubmitting.set(true);
+    this.isResetting.set(true);
+    try {
+      await this.surveys.resetVote(this.savedVote.voteIds);
+      const remembered = this.surveys.rememberVote(surveyId, null);
+      if (request !== this.loadRequest) {
+        return;
+      }
+      this.savedVote = null;
+      this.voteSaved.set(false);
+      this.showVoteValidation = false;
+      this.answerControls.forEach(controls => controls.forEach(control => control.reset(false)));
+      if (!remembered) {
+        this.voteMemoryNotice.set('Your vote was reset, but this browser could not clear its saved selection after a restart.');
+      }
+      await this.loadResults();
+    } catch {
+      if (request === this.loadRequest) {
+        this.voteError.set('Could not reset your vote. Please try again.');
+        await this.loadResults();
+      }
+    } finally {
+      if (request === this.loadRequest) {
+        this.isSubmitting.set(false);
+        this.isResetting.set(false);
+        this.setAnswersDisabled(this.voteSaved() || this.isSurveyClosed());
+      }
+    }
   }
 
   // Restore only a complete submitted selection that still matches this survey.
   private restoreSavedVote(): void {
-    const selectedIds = this.surveys.getSavedVote(this.surveyId);
+    const savedVote = this.surveys.getSavedVote(this.surveyId);
+    if (!savedVote) {
+      return;
+    }
+    const selectedIds = savedVote.answerIds;
     const answerIds = this.getAnswerIds();
     if (selectedIds.length === 0 || selectedIds.some(id => !answerIds.includes(id))) {
       return;
@@ -354,6 +392,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
         return;
       }
     }
+    this.savedVote = savedVote;
     this.voteSaved.set(true);
     for (const question of this.resultQuestions) {
       question.answers.forEach((answer, index) => {
@@ -413,7 +452,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Group a burst of inserted answer rows into one results refresh.
+  // Group a burst of saved or removed vote rows into one results refresh.
   private watchResults(): void {
     const request = this.loadRequest;
     this.voteChannel = this.surveys.watchVotes(this.getAnswerIds(), () => {

@@ -78,12 +78,12 @@
             </div>
           }
           @if (isSubmitting()) {
-            <p class="survey-message" role="status">Saving your vote…</p>
+            <p class="survey-message" role="status">{{ isResetting() ? 'Resetting your vote…' : 'Saving your vote…' }}</p>
           }
           @if (voteError()) {
             <p class="survey-message" role="alert">{{ voteError() }}</p>
           }
-          @if (voteSaved()) {
+          @if (voteSaved() && !isResetting()) {
             <p class="survey-message" role="status">Your vote has been saved.</p>
           }
           @if (voteMemoryNotice()) {
@@ -96,7 +96,7 @@
             </a>
           } @else {
             <button type="button" class="complete-survey-button" [disabled]="isSubmitting()" (click)="voteSaved() ? voteAgain() : submitVote()">
-              <span class="complete-survey-button-text">{{ isSubmitting() ? 'Saving…' : voteSaved() ? 'Vote again' : 'Complete survey' }}</span>
+              <span class="complete-survey-button-text">{{ isResetting() ? 'Resetting…' : isSubmitting() ? 'Saving…' : voteSaved() ? 'Vote again' : 'Complete survey' }}</span>
             </button>
           }
         </div>

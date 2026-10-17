@@ -40,3 +40,9 @@ export interface AnswerVoteCount {
   answerId: number;
   count: number;
 }
+
+// Remember which database rows belong to this browser's last submission.
+export interface SavedVote {
+  answerIds: number[];
+  voteIds: number[];
+}

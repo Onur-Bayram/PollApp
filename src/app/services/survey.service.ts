@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
-import { AnswerVoteCount, NewSurvey, Survey } from '../models/survey';
+import { AnswerVoteCount, NewSurvey, SavedVote, Survey } from '../models/survey';
 import { SupabaseService } from './supabase.service';
 
 // Save and load surveys through the existing shared Supabase client.
 @Injectable({ providedIn: 'root' })
 export class SurveyService {
   private voteStoragePrefix = 'pollapp-vote-' + environment.supabaseUrl + '-';
-  private rememberedVotes: { surveyId: number; answerIds: number[]; persistent: boolean }[] = [];
+  private rememberedVotes: { surveyId: number; savedVote: SavedVote | null; persistent: boolean }[] = [];
 
   constructor(private supabase: SupabaseService) {}
 
@@ -89,46 +89,82 @@ export class SurveyService {
   }
 
   // Save all selected answers together; one row represents one choice.
-  async saveVote(answerIds: number[]): Promise<void> {
+  async saveVote(answerIds: number[]): Promise<SavedVote> {
     const rows = answerIds.map(answerId => ({ answer_id: answerId }));
-    const { error } = await this.supabase.client.from('votes').insert(rows);
+    const { data, error } = await this.supabase.client.from('votes').insert(rows).select('id');
     if (error) {
       throw error;
+    }
+    return { answerIds: [...answerIds], voteIds: data.map(vote => vote.id) };
+  }
+
+  // Withdraw only the rows returned for this browser's last submission.
+  async resetVote(voteIds: number[]): Promise<void> {
+    if (voteIds.length === 0) {
+      throw new Error('The saved vote IDs are missing.');
+    }
+    const { data, error } = await this.supabase.client
+      .from('votes').delete().in('id', voteIds).select('id');
+    if (error) {
+      throw error;
+    }
+    // A missing DELETE policy can silently leave rows untouched.
+    if (data.length !== voteIds.length) {
+      const { data: remaining, error: readError } = await this.supabase.client
+        .from('votes').select('id').in('id', voteIds);
+      if (readError) {
+        throw readError;
+      }
+      if (remaining.length > 0) {
+        throw new Error('The saved votes could not be removed.');
+      }
     }
   }
 
   // Read this browser's last submitted choices, separately from database totals.
-  getSavedVote(surveyId: number): number[] {
+  getSavedVote(surveyId: number): SavedVote | null {
     const remembered = this.rememberedVotes.find(vote => vote.surveyId === surveyId);
     // Prefer the latest submitted choices if writing the browser marker failed.
     if (remembered && !remembered.persistent) {
-      return remembered.answerIds;
+      return remembered.savedVote;
     }
     try {
       const stored = localStorage.getItem(this.voteStoragePrefix + surveyId);
       if (!stored) {
-        return [];
+        return null;
       }
-      const answerIds: unknown = JSON.parse(stored);
-      if (Array.isArray(answerIds) && answerIds.length <= 36
-        && answerIds.every(id => Number.isSafeInteger(id) && id > 0)) {
-        return answerIds;
+      const parsed: SavedVote | number[] | null = JSON.parse(stored);
+      // Older markers contain answer IDs but cannot identify their vote rows.
+      const vote = Array.isArray(parsed) ? { answerIds: parsed, voteIds: [] } : parsed;
+      if (vote && Array.isArray(vote.answerIds) && Array.isArray(vote.voteIds)
+        && vote.answerIds.length > 0 && vote.answerIds.length <= 36
+        && (vote.voteIds.length === 0 || vote.voteIds.length === vote.answerIds.length)
+        && vote.answerIds.every((id, index) => Number.isSafeInteger(id) && id > 0 && vote.answerIds.indexOf(id) === index)
+        && vote.voteIds.every((id, index) => Number.isSafeInteger(id) && id > 0 && vote.voteIds.indexOf(id) === index)) {
+        return vote;
       }
-      return [];
+      return null;
     } catch {
       // Keep navigation working when the browser blocks persistent storage.
-      return remembered?.answerIds || [];
+      return remembered?.savedVote || null;
     }
   }
 
-  // Call only after Supabase confirms the vote; never store an unsent selection.
-  rememberVote(surveyId: number, answerIds: number[]): boolean {
+  // Change the browser marker only after Supabase confirms saving or resetting.
+  rememberVote(surveyId: number, savedVote: SavedVote | null): boolean {
     this.rememberedVotes = this.rememberedVotes.filter(vote => vote.surveyId !== surveyId);
-    const remembered = { surveyId, answerIds: [...answerIds], persistent: false };
+    const remembered = {
+      surveyId,
+      savedVote: savedVote ? { answerIds: [...savedVote.answerIds], voteIds: [...savedVote.voteIds] } : null,
+      persistent: false,
+    };
     this.rememberedVotes.push(remembered);
     try {
-      // localStorage stores text, so convert the ID array to JSON and back on read.
-      localStorage.setItem(this.voteStoragePrefix + surveyId, JSON.stringify(answerIds));
+      if (savedVote) {
+        localStorage.setItem(this.voteStoragePrefix + surveyId, JSON.stringify(savedVote));
+      } else {
+        localStorage.removeItem(this.voteStoragePrefix + surveyId);
+      }
       remembered.persistent = true;
       return true;
     } catch {
@@ -151,7 +187,7 @@ export class SurveyService {
     return data.map(answer => ({ answerId: answer.id, count: answer.votes[0]?.count ?? 0 }));
   }
 
-  // Listen only to new votes for the answers on the current survey page.
+  // Refresh after new votes and withdrawals, including changes in other windows.
   watchVotes(answerIds: number[], onChange: () => void, onStatus: (status: string) => void): RealtimeChannel {
     return this.supabase.client
       // Show LIVE only after Supabase confirms that database changes are ready.
@@ -164,6 +200,8 @@ export class SurveyService {
         table: 'votes',
         filter: 'answer_id=in.(' + answerIds.join(',') + ')',
       }, onChange)
+      // Deleted rows may contain only their primary key, so omit the answer filter.
+      .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'votes' }, onChange)
       .subscribe(status => {
         onStatus(status);
         if (status === 'SUBSCRIBED') {
