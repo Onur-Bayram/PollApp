@@ -339,8 +339,8 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
     this.voteError.set('');
     this.voteMemoryNotice.set('');
-    if (!this.savedVote || this.savedVote.voteIds.length !== this.savedVote.answerIds.length) {
-      this.voteError.set('This earlier vote cannot be reset automatically. Its vote IDs were not recorded.');
+    const savedVote = this.savedVote;
+    if (!savedVote) {
       return;
     }
     const request = this.loadRequest;
@@ -348,7 +348,18 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.isSubmitting.set(true);
     this.isResetting.set(true);
     try {
-      await this.surveys.resetVote(this.savedVote.voteIds);
+      if (savedVote.voteIds.length === savedVote.answerIds.length) {
+        await this.surveys.resetVote(savedVote.voteIds);
+      } else {
+        // An old browser marker can be cleared once its answers have no votes left.
+        const counts = await this.surveys.getVoteCounts(savedVote.answerIds);
+        if (counts.some(answer => answer.count > 0)) {
+          if (request === this.loadRequest) {
+            this.voteError.set('This earlier vote cannot be reset automatically. It was saved with an older version of the app.');
+          }
+          return;
+        }
+      }
       const remembered = this.surveys.rememberVote(surveyId, null);
       if (request !== this.loadRequest) {
         return;

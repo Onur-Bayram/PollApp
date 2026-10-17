@@ -82,8 +82,7 @@
           }
           @if (voteError()) {
             <p class="survey-message" role="alert">{{ voteError() }}</p>
-          }
-          @if (voteSaved() && !isResetting()) {
+          } @else if (voteSaved() && !isResetting()) {
             <p class="survey-message" role="status">Your vote has been saved.</p>
           }
           @if (voteMemoryNotice()) {
