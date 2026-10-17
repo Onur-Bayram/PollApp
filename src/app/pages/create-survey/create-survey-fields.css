@@ -1,0 +1,371 @@
+/* Keep the left column fields close together. */
+.create-survey-details-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 470px;
+}
+
+/* Group the name label and input with a small vertical space. */
+.name-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 470px;
+}
+
+/* Keep the description label and text area aligned with the name field. */
+.create-survey-description-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 452px;
+}
+
+/* Stack the end date label and input with the specified spacing. */
+.end-date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 256px;
+}
+
+/* Align the end date group and category button at the top of the same row. */
+.create-survey-date-category-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Anchor the menu and selected label without moving the form fields. */
+.create-survey-category-control {
+  position: relative;
+  flex-shrink: 0;
+  width: 206px;
+}
+
+/* Keep the button and arrow in the same position for every category. */
+.category-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 206px;
+  height: 32px;
+  padding: 4px 6px 4px 10px;
+  border-radius: 6px;
+  background: transparent;
+}
+
+/* Match the home page's hover and selected backgrounds. */
+.category-button:hover,
+.category-button-selected {
+  background: #d9d9d91f;
+}
+
+/* Keep the icon area fixed while the supplied arrow images change. */
+.category-button-arrow {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+/* Show each arrow at its exported size. */
+.category-arrow-image {
+  display: block;
+}
+
+/* Position the smaller orange downward arrow in the same icon area. */
+.category-arrow-hover {
+  position: absolute;
+  top: 8px;
+  left: 5px;
+  display: none;
+}
+
+/* Use the orange downward arrow on hover or after selecting a category. */
+.category-button:hover .category-arrow-default,
+.category-button-selected .category-arrow-default {
+  display: none;
+}
+
+.category-button:hover .category-arrow-hover,
+.category-button-selected .category-arrow-hover {
+  display: block;
+}
+
+/* Place the white category list directly below the button. */
+.create-survey-category-menu {
+  box-sizing: border-box;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 206px;
+  padding: 8px 4px;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+/* Fit each topic option to its text and use the home page typography. */
+.create-survey-category-menu-item {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  height: 26px;
+  padding: 4px;
+  border-radius: 6px;
+  background: transparent;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.28px;
+  white-space: nowrap;
+}
+
+/* Highlight an option immediately on hover and keep the chosen one selected. */
+.create-survey-category-menu-item:hover,
+.create-survey-category-menu-item-selected {
+  background: #f4e9fb;
+}
+
+/* Show the chosen category in orange beneath the closed button. */
+.create-survey-category-selection {
+  box-sizing: border-box;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  min-width: 117px;
+  height: 26px;
+  padding: 4px 4px 4px 10px;
+  border-radius: 6px;
+  color: #ffb770;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.28px;
+  white-space: nowrap;
+}
+
+/* Share the label height, text alignment and local Mulish Bold font. */
+.label {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  color: #fefdff;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Reuse the label typography at the category button's supplied size. */
+.category-button-text {
+  width: 145px;
+  height: 23px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* Use Nokora Bold for button text while sharing the label alignment and color. */
+.action-text {
+  width: 50px;
+  height: 21px;
+  font-family: "Nokora", Arial, sans-serif;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+/* Reserve the supplied text width inside Add next question. */
+.add-question-text {
+  width: 137px;
+}
+
+/* Use the supplied Publish text size and dark Nokora Bold color. */
+.publish-text {
+  width: 63px;
+  height: 24px;
+  color: #221227;
+  font-size: 18px;
+}
+
+/* Anchor the smaller plus to the supplied Add answer text area. */
+.add-answer-text {
+  position: relative;
+  width: 94px;
+}
+
+/* Use the supplied offsets for the 16px white plus. */
+.answer-icon {
+  position: absolute;
+  top: 2px;
+  left: 100.5px;
+}
+
+/* Set the width of the numbered question label. */
+.question-label {
+  width: 399px;
+}
+
+/* Set the answer heading width and remove the default heading margins. */
+.answers-label {
+  width: 184px;
+  margin: 0;
+}
+
+/* Use the shared Mulish Bold label style for each answer letter. */
+.answer-label {
+  width: 23px;
+  height: 30px;
+}
+
+/* Share the white Mulish Regular style between the answer notes. */
+.answer-note {
+  display: flex;
+  align-items: center;
+  width: 154px;
+  height: 18px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* Reserve the supplied width for the six-answer limit note. */
+.answer-limit-note {
+  width: 222px;
+}
+
+/* Separate the description label's two text parts. */
+.description-label {
+  gap: 8px;
+}
+
+/* Use the local Mulish Regular font for the optional note. */
+.create-survey-description-optional {
+  font-weight: 400;
+}
+
+/* Align each input and its delete button vertically. */
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Align the description delete button at the top with a 12px gap. */
+.create-survey-description-row {
+  align-items: flex-start;
+  gap: 12px;
+  width: 456px;
+}
+
+/* Share the input height, padding, rounded corners and background. */
+.survey-input {
+  box-sizing: border-box;
+  height: 37px;
+  padding: 7px 13px;
+  border: 0;
+  border-radius: 5px 20px 5px 5px;
+  background: #fefdff;
+}
+
+/* Use the same width for the survey name and question inputs. */
+.name-input,
+.question-input {
+  width: 429px;
+}
+
+/* Share the local Mulish Regular font between question and date inputs. */
+.input-text {
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* Use the shared input style at the smaller answer field width. */
+.answer-input {
+  width: 363px;
+}
+
+/* Set the width of the smaller end date input. */
+.end-date-input {
+  width: 222px;
+}
+
+/* Keep the description text area at its specified size. */
+.create-survey-description-input {
+  width: 418px;
+  height: 108px;
+  resize: none;
+}
+
+/* Change the input background immediately while it is focused. */
+.survey-input:focus {
+  background: #fee9d4;
+}
+
+/* Use a transparent button around the supplied delete icon. */
+.delete-button {
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  border-radius: 3px;
+  background: transparent;
+}
+
+/* Show the orange layer over white immediately when the button is hovered. */
+.delete-button:hover {
+  background:
+    linear-gradient(0deg, rgba(255, 183, 112, 0.6), rgba(255, 183, 112, 0.6)),
+    linear-gradient(0deg, #ffffff, #ffffff);
+}
+
+/* The PNG includes its own spacing; offset it to keep its original size. */
+.delete-button img {
+  display: block;
+  width: 26px;
+  height: 26px;
+  margin: -4px;
+}
+
+/* Mark required labels and highlight invalid fields without resizing them. */
+.required-mark {
+  margin-left: 4px;
+  color: #ffb770;
+}
+
+.input-error {
+  box-shadow: inset 0 0 0 2px #ffb770;
+}
+
+/* Keep error messages readable against the dark form background. */
+.field-error,
+.validation-message {
+  margin: 0;
+  color: #ffb770;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.answer-error {
+  margin: 4px 0 0 31px;
+}
+
+/* Keep Publish on the right and its validation message on the left. */
+.publish-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

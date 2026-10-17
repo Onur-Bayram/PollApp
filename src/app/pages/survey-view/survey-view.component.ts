@@ -5,106 +5,22 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { Subscription } from 'rxjs';
 import { AnswerVoteCount, SavedVote } from '../../models/survey';
+import { ResultQuestion } from '../../models/survey-result';
+import { SurveyResultsService } from '../../services/survey-results.service';
 import { SurveyService } from '../../services/survey.service';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
-
-// Keep the existing chart sizes separate from the stored survey data.
-interface ResultQuestion {
-  number: number;
-  text: string;
-  votingText?: string;
-  allowMultipleAnswers: boolean;
-  headingHeight: number;
-  chartHeight: number;
-  answers: {
-    id?: number;
-    letter: string;
-    text: string;
-    multiline?: boolean;
-    fillWidth: number;
-    percentage: number;
-  }[];
-}
+import { createSurveyPreview } from './survey-preview';
 
 // Connect the survey detail view to its separate template and styles.
 @Component({
   selector: 'app-survey-view',
   imports: [DatePipe, RouterLink, ReactiveFormsModule, CreateSurveyComponent],
   templateUrl: './survey-view.component.html',
-  styleUrl: './survey-view.component.css',
+  styleUrls: ['./survey-view.component.css', './survey-view-content.css'],
 })
 export class SurveyViewComponent implements OnInit, OnDestroy {
   // Show the existing creation overlay above the survey details.
   isCreateSurveyOpen = false;
-
-  // Keep the first question's answers and screenshot results together.
-  private firstQuestionAnswers = [
-    { letter: 'A.', text: '19.09.2025, Friday', fillWidth: 97, percentage: 27 },
-    { letter: 'B.', text: '10.10.2025, Friday', fillWidth: 130, percentage: 44 },
-    { letter: 'C.', text: '11.10.2025, Saturday', fillWidth: 9, percentage: 3 },
-    { letter: 'D.', text: '31.10.2025, Friday', fillWidth: 93, percentage: 26 },
-  ];
-
-  // Share the second question's answers between voting and example results.
-  private secondQuestionAnswers = [
-    { letter: 'A.', text: 'Outdoor adventure like kayaking', multiline: true, fillWidth: 163, percentage: 60 },
-    { letter: 'B.', text: 'Office Costume Party', multiline: false, fillWidth: 0, percentage: 0 },
-    { letter: 'C.', text: 'Bowling, mini-golf, volleyball', multiline: false, fillWidth: 46, percentage: 14 },
-    { letter: 'D.', text: 'Beach party, Music & cocktails', multiline: true, fillWidth: 93, percentage: 26 },
-    { letter: 'E.', text: 'Escape room', multiline: false, fillWidth: 0, percentage: 0 },
-  ];
-
-  // Share the third question's answers and example results in the same way.
-  private thirdQuestionAnswers = [
-    { letter: 'A.', text: 'Team bonding', multiline: false, fillWidth: 130, percentage: 44 },
-    { letter: 'B.', text: 'Food and drinks', multiline: false, fillWidth: 9, percentage: 3 },
-    { letter: 'C.', text: 'Trying something new', multiline: false, fillWidth: 93, percentage: 26 },
-    { letter: 'D.', text: 'Keeping it low-key and stress-free', multiline: true, fillWidth: 97, percentage: 27 },
-  ];
-
-  // Share the final question's answers and example results.
-  private fourthQuestionAnswers = [
-    { letter: 'A.', text: 'Half a day', multiline: false, fillWidth: 46, percentage: 14 },
-    { letter: 'B.', text: 'Full day', multiline: false, fillWidth: 214, percentage: 86 },
-    { letter: 'C.', text: 'Evening only', multiline: false, fillWidth: 0, percentage: 0 },
-  ];
-
-  // Reuse one results layout with the supplied sizes for each question.
-  private previewQuestions: ResultQuestion[] = [
-    {
-      number: 1,
-      text: 'Which date would work best for you?',
-      allowMultipleAnswers: true,
-      headingHeight: 46,
-      chartHeight: 105,
-      answers: this.firstQuestionAnswers,
-    },
-    {
-      number: 2,
-      text: 'Choose the activities you prefer?',
-      votingText: 'Choose the activities you prefer.',
-      allowMultipleAnswers: true,
-      headingHeight: 23,
-      chartHeight: 134,
-      answers: this.secondQuestionAnswers,
-    },
-    {
-      number: 3,
-      text: 'What’s most important to you in a team event?',
-      allowMultipleAnswers: false,
-      headingHeight: 46,
-      chartHeight: 97,
-      answers: this.thirdQuestionAnswers,
-    },
-    {
-      number: 4,
-      text: 'How long would you prefer the event to last?',
-      allowMultipleAnswers: false,
-      headingHeight: 46,
-      chartHeight: 74,
-      answers: this.fourthQuestionAnswers,
-    },
-  ];
 
   // Load real fields for an ID route; use the Figma example only at /survey.
   isPreview = false;
@@ -139,7 +55,11 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   private loadRequest = 0;
   private resultsRequest = 0;
 
-  constructor(private route: ActivatedRoute, private surveys: SurveyService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private surveys: SurveyService,
+    private results: SurveyResultsService,
+  ) {}
 
   // Start at the heading when a card is opened from further down the home page.
   ngOnInit(): void {
@@ -180,11 +100,12 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
 
     if (this.isPreview) {
       this.isLoading.set(false);
-      this.surveyTitle = 'Let’s Plan the Next Team Event Together';
-      this.description = 'We want to create team activities that everyone will enjoy – share your preferences and ideas in our survey to help us plan better experiences together.';
-      this.endDate = '2025-09-01';
-      this.category = 'Team activities';
-      this.resultQuestions = this.previewQuestions;
+      const preview = createSurveyPreview();
+      this.surveyTitle = preview.title;
+      this.description = preview.description;
+      this.endDate = preview.endDate;
+      this.category = preview.category;
+      this.resultQuestions = preview.questions;
       this.groupQuestions();
       return;
     }
@@ -211,22 +132,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       this.description = survey.description;
       this.category = survey.category;
       this.endDate = survey.end_date;
-      // New surveys start without the Team Activities example percentages.
-      const letters = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.'];
-      this.resultQuestions = survey.questions.map((question, index) => ({
-        number: index + 1,
-        text: question.text,
-        allowMultipleAnswers: question.allow_multiple_answers,
-        headingHeight: 46,
-        chartHeight: (question.answers.length - 1) * 30 + 14,
-        answers: question.answers.map((answer, answerIndex) => ({
-          id: answer.id,
-          letter: letters[answerIndex],
-          text: answer.text,
-          fillWidth: 0,
-          percentage: 0,
-        })),
-      }));
+      this.resultQuestions = this.results.createQuestions(survey);
       this.groupQuestions();
       this.restoreSavedVote();
       this.watchResults();
@@ -295,14 +201,8 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const selectedIds: number[] = [];
-    for (const question of this.resultQuestions) {
-      question.answers.forEach((answer, index) => {
-        if (this.answerControls[question.number - 1][index].value && answer.id !== undefined) {
-          selectedIds.push(answer.id);
-        }
-      });
-    }
+    const checkedAnswers = this.answerControls.map(controls => controls.map(control => control.value));
+    const selectedIds = this.results.getSelectedAnswerIds(this.resultQuestions, checkedAnswers);
     const request = this.loadRequest;
     const surveyId = this.surveyId;
     this.isSubmitting.set(true);
@@ -389,20 +289,10 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   // Restore only a complete submitted selection that still matches this survey.
   private restoreSavedVote(): void {
     const savedVote = this.surveys.getSavedVote(this.surveyId);
-    if (!savedVote) {
+    if (!savedVote || !this.results.isCompleteSelection(this.resultQuestions, savedVote.answerIds)) {
       return;
     }
     const selectedIds = savedVote.answerIds;
-    const answerIds = this.getAnswerIds();
-    if (selectedIds.length === 0 || selectedIds.some(id => !answerIds.includes(id))) {
-      return;
-    }
-    for (const question of this.resultQuestions) {
-      const count = question.answers.filter(answer => answer.id !== undefined && selectedIds.includes(answer.id)).length;
-      if (count === 0 || (!question.allowMultipleAnswers && count > 1)) {
-        return;
-      }
-    }
     this.savedVote = savedVote;
     this.voteSaved.set(true);
     for (const question of this.resultQuestions) {
@@ -423,7 +313,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.isLoadingResults.set(true);
     this.resultsError.set('');
     try {
-      const counts = await this.surveys.getVoteCounts(this.getAnswerIds());
+      const counts = await this.surveys.getVoteCounts(this.results.getAnswerIds(this.resultQuestions));
       if (surveyRequest !== this.loadRequest || request !== this.resultsRequest) {
         return;
       }
@@ -447,26 +337,16 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     if (this.isPreview) {
       return;
     }
-    const preview = this.hasPendingVote();
-    for (const question of this.resultQuestions) {
-      const totals = question.answers.map((answer, index) => {
-        const stored = this.voteCounts.find(row => row.answerId === answer.id)?.count ?? 0;
-        const selected = this.answerControls[question.number - 1][index].value;
-        return stored + (preview && selected ? 1 : 0);
-      });
-      const total = totals.reduce((sum, count) => sum + count, 0);
-      question.answers.forEach((answer, index) => {
-        const share = total > 0 ? totals[index] / total : 0;
-        answer.percentage = Math.round(share * 100);
-        answer.fillWidth = Math.round(share * 255);
-      });
-    }
+    const checkedAnswers = this.answerControls.map(controls => controls.map(control => control.value));
+    const selectedIds = this.hasPendingVote()
+      ? this.results.getSelectedAnswerIds(this.resultQuestions, checkedAnswers) : [];
+    this.results.updatePercentages(this.resultQuestions, this.voteCounts, selectedIds);
   }
 
   // Group a burst of saved or removed vote rows into one results refresh.
   private watchResults(): void {
     const request = this.loadRequest;
-    this.voteChannel = this.surveys.watchVotes(this.getAnswerIds(), () => {
+    this.voteChannel = this.surveys.watchVotes(this.results.getAnswerIds(this.resultQuestions), () => {
       if (request === this.loadRequest) {
         clearTimeout(this.resultsTimer);
         this.resultsTimer = setTimeout(() => this.loadResults(), 100);
@@ -487,26 +367,10 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getAnswerIds(): number[] {
-    const ids: number[] = [];
-    for (const question of this.resultQuestions) {
-      for (const answer of question.answers) {
-        if (answer.id !== undefined) {
-          ids.push(answer.id);
-        }
-      }
-    }
-    return ids;
-  }
-
   private setAnswersDisabled(disabled: boolean): void {
-    this.answerControls.forEach(controls => controls.forEach(control => {
-      if (disabled) {
-        control.disable();
-      } else {
-        control.enable();
-      }
-    }));
+    this.answerControls.forEach(controls => {
+      controls.forEach(control => disabled ? control.disable() : control.enable());
+    });
   }
 
   // Start with empty selections and keep two questions per row.
@@ -514,9 +378,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.answerControls = this.resultQuestions.map(question => question.answers.map(() =>
       new FormControl({ value: false, disabled: this.isSurveyClosed() }, { nonNullable: true })
     ));
-    for (let index = 0; index < this.resultQuestions.length; index += 2) {
-      this.questionRows.push(this.resultQuestions.slice(index, index + 2));
-    }
+    this.questionRows = this.results.createQuestionRows(this.resultQuestions);
   }
 
   // Focus the name field after Angular has created the overlay.
@@ -525,12 +387,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       return;
     }
     this.isCreateSurveyOpen = true;
-    setTimeout(() => {
-      const nameInput = document.getElementById('survey-name');
-      if (nameInput) {
-        nameInput.focus();
-      }
-    });
+    setTimeout(() => document.getElementById('survey-name')?.focus());
   }
 
   // Restore focus after the survey page becomes interactive again.

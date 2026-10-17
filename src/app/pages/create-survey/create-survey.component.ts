@@ -9,7 +9,7 @@ import { SurveyService } from '../../services/survey.service';
   selector: 'app-create-survey',
   imports: [ReactiveFormsModule],
   templateUrl: './create-survey.component.html',
-  styleUrl: './create-survey.component.css',
+  styleUrls: ['./create-survey.component.css', './create-survey-fields.css'],
 })
 export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Let the parent page know when this overlay should close.
