@@ -1,4 +1,6 @@
-<!-- Display the page component selected by the current route. -->
-<router-outlet></router-outlet>
+<!-- Keep the current page inactive until the Publish confirmation is closed. -->
+<div [attr.inert]="publishFeedback.isVisible() ? '' : null">
+  <router-outlet></router-outlet>
+</div>
 <!-- Keep Publish feedback outside the form and the current page. -->
 <app-publish-feedback></app-publish-feedback>

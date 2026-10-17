@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, output, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { PublishFeedbackService } from '../../services/publish-feedback.service';
 import { SurveyService } from '../../services/survey.service';
 
@@ -24,7 +23,6 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Prevent repeated submissions and keep failures visible inside the form.
   isSaving = signal(false);
   publishError = signal('');
-  savedSurveyId: number | null = null;
 
   // Connect the optional end date input to a separate form control.
   endDate = new FormControl('');
@@ -59,16 +57,14 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Store the category shown below the button.
   selectedCategory = '';
 
-  // Use the router and share feedback with the application's outer component.
+  // Save the form and share its confirmation with the outer component.
   constructor(
-    private router: Router,
     private publishFeedback: PublishFeedbackService,
     private surveys: SurveyService,
   ) {}
 
   // Lock background scrolling while this overlay is on screen.
   ngOnInit(): void {
-    this.publishFeedback.hide();
     document.body.style.overflow = 'hidden';
   }
 
@@ -180,31 +176,21 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     if (this.isSurveyComplete()) {
       this.isSaving.set(true);
       try {
-        // Reuse a successfully saved ID if only the page navigation failed.
-        if (this.savedSurveyId === null) {
-          this.savedSurveyId = await this.surveys.createSurvey({
-            title: this.surveyName.value!.trim(),
-            description: this.description.value?.trim() || null,
-            category: this.selectedCategory || null,
-            end_date: this.endDate.value || null,
-            questions: this.questions.map((question) => ({
-              text: question.text.value!.trim(),
-              allow_multiple_answers: question.allowMultipleAnswers.value === true,
-              answers: question.answers.map((answer) => answer.value.trim()),
-            })),
-          });
-        }
-        const navigated = await this.router.navigate(['/survey', this.savedSurveyId]);
-        if (!navigated && this.router.url !== '/survey/' + this.savedSurveyId) {
-          throw new Error('The saved survey page could not open.');
-        }
+        const surveyId = await this.surveys.createSurvey({
+          title: this.surveyName.value!.trim(),
+          description: this.description.value?.trim() || null,
+          category: this.selectedCategory || null,
+          end_date: this.endDate.value || null,
+          questions: this.questions.map((question) => ({
+            text: question.text.value!.trim(),
+            allow_multiple_answers: question.allowMultipleAnswers.value === true,
+            answers: question.answers.map((answer) => answer.value.trim()),
+          })),
+        });
         this.closed.emit();
-        window.scrollTo(0, 0);
-        this.publishFeedback.show();
+        this.publishFeedback.show(surveyId);
       } catch {
-        this.publishError.set(this.savedSurveyId === null
-          ? 'Could not save your survey. Your entries are still here. Please try again.'
-          : 'Your survey was saved. Click Publish again to open it.');
+        this.publishError.set('Could not save your survey. Your entries are still here. Please try again.');
       } finally {
         this.isSaving.set(false);
       }

@@ -1,21 +1,27 @@
 import { Injectable, signal } from '@angular/core';
 
-// Keep the Publish feedback visible when the form closes and the route changes.
+// Keep the saved survey ID until its confirmation has been closed.
 @Injectable({ providedIn: 'root' })
 export class PublishFeedbackService {
   isVisible = signal(false);
-  private hideTimeout = 0;
+  surveyId: number | null = null;
 
-  // Restart the display time after each valid Publish action.
-  show(): void {
-    window.clearTimeout(this.hideTimeout);
+  // Wait for the user's confirmation instead of closing after a timer.
+  show(surveyId: number): void {
+    this.surveyId = surveyId;
     this.isVisible.set(true);
-    this.hideTimeout = window.setTimeout(() => this.hide(), 4000);
+    setTimeout(() => {
+      if (this.isVisible()) {
+        document.body.style.overflow = 'hidden';
+        document.getElementById('publish-confirmation-close')?.focus();
+      }
+    });
   }
 
-  // Clear the timer when the feedback is hidden or a new form opens.
+  // Restore page scrolling after the saved survey has opened.
   hide(): void {
-    window.clearTimeout(this.hideTimeout);
     this.isVisible.set(false);
+    this.surveyId = null;
+    document.body.style.overflow = '';
   }
 }

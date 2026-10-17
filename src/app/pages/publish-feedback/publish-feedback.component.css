@@ -1,12 +1,23 @@
-/* Keep the supplied surface above the page without moving its content. */
-.publish-feedback {
+/* Block background interaction while the confirmation is open. */
+.publish-feedback-overlay {
   position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 110;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: #00000080;
+}
+
+/* Keep the supplied surface and its text layout. */
+.publish-feedback {
+  position: absolute;
   top: 24px;
   right: 24px;
-  z-index: 110;
-  pointer-events: none;
   width: 357px;
-  height: 86px;
+  min-height: 86px;
   border-radius: 5px 50px 5px 5px;
   background: #fee9d4;
   animation: publish-feedback-enter 300ms ease-out;
@@ -26,6 +37,45 @@
   font-size: 24px;
   line-height: 1;
   letter-spacing: 0.48px;
+}
+
+/* Reuse the supplied white close icon on a dark, focusable button. */
+.publish-feedback-close {
+  position: absolute;
+  top: 31px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: #35273a;
+  cursor: pointer;
+}
+
+.publish-feedback-close:hover {
+  background: #221227;
+}
+
+.publish-feedback-close:focus-visible {
+  outline: 2px solid #35273a;
+  outline-offset: 3px;
+}
+
+.publish-feedback-close:disabled {
+  cursor: wait;
+}
+
+/* Keep a failed navigation visible without publishing a second copy. */
+.publish-feedback-error {
+  margin: 86px 26px 14px;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 /* Bring the feedback in from the right using the confirmed timing. */
