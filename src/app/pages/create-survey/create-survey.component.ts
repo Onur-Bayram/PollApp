@@ -261,13 +261,28 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     this.description.setValue('');
   }
 
-  // Clear only the text of the question passed by its delete button.
-  clearQuestion(question: FormControl): void {
-    question.setValue('');
+  // Remove added questions while keeping the first question as the base field.
+  removeQuestion(questionIndex: number): void {
+    if (this.isSaving()) return;
+    if (questionIndex === 0) {
+      this.questions[0].text.setValue('');
+      return;
+    }
+    this.questions = this.questions.filter((_, index) => index !== questionIndex);
+    const nextIndex = Math.min(questionIndex, this.questions.length - 1);
+    setTimeout(() => document.getElementById('survey-question-' + nextIndex)?.focus());
   }
 
-  // Clear only the answer belonging to the clicked delete button.
-  clearAnswer(answer: FormControl): void {
-    answer.setValue('');
+  // Remove extra answer rows; keep A and B available for every question.
+  removeAnswer(questionIndex: number, answerIndex: number): void {
+    if (this.isSaving()) return;
+    const question = this.questions[questionIndex];
+    if (answerIndex < 2) {
+      question.answers[answerIndex].setValue('');
+      return;
+    }
+    question.answers = question.answers.filter((_, index) => index !== answerIndex);
+    const nextIndex = Math.min(answerIndex, question.answers.length - 1);
+    setTimeout(() => document.getElementById('survey-answer-' + questionIndex + '-' + nextIndex)?.focus());
   }
 }

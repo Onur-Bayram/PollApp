@@ -218,14 +218,14 @@
               <!-- Keep each question together with its own answers. -->
               <div class="question-group">
                 <div class="question-field">
-                  <!-- Number the question and clear only its text. -->
+                  <!-- Number each question and remove added question groups. -->
                   <div class="question-header">
                     <label [for]="'survey-question-' + questionIndex" class="label question-label">{{ questionIndex + 1 }}. Question <span class="required-mark" aria-hidden="true">*</span></label>
                     <button
                       type="button"
                       class="delete-button"
-                      [attr.aria-label]="'Clear question ' + (questionIndex + 1)"
-                      (click)="clearQuestion(question.text)"
+                      [attr.aria-label]="questionIndex === 0 ? 'Clear question 1' : 'Remove question ' + (questionIndex + 1)"
+                      (click)="removeQuestion(questionIndex)"
                     >
                       <img src="assets/icons/delete.png" alt="" />
                     </button>
@@ -277,12 +277,12 @@
                             [attr.aria-invalid]="hasError(answer)"
                             [attr.aria-describedby]="hasError(answer) ? 'answer-error-' + questionIndex + '-' + answerIndex : null"
                           />
-                          <!-- Clear only the answer passed by this button. -->
+                          <!-- Clear A/B or remove an added answer row. -->
                           <button
                             type="button"
                             class="delete-button"
-                            [attr.aria-label]="'Clear answer ' + answerLetters[answerIndex] + ' for question ' + (questionIndex + 1)"
-                            (click)="clearAnswer(answer)"
+                            [attr.aria-label]="(answerIndex < 2 ? 'Clear answer ' : 'Remove answer ') + answerLetters[answerIndex] + ' for question ' + (questionIndex + 1)"
+                            (click)="removeAnswer(questionIndex, answerIndex)"
                           >
                             <img src="assets/icons/delete.png" alt="" />
                           </button>
