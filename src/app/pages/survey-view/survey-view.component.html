@@ -98,7 +98,10 @@
           }
         </div>
         <aside class="survey-results" aria-label="Survey results">
-          <h2 class="survey-results-title">Survey results @if (isPreview || (liveStatus() === 'SUBSCRIBED' && resultsLoaded() && !resultsError())) {<span class="survey-results-live">LIVE</span>}</h2>
+          <h2 class="survey-results-title">Survey results @if (hasPendingVote()) {<span class="survey-results-live">Preview</span>} @else if (isPreview || (liveStatus() === 'SUBSCRIBED' && resultsLoaded() && !resultsError())) {<span class="survey-results-live">LIVE</span>}</h2>
+          @if (hasPendingVote()) {
+            <p class="survey-message">Preview includes your selection. Click Complete survey to submit.</p>
+          }
           @if (isLoadingResults()) {
             <p class="survey-message" role="status">Loading results…</p>
           }
@@ -111,7 +114,7 @@
           @if (!isPreview && liveStatus() && liveStatus() !== 'SUBSCRIBED') {
             <p class="survey-message" role="status">Live updates are currently unavailable.</p>
           }
-          @if (!isPreview && resultsLoaded() && !hasVotes() && !resultsError()) {
+          @if (!isPreview && resultsLoaded() && !hasVotes() && !hasPendingVote() && !isLoadingResults() && !resultsError()) {
             <p class="survey-message">No votes yet.</p>
           }
           @if (isPreview || resultsLoaded()) {

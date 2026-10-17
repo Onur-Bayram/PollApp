@@ -4,6 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { Subscription } from 'rxjs';
+import { AnswerVoteCount } from '../../models/survey';
 import { SurveyService } from '../../services/survey.service';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
 
@@ -127,6 +128,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   resultsError = signal('');
   hasVotes = signal(false);
   liveStatus = signal('');
+  private voteCounts: AnswerVoteCount[] = [];
   private routeSubscription?: Subscription;
   private voteChannel?: RealtimeChannel;
   private resultsTimer?: ReturnType<typeof setTimeout>;
@@ -157,6 +159,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.resultQuestions = [];
     this.questionRows = [];
     this.answerControls = [];
+    this.voteCounts = [];
     this.isSubmitting.set(false);
     this.voteSaved.set(false);
     this.voteError.set('');
@@ -241,6 +244,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     if (this.isSurveyClosed()) {
       controls[answerIndex].setValue(!checked);
       this.answerControls.forEach(questionControls => questionControls.forEach(control => control.disable()));
+      this.updateResults();
       return;
     }
     if (checked && !question.allowMultipleAnswers) {
@@ -250,6 +254,13 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
         }
       });
     }
+    this.updateResults();
+  }
+
+  // Mark results that include the current selection before it is submitted.
+  hasPendingVote(): boolean {
+    return !this.isPreview && !this.voteSaved() && !this.isSurveyClosed()
+      && this.answerControls.some(controls => controls.some(control => control.value));
   }
 
   // Require at least one selected answer for every question before saving.
@@ -266,6 +277,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.showVoteValidation = true;
     if (this.isSurveyClosed()) {
       this.setAnswersDisabled(true);
+      this.updateResults();
       return;
     }
     if (this.resultQuestions.some(question => this.needsAnswer(question))) {
@@ -313,6 +325,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.showVoteValidation = false;
     this.answerControls.forEach(controls => controls.forEach(control => control.reset(false)));
     this.setAnswersDisabled(false);
+    this.updateResults();
   }
 
   // Read actual totals and ignore results belonging to a previous route/request.
@@ -329,15 +342,8 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       if (surveyRequest !== this.loadRequest || request !== this.resultsRequest) {
         return;
       }
-      for (const question of this.resultQuestions) {
-        const totals = question.answers.map(answer => counts.find(row => row.answerId === answer.id)?.count ?? 0);
-        const total = totals.reduce((sum, count) => sum + count, 0);
-        question.answers.forEach((answer, index) => {
-          const share = total > 0 ? totals[index] / total : 0;
-          answer.percentage = Math.round(share * 100);
-          answer.fillWidth = Math.round(share * 255);
-        });
-      }
+      this.voteCounts = counts;
+      this.updateResults();
       this.hasVotes.set(counts.some(answer => answer.count > 0));
       this.resultsLoaded.set(true);
     } catch {
@@ -348,6 +354,27 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       if (surveyRequest === this.loadRequest && request === this.resultsRequest) {
         this.isLoadingResults.set(false);
       }
+    }
+  }
+
+  // Preview one extra vote per selected answer without changing stored totals.
+  private updateResults(): void {
+    if (this.isPreview) {
+      return;
+    }
+    const preview = this.hasPendingVote();
+    for (const question of this.resultQuestions) {
+      const totals = question.answers.map((answer, index) => {
+        const stored = this.voteCounts.find(row => row.answerId === answer.id)?.count ?? 0;
+        const selected = this.answerControls[question.number - 1][index].value;
+        return stored + (preview && selected ? 1 : 0);
+      });
+      const total = totals.reduce((sum, count) => sum + count, 0);
+      question.answers.forEach((answer, index) => {
+        const share = total > 0 ? totals[index] / total : 0;
+        answer.percentage = Math.round(share * 100);
+        answer.fillWidth = Math.round(share * 255);
+      });
     }
   }
 
