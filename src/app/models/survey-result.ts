@@ -1,4 +1,13 @@
 // Keep the existing chart sizes separate from the stored survey data.
+export interface ResultAnswer {
+  id?: number;
+  letter: string;
+  text: string;
+  multiline?: boolean;
+  fillWidth: number;
+  percentage: number;
+}
+
 export interface ResultQuestion {
   number: number;
   text: string;
@@ -6,14 +15,7 @@ export interface ResultQuestion {
   allowMultipleAnswers: boolean;
   headingHeight: number;
   chartHeight: number;
-  answers: {
-    id?: number;
-    letter: string;
-    text: string;
-    multiline?: boolean;
-    fillWidth: number;
-    percentage: number;
-  }[];
+  answers: ResultAnswer[];
 }
 
 // Keep the static design example separate from real survey data.

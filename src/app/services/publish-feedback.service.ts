@@ -3,10 +3,10 @@ import { Injectable, signal } from '@angular/core';
 // Keep the saved survey ID until its confirmation has been closed.
 @Injectable({ providedIn: 'root' })
 export class PublishFeedbackService {
-  isVisible = signal(false);
+  isVisible = signal<boolean>(false);
   surveyId: number | null = null;
 
-  // Wait for the user's confirmation instead of closing after a timer.
+  /** Wait for the user's confirmation instead of closing after a timer. */
   show(surveyId: number): void {
     this.surveyId = surveyId;
     this.isVisible.set(true);
@@ -18,7 +18,7 @@ export class PublishFeedbackService {
     });
   }
 
-  // Restore page scrolling after the saved survey has opened.
+  /** Restore page scrolling after the saved survey has opened. */
   hide(): void {
     this.isVisible.set(false);
     this.surveyId = null;

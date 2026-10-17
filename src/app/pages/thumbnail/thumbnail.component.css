@@ -9,6 +9,11 @@
   background: #124658;
 }
 
+/* Group the meaningful previews without adding browser figure margins. */
+.thumbnail-previews {
+  margin: 0;
+}
+
 /* Allow for the overview PNG's transparent edges and built-in effects. */
 .survey-preview-image {
   position: absolute;

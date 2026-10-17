@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
+
 import { HomeComponent } from './pages/home/home.component';
 import { SurveyViewComponent } from './pages/survey-view/survey-view.component';
 import { ThumbnailComponent } from './pages/thumbnail/thumbnail.component';
 
 // Map URL paths to page components.
-export const routes: Routes = [
+export const APP_ROUTES: Routes = [
   // Show the home page at the site root.
   { path: '', component: HomeComponent },
   // Keep the Team Activities design preview separate from saved surveys.

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
 import { PublishFeedbackComponent } from './pages/publish-feedback/publish-feedback.component';
 import { PublishFeedbackService } from './services/publish-feedback.service';
 
@@ -10,5 +11,6 @@ import { PublishFeedbackService } from './services/publish-feedback.service';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
+  /** Connect the services used by this component. */
   constructor(public publishFeedback: PublishFeedbackService) {}
 }

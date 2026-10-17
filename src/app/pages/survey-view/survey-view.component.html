@@ -1,5 +1,5 @@
 <!-- Load real surveys by ID and keep the existing design preview separate. -->
-<main class="survey-view-layout" [class.saved-survey]="!isPreview" aria-label="Survey details" [attr.inert]="isCreateSurveyOpen ? '' : null">
+<main class="survey-view-layout" [class.saved-survey]="!page.isPreview" aria-label="Survey details" [attr.inert]="isCreateSurveyOpen ? '' : null">
   <div class="survey-view-frame">
     <header class="survey-view-header">
       <a routerLink="/" aria-label="Poll App home">
@@ -11,45 +11,45 @@
         <img class="create-survey-button-icon" src="assets/icons/add-circle.png" alt="" width="20" height="20" />
       </button>
     </header>
-    @if (isLoading()) {
+    @if (page.isLoading()) {
       <p class="survey-message" role="status">Loading survey…</p>
-    } @else if (loadError()) {
-      <p class="survey-message" role="alert">{{ loadError() }}</p>
+    } @else if (page.loadError()) {
+      <p class="survey-message" role="alert">{{ page.loadError() }}</p>
       <button type="button" class="complete-survey-button" (click)="loadSurvey()">
         <span class="complete-survey-button-text">Try again</span>
       </button>
     } @else {
       <!-- Keep the questions and results next to each other on desktop. -->
       <div class="survey-view-content">
-        <div class="survey-panel" [attr.aria-busy]="isSubmitting()">
+        <article class="survey-panel" [attr.aria-busy]="isSubmitting()">
           <div class="survey-status">
             <span class="survey-status-text">Published</span>
           </div>
           <div class="survey-meta">
             <span class="survey-end-date">
-              @if (endDate) {
-                Ends on {{ endDate | date:'dd.MM.yyyy' }}
+              @if (page.endDate) {
+                Ends on {{ page.endDate | date:'dd.MM.yyyy' }}
               } @else {
                 No deadline
               }
             </span>
-            @if (category) {
-              <span class="survey-category">Category: {{ category }}</span>
+            @if (page.category) {
+              <span class="survey-category">Category: {{ page.category }}</span>
             }
           </div>
-          <h1 class="survey-title">{{ surveyTitle }}</h1>
-          @if (description) {
-            <p class="survey-description">{{ description }}</p>
+          <h1 class="survey-title">{{ page.surveyTitle }}</h1>
+          @if (page.description) {
+            <p class="survey-description">{{ page.description }}</p>
           }
           @if (isSurveyClosed()) {
             <p class="survey-message">This survey has ended. Voting is closed.</p>
           }
           <!-- Render the same question layout for one to six questions. -->
-          @for (row of questionRows; track $index; let rowIndex = $index) {
+          @for (row of page.questionRows; track $index; let rowIndex = $index) {
             <div class="survey-questions-row" [class.survey-questions-row-bottom]="rowIndex > 0">
               @for (question of row; track question.number) {
-                <div class="survey-question">
-                  <h2 class="survey-question-title">
+                <section class="survey-question" [attr.aria-labelledby]="'survey-question-title-' + question.number">
+                  <h2 class="survey-question-title" id="survey-question-title-{{ question.number }}">
                     <span class="survey-question-number">{{ question.number }}.</span>
                     <span>{{ question.votingText || question.text }}</span>
                   </h2>
@@ -58,10 +58,10 @@
                   }
                   <div class="survey-answers">
                     @for (answer of question.answers; track answer.letter; let answerIndex = $index) {
-                      <label class="survey-answer" [class.survey-answer-multiline]="answer.multiline" [class.survey-answer-disabled]="answerControls[question.number - 1][answerIndex].disabled">
+                      <label class="survey-answer" [class.survey-answer-multiline]="answer.multiline" [class.survey-answer-disabled]="page.answerControls[question.number - 1][answerIndex].disabled">
                         <span class="survey-answer-checkbox-area">
                           <!-- Show the selection and respect the question's multiple-answer setting. -->
-                          <input #answerCheckbox type="checkbox" class="survey-answer-checkbox" [formControl]="answerControls[question.number - 1][answerIndex]" [attr.aria-invalid]="needsAnswer(question)" [attr.aria-describedby]="needsAnswer(question) ? 'answer-error-' + question.number : null" (change)="selectAnswer(question, answerIndex, answerCheckbox.checked)" />
+                          <input #answerCheckbox type="checkbox" class="survey-answer-checkbox" [formControl]="page.answerControls[question.number - 1][answerIndex]" [attr.aria-invalid]="needsAnswer(question)" [attr.aria-describedby]="needsAnswer(question) ? 'answer-error-' + question.number : null" (change)="selectAnswer(question, answerIndex, answerCheckbox.checked)" />
                         </span>
                         <span class="survey-answer-text">
                           <span class="survey-answer-letter">{{ answer.letter }}</span>
@@ -73,7 +73,7 @@
                   @if (needsAnswer(question)) {
                     <p class="survey-message" id="answer-error-{{ question.number }}" role="alert">Please choose at least one answer.</p>
                   }
-                </div>
+                </section>
               }
             </div>
           }
@@ -89,18 +89,18 @@
             <p class="survey-message" role="status">{{ voteMemoryNotice() }}</p>
           }
           <!-- Keep real voters on this page after a successful submission. -->
-          @if (isPreview || isSurveyClosed()) {
+          @if (page.isPreview || isSurveyClosed()) {
             <a routerLink="/" class="complete-survey-button">
-              <span class="complete-survey-button-text">{{ isPreview ? 'Complete survey' : 'Back to surveys' }}</span>
+              <span class="complete-survey-button-text">{{ page.isPreview ? 'Complete survey' : 'Back to surveys' }}</span>
             </a>
           } @else {
             <button type="button" class="complete-survey-button" [disabled]="isSubmitting()" (click)="voteSaved() ? voteAgain() : submitVote()">
               <span class="complete-survey-button-text">{{ isResetting() ? 'Resetting…' : isSubmitting() ? 'Saving…' : voteSaved() ? 'Vote again' : 'Complete survey' }}</span>
             </button>
           }
-        </div>
+        </article>
         <aside class="survey-results" aria-label="Survey results">
-          <h2 class="survey-results-title">Survey results @if (hasPendingVote()) {<span class="survey-results-live">Preview</span>} @else if (isPreview || (liveStatus() === 'SUBSCRIBED' && resultsLoaded() && !resultsError())) {<span class="survey-results-live">LIVE</span>}</h2>
+          <h2 class="survey-results-title">Survey results @if (hasPendingVote()) {<span class="survey-results-live">Preview</span>} @else if (page.isPreview || (liveStatus() === 'SUBSCRIBED' && resultsLoaded() && !resultsError())) {<span class="survey-results-live">LIVE</span>}</h2>
           @if (hasPendingVote()) {
             <p class="survey-message">Preview includes your selection. Click Complete survey to submit.</p>
           }
@@ -113,16 +113,16 @@
               <span class="complete-survey-button-text">Try again</span>
             </button>
           }
-          @if (!isPreview && liveStatus() && liveStatus() !== 'SUBSCRIBED') {
+          @if (!page.isPreview && liveStatus() && liveStatus() !== 'SUBSCRIBED') {
             <p class="survey-message" role="status">Live updates are currently unavailable.</p>
           }
-          @if (!isPreview && resultsLoaded() && !hasVotes() && !hasPendingVote() && !isLoadingResults() && !resultsError()) {
+          @if (!page.isPreview && resultsLoaded() && !hasVotes() && !hasPendingVote() && !isLoadingResults() && !resultsError()) {
             <p class="survey-message">No votes yet.</p>
           }
-          @if (isPreview || resultsLoaded()) {
-            @for (question of resultQuestions; track question.number) {
-              <div class="survey-result-question" [class.survey-result-question-first]="isPreview && question.number === 1">
-                <h3 class="survey-question-title survey-result-question-title" [style.height.px]="isPreview ? question.headingHeight : null">
+          @if (page.isPreview || resultsLoaded()) {
+            @for (question of page.resultQuestions; track question.number) {
+              <div class="survey-result-question" [class.survey-result-question-first]="page.isPreview && question.number === 1">
+                <h3 class="survey-question-title survey-result-question-title" [style.height.px]="page.isPreview ? question.headingHeight : null">
                   <span class="survey-question-number">{{ question.number }}.</span>
                   <span>{{ question.text }}</span>
                 </h3>

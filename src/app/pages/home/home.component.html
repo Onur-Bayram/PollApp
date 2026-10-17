@@ -1,5 +1,5 @@
 <!-- Home page with its logo, introduction, illustration and survey section. -->
-<main class="home" aria-label="Umfrageübersicht" [attr.inert]="isCreateSurveyOpen ? '' : null">
+<main class="home" aria-label="Surveys" [attr.inert]="isCreateSurveyOpen ? '' : null">
   <!-- Brand logo at the top of the page. -->
   <header class="home-header">
     <img
@@ -76,13 +76,13 @@
     <div class="home-highlight-cards" [attr.aria-busy]="isLoading()">
       @for (survey of endingSoonCards(); track survey.link) {
         <a class="home-highlight-card" [routerLink]="survey.link">
-          <div class="home-highlight-card-content">
+          <article class="home-highlight-card-content">
             <p class="home-highlight-card-category">{{ survey.category }}</p>
             <h4 class="home-highlight-card-title">{{ survey.title }}</h4>
             <div class="home-highlight-card-deadline">
               <span class="home-highlight-card-deadline-text">{{ survey.deadline }}</span>
             </div>
-          </div>
+          </article>
         </a>
       } @empty {
         @if (!isLoading() && !loadError()) {
@@ -241,10 +241,10 @@
       @for (survey of surveyCards(); track survey.link) {
         <a class="home-survey-card" [routerLink]="survey.link">
           <!-- Group the category and title above the deadline area. -->
-          <div class="home-survey-card-content">
+          <article class="home-survey-card-content">
             <p class="home-survey-card-category">{{ survey.category }}</p>
-            <h4 class="home-survey-card-title">{{ survey.title }}</h4>
-          </div>
+            <h3 class="home-survey-card-title">{{ survey.title }}</h3>
+          </article>
           <!-- Show how soon this survey ends at the bottom-right. -->
           <div class="home-survey-card-deadline">
             <span class="home-survey-card-deadline-text">{{ survey.deadline }}</span>

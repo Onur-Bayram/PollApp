@@ -23,16 +23,30 @@ export interface Survey {
 }
 
 // Send form values without database-generated IDs.
+export interface NewSurveyQuestion {
+  text: string;
+  allow_multiple_answers: boolean;
+  answers: string[];
+}
+
 export interface NewSurvey {
   title: string;
   description: string | null;
   category: string | null;
   end_date: string | null;
-  questions: {
-    text: string;
-    allow_multiple_answers: boolean;
-    answers: string[];
-  }[];
+  questions: NewSurveyQuestion[];
+}
+
+// Match the IDs and positions returned after a question insert.
+export interface SavedQuestionPosition {
+  id: number;
+  position: number;
+}
+
+export interface AnswerInsert {
+  question_id: number;
+  position: number;
+  text: string;
 }
 
 // Return one total per answer without downloading every individual vote.
