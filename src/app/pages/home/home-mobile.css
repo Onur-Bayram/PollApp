@@ -59,8 +59,18 @@
     font-size: 18px;
   }
 
+  /* Show the complete mobile button immediately, including its plus icon. */
   .home-create-button {
     align-self: center;
+    width: 172px;
+    background: #ffb770;
+    transition: none;
+  }
+
+  .home-create-button-icon {
+    position: static;
+    opacity: 1;
+    transition: none;
   }
 
   /* Keep the headline on three lines at the 343 pixel design width. */
