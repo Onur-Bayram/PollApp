@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, output, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { NewSurvey, NewSurveyQuestion } from '../../models/survey';
 import { SurveyQuestionForm } from '../../models/survey-form';
@@ -12,7 +13,7 @@ import { SurveyService } from '../../services/survey.service';
   selector: 'app-create-survey',
   imports: [ReactiveFormsModule],
   templateUrl: './create-survey.component.html',
-  styleUrls: ['./create-survey.component.css', './create-survey-fields.css'],
+  styleUrls: ['./create-survey.component.css', './create-survey-fields.css', './create-survey-mobile.css'],
 })
 export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Let the parent page know when this overlay should close.
@@ -65,11 +66,13 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   constructor(
     private publishFeedback: PublishFeedbackService,
     private surveys: SurveyService,
+    private router: Router,
   ) {}
 
-  /** Lock background scrolling while this overlay is on screen. */
+  /** Lock background scrolling and focus the first visible control after rendering. */
   ngOnInit(): void {
     document.body.style.overflow = 'hidden';
+    setTimeout(() => this.focusInitialControl());
   }
 
   /** Restore page scrolling when the overlay is removed. */
@@ -84,15 +87,38 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** Close the creation dialog and return to Home when the mobile logo is pressed. */
+  goHome(): void {
+    if (this.isSaving()) return;
+    this.closed.emit();
+    void this.router.navigate(['/']);
+  }
+
   /** Keep Tab and Shift+Tab inside the dialog's first and last buttons. */
-  keepFocusInside(event: KeyboardEvent, first: HTMLButtonElement, last: HTMLButtonElement): void {
+  keepFocusInside(event: KeyboardEvent, first: HTMLButtonElement, last: HTMLButtonElement, home: HTMLButtonElement): void {
     if (event.key !== 'Tab') return;
     const atContainer = event.target === event.currentTarget;
+    const atHome = event.shiftKey && event.target === home;
     const atFirst = event.shiftKey && event.target === first;
     const atLast = !event.shiftKey && event.target === last;
-    if (!atContainer && !atFirst && !atLast) return;
+    if (atFirst && this.focusHomeButton(home)) { event.preventDefault(); return; }
+    if (!atContainer && !atHome && !atFirst && !atLast) return;
     event.preventDefault();
-    (event.shiftKey ? last : first).focus();
+    if (event.shiftKey) last.focus();
+    else if (!this.focusHomeButton(home)) first.focus();
+  }
+
+  /** Keep the mobile logo in view; use the name field when the logo is hidden. */
+  private focusInitialControl(): void {
+    const home = document.querySelector<HTMLButtonElement>('#create-survey-home-button');
+    if (home && this.focusHomeButton(home)) return;
+    document.getElementById('survey-name')?.focus();
+  }
+
+  /** Try the mobile Home button; CSS hides it on desktop. */
+  private focusHomeButton(button: HTMLButtonElement): boolean {
+    button.focus();
+    return document.activeElement === button;
   }
 
   /** Give every new question its own text, answers and checkbox. */

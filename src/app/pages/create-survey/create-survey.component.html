@@ -7,10 +7,24 @@
   tabindex="-1"
   [attr.aria-busy]="isSaving()"
   (document:keydown.escape)="close()"
-  (keydown)="keepFocusInside($event, cancelButton, publishButton)"
+  (keydown)="keepFocusInside($event, cancelButton, publishButton, homeButton)"
 >
   <!-- Center the desktop design area in wider browser windows. -->
   <div class="create-survey-layout">
+    <!-- Return to Home through the mobile brand header. -->
+    <header class="create-survey-mobile-header">
+      <button
+        #homeButton
+        id="create-survey-home-button"
+        type="button"
+        class="create-survey-home-button"
+        aria-label="Poll App home"
+        [disabled]="isSaving()"
+        (click)="goHome()"
+      >
+        <img class="create-survey-home-logo" src="assets/icons/poll-app-logo-dark.png" alt="Poll App" width="119" height="49" />
+      </button>
+    </header>
     <!-- Dark frame for the survey form. -->
     <div class="create-survey-frame">
       <!-- Keep the heading and form panel together. -->

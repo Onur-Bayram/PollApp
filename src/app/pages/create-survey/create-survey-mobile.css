@@ -1,0 +1,54 @@
+/* Keep the mobile brand header out of the existing desktop dialog. */
+.create-survey-mobile-header {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  /* Use the white page surrounding the mobile form in the reference. */
+  .create-survey-overlay {
+    background: #ffffff;
+  }
+
+  /* Match the supplied header row without changing the form's desktop layout. */
+  .create-survey-mobile-header {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 375px;
+    max-width: 100%;
+    height: 49px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* Match the mobile frame and let additional questions increase its height. */
+  .create-survey-frame {
+    width: 375px;
+    max-width: 100%;
+    min-height: 1258px;
+    margin: 0 auto;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  /* Let the complete logo close the dialog and return to Home immediately. */
+  .create-survey-home-button {
+    display: flex;
+    flex-shrink: 0;
+    width: 119px;
+    height: 49px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  /* Preserve the proportions of the existing combined symbol and wordmark. */
+  .create-survey-home-logo {
+    display: block;
+    width: 119px;
+    height: 49px;
+    object-fit: contain;
+  }
+}

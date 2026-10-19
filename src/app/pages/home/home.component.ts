@@ -99,15 +99,9 @@ export class HomeComponent implements OnInit {
   // Store the category shown below the button and highlighted in the menu.
   selectedCategory: string = '';
 
-  /** Focus the name field after Angular has created the overlay. */
+  /** Open the dialog, which sets its own focus after rendering. */
   openCreateSurvey(): void {
     this.isCreateSurveyOpen = true;
-    setTimeout(() => {
-      const nameInput = document.getElementById('survey-name');
-      if (nameInput) {
-        nameInput.focus();
-      }
-    });
   }
 
   /** Restore focus after the home page becomes interactive again. */

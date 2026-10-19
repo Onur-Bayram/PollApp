@@ -202,13 +202,12 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** Focus the name field after Angular has created the overlay. */
+  /** Open the dialog, which sets its own focus after rendering. */
   openCreateSurvey(): void {
     if (this.isSubmitting()) {
       return;
     }
     this.isCreateSurveyOpen = true;
-    setTimeout(() => document.getElementById('survey-name')?.focus());
   }
 
   /** Restore focus after the survey page becomes interactive again. */
