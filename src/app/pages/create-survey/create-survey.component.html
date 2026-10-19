@@ -42,13 +42,25 @@
             <button
               #cancelButton
               type="button"
-              class="action-button close-button"
+              class="action-button close-button create-survey-desktop-close"
               [disabled]="isSaving()"
               (click)="close()"
             >
               <!-- Visible label for cancelling survey creation. -->
               <span class="label action-text">Cancel</span>
               <!-- Decorative X icon next to the Cancel label. -->
+              <span class="button-icon" aria-hidden="true">
+                <img src="assets/icons/close.png" alt="" />
+              </span>
+            </button>
+            <!-- Return to Home through the icon-only mobile close button. -->
+            <button
+              type="button"
+              class="action-button close-button create-survey-mobile-close"
+              aria-label="Cancel survey and return to Home"
+              [disabled]="isSaving()"
+              (click)="goHome()"
+            >
               <span class="button-icon" aria-hidden="true">
                 <img src="assets/icons/close.png" alt="" />
               </span>

@@ -1,5 +1,6 @@
-/* Keep the mobile brand header out of the existing desktop dialog. */
-.create-survey-mobile-header {
+/* Keep the mobile controls out of the existing desktop dialog. */
+.create-survey-mobile-header,
+.create-survey-mobile-close {
   display: none;
 }
 
@@ -30,6 +31,25 @@
     margin: 0 auto;
     padding-right: 0;
     padding-left: 0;
+  }
+
+  /* Replace the desktop Cancel action with the compact mobile close button. */
+  .create-survey-desktop-close {
+    display: none;
+  }
+
+  .create-survey-mobile-close {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    width: 39px;
+    height: 32px;
+    transition: none;
+  }
+
+  /* Keep the supplied 24px icon area centered inside the padded button. */
+  .create-survey-mobile-close .button-icon {
+    flex-shrink: 0;
   }
 
   /* Let the complete logo close the dialog and return to Home immediately. */
