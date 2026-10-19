@@ -145,6 +145,22 @@
     margin-bottom: 0;
   }
 
+  /* Match both mobile status filters while keeping their selected colors. */
+  .home-active-survey-button,
+  .home-past-survey-button {
+    width: 106px;
+    height: 23px;
+  }
+
+  /* Match the mobile label typography inside the button's padded area. */
+  .home-active-survey-button-text,
+  .home-past-survey-button-text {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    text-align: center;
+  }
+
   /* Move the category control to the next row when needed. */
   .home-survey-controls {
     flex-wrap: wrap;
