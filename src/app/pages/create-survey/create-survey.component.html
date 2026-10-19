@@ -77,9 +77,19 @@
             <div class="create-survey-details-column">
               <!-- Keep the survey name label directly above its text input. -->
               <div class="name-field">
-                <!-- Mark the name as required without changing its label size. -->
-                <label for="survey-name" class="label">Survey name <span class="required-mark" aria-hidden="true">*</span></label>
-                <!-- Place the delete button beside the name input. -->
+                <!-- Keep the required label and mobile delete action together. -->
+                <div class="name-header">
+                  <label for="survey-name" class="label"><span class="name-label-text">Survey name</span> <span class="required-mark" aria-hidden="true">*</span></label>
+                  <button
+                    type="button"
+                    class="delete-button name-mobile-delete"
+                    aria-label="Clear survey name"
+                    (click)="clearSurveyName()"
+                  >
+                    <img src="assets/icons/delete.png" alt="" />
+                  </button>
+                </div>
+                <!-- Keep the desktop delete action beside the name input. -->
                 <div class="input-row">
                   <!-- Limit the survey name to 60 characters. -->
                   <input
@@ -96,7 +106,7 @@
                   <!-- Clear only the survey name when this button is clicked. -->
                   <button
                     type="button"
-                    class="delete-button"
+                    class="delete-button name-desktop-delete"
                     aria-label="Clear survey name"
                     (click)="clearSurveyName()"
                   >
