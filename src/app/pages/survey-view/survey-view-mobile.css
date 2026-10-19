@@ -1,3 +1,8 @@
+/* Keep the mobile survey close action out of the desktop layout. */
+.survey-close-button {
+  display: none;
+}
+
 @media (max-width: 767px) {
   /* Reuse the creation page's white space above the mobile logo. */
   .survey-view-layout {
@@ -58,5 +63,34 @@
     gap: 40px;
     padding: 40px 0;
     border-top-right-radius: 100px;
+  }
+
+  /* Match the reference's 12px left and 24px right space around the status row. */
+  .survey-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+    margin: 0 24px 0 12px;
+  }
+
+  .survey-close-button {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 39px;
+    height: 32px;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 10px;
+    background: #ffcfa1;
+    cursor: pointer;
+  }
+
+  .survey-close-button img {
+    width: 13.15px;
+    height: 13.15px;
   }
 }
