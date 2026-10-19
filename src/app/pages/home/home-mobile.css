@@ -167,17 +167,46 @@
   }
 
   .home-sort-control {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     margin-left: 0;
+  }
+
+  /* Ease the category button's background between its existing mobile states. */
+  .home-sort-button {
+    transition: background-color 300ms ease-out;
+  }
+
+  /* Keep the open menu and selected category in the page flow above the cards. */
+  .home-sort-menu,
+  .home-sort-selection {
+    position: static;
   }
 
   /* Keep every saved survey in one full-width mobile column. */
   .home-survey-list {
     width: 100%;
     height: auto;
+    margin-top: 24px;
     overflow-y: visible;
   }
 
+  /* Match the mobile cards and allow longer saved titles to increase their height. */
   .home-survey-card {
     width: 100%;
+    min-height: 150px;
+    padding: 12px 16px;
+  }
+
+  /* Match the category text frame and let longer category names wrap. */
+  .home-survey-card-category {
+    width: 143px;
+    max-width: 100%;
+  }
+
+  /* Keep the deadline twelve pixels above the bottom of each mobile card. */
+  .home-survey-card-deadline {
+    margin-top: auto;
   }
 }
