@@ -8,16 +8,31 @@
     width: 375px;
     max-width: 100%;
     min-height: 2434px;
-    padding: 48px 0;
+    padding: 48px 16px;
     background: #35273a;
   }
 
-  /* Let the mobile frame provide the header's outer spacing. */
+  /* Group the logo and hero, leaving the page gap for the survey section. */
+  .home-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 54px;
+    width: 343px;
+    max-width: 100%;
+    min-height: 742px;
+  }
+
+  /* Reuse the supplied 119 by 46 pixel logo without extra outer spacing. */
   .home-header {
     padding: 0;
   }
 
-  /* Use the shared frame gap instead of the existing desktop top margins. */
+  /* Let the hero fill the space below the logo as its inner layouts follow. */
+  .home-hero {
+    flex-grow: 1;
+  }
+
+  /* Use the group and page gaps instead of the desktop top margins. */
   .home-hero,
   .home-surveys {
     margin-top: 0;
