@@ -27,14 +27,37 @@
     padding: 0;
   }
 
-  /* Let the hero fill the space below the logo as its inner layouts follow. */
+  /* Stack the headline, image, description and button in their reading order. */
   .home-hero {
     flex-grow: 1;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    height: auto;
   }
 
-  /* Fit the text column to the mobile content width. */
-  .home-hero-content {
+  /* Keep the illustration inside its mobile Figma frame. */
+  .home-visual {
+    order: 0;
+    width: 343px;
+    max-width: 100%;
+    height: 250px;
+    margin: 24px auto 0;
+  }
+
+  /* Preserve the PNG proportions and show every sticker without cropping. */
+  .home-hero-image {
     width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* Let the paragraph wrap within the available phone width. */
+  .home-description {
+    width: 100%;
+  }
+
+  .home-create-button {
+    align-self: center;
   }
 
   /* Keep the headline on three lines at the 343 pixel design width. */
@@ -51,5 +74,41 @@
   .home-hero,
   .home-surveys {
     margin-top: 0;
+  }
+
+  /* Let headings wrap without overlapping the following section. */
+  .home-surveys-title,
+  .home-surveys-subtitle {
+    height: auto;
+  }
+
+  /* Keep the ending-soon row scrollable without widening the whole page. */
+  .home-highlight-cards {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .home-highlight-card {
+    max-width: 100%;
+  }
+
+  /* Move the category control to the next row when needed. */
+  .home-survey-controls {
+    flex-wrap: wrap;
+  }
+
+  .home-sort-control {
+    margin-left: 0;
+  }
+
+  /* Keep every saved survey in one full-width mobile column. */
+  .home-survey-list {
+    width: 100%;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .home-survey-card {
+    width: 100%;
   }
 }

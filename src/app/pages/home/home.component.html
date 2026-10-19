@@ -12,34 +12,10 @@
         height="46"
       >
     </header>
-    <!-- Desktop layout with the introduction on the left and illustration on the right. -->
+    <!-- Follow the mobile reading order; desktop CSS places the image beside the text. -->
     <section class="home-hero" aria-labelledby="home-title">
-      <div class="home-hero-content">
-        <!-- Main headline with a fixed line break. -->
-        <h1 id="home-title" class="home-title">Collect Feedback,<br>Unlock Ideas</h1>
-        <!-- Short introduction to creating and sharing surveys. -->
-        <p class="home-description">
-          Create and share surveys in minutes – from team events to workplace culture.
-          Collect opinions, engage your audience, and turn feedback into action.
-        </p>
-        <!-- Open the form overlay while keeping this page and its state. -->
-        <button
-          #newSurveyButton
-          type="button"
-          class="home-create-button"
-          aria-haspopup="dialog"
-          (click)="openCreateSurvey()"
-        >
-          <span class="home-create-button-text">New survey</span>
-          <img
-            class="home-create-button-icon"
-            src="assets/icons/add-circle.png"
-            alt=""
-            width="20"
-            height="20"
-          >
-        </button>
-      </div>
+      <!-- Main headline with a fixed line break. -->
+      <h1 id="home-title" class="home-title">Collect Feedback,<br>Unlock Ideas</h1>
       <!-- Two overlapping images form the illustration's hover effect. -->
       <div class="home-visual">
         <!-- Keep this default image visible underneath the hover overlay. -->
@@ -59,6 +35,28 @@
           height="420"
         >
       </div>
+      <!-- Short introduction to creating and sharing surveys. -->
+      <p class="home-description">
+        Create and share surveys in minutes – from team events to workplace culture.
+        Collect opinions, engage your audience, and turn feedback into action.
+      </p>
+      <!-- Open the form overlay while keeping this page and its state. -->
+      <button
+        #newSurveyButton
+        type="button"
+        class="home-create-button"
+        aria-haspopup="dialog"
+        (click)="openCreateSurvey()"
+      >
+        <span class="home-create-button-text">New survey</span>
+        <img
+          class="home-create-button-icon"
+          src="assets/icons/add-circle.png"
+          alt=""
+          width="20"
+          height="20"
+        >
+      </button>
     </section>
   </div>
   <!-- Survey section with its centered heading. -->
