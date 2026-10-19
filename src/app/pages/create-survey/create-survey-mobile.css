@@ -10,6 +10,14 @@
     background: #ffffff;
   }
 
+  /* Leave white space above the logo and between the header and form. */
+  .create-survey-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 54px;
+    padding: 48px 0;
+  }
+
   /* Match the supplied header row without changing the form's desktop layout. */
   .create-survey-mobile-header {
     box-sizing: border-box;
@@ -54,6 +62,17 @@
     width: 294px;
     height: 94px;
     line-height: 42px;
+  }
+
+  /* Match the inner mobile panel and let added content extend its height. */
+  .create-survey-form-panel {
+    gap: 10px;
+    width: 340px;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 900px;
+    margin: 0 auto;
+    padding: 40px 10px;
   }
 
   /* Replace the desktop Cancel action with the compact mobile close button. */
