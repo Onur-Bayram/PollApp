@@ -19,7 +19,7 @@ interface SurveyCard {
   selector: 'app-home',
   imports: [RouterLink, CreateSurveyComponent],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css', './home-surveys.css'],
+  styleUrls: ['./home.component.css', './home-surveys.css', './home-mobile.css'],
 })
 export class HomeComponent implements OnInit {
   // Show the creation overlay without leaving the home page.

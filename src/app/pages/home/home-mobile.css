@@ -1,0 +1,25 @@
+/* Start the mobile frame; individual element layouts follow their Figma values. */
+@media (max-width: 767px) {
+  .home {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    width: 375px;
+    max-width: 100%;
+    min-height: 2434px;
+    padding: 48px 0;
+    background: #35273a;
+  }
+
+  /* Let the mobile frame provide the header's outer spacing. */
+  .home-header {
+    padding: 0;
+  }
+
+  /* Use the shared frame gap instead of the existing desktop top margins. */
+  .home-hero,
+  .home-surveys {
+    margin-top: 0;
+  }
+}
