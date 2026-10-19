@@ -2,7 +2,8 @@
 .create-survey-mobile-header,
 .create-survey-mobile-close,
 .name-mobile-delete,
-.end-date-mobile-delete {
+.end-date-mobile-delete,
+.description-mobile-delete {
   display: none;
 }
 
@@ -90,7 +91,8 @@
 
   /* Place each field label and delete action at opposite ends of their row. */
   .name-header,
-  .end-date-header {
+  .end-date-header,
+  .description-header {
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -103,7 +105,8 @@
 
   /* Size the name text separately so the required marker keeps its own space. */
   .name-header .label,
-  .end-date-header .label {
+  .end-date-header .label,
+  .description-header .label {
     height: 23px;
   }
 
@@ -120,9 +123,27 @@
     max-width: 100%;
   }
 
-  /* Let the date input fill the mobile field with the shared input styling. */
-  .end-date-input {
+  /* Fill the mobile fields with the shared input styling. */
+  .end-date-input,
+  .create-survey-description-row,
+  .create-survey-description-input {
     width: 100%;
+  }
+
+  /* Place the description below the date with room for its mobile text area. */
+  .create-survey-details-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .create-survey-description-field {
+    width: 320px;
+    max-width: 100%;
+  }
+
+  .description-header .label {
+    width: 218px;
+    white-space: nowrap;
   }
 
   .end-date-header .label {
@@ -145,7 +166,8 @@
   }
 
   .name-mobile-delete,
-  .end-date-mobile-delete {
+  .end-date-mobile-delete,
+  .description-mobile-delete {
     display: block;
     flex-shrink: 0;
   }
@@ -153,7 +175,8 @@
   /* Hide the desktop actions that have a separate mobile position. */
   .create-survey-desktop-close,
   .name-desktop-delete,
-  .end-date-desktop-delete {
+  .end-date-desktop-delete,
+  .description-desktop-delete {
     display: none;
   }
 

@@ -179,11 +179,22 @@
             </div>
             <!-- Keep the description label directly above its text area. -->
             <div class="create-survey-description-field">
-              <label for="survey-description" class="label description-label">
-                <span>Describing text</span>
-                <span class="create-survey-description-optional">(optional)</span>
-              </label>
-              <!-- Place the delete button beside the description text area. -->
+              <!-- Keep the optional description label and mobile delete action together. -->
+              <div class="description-header">
+                <label for="survey-description" class="label description-label">
+                  <span>Describing text</span>
+                  <span class="create-survey-description-optional">(optional)</span>
+                </label>
+                <button
+                  type="button"
+                  class="delete-button description-mobile-delete"
+                  aria-label="Clear description"
+                  (click)="clearDescription()"
+                >
+                  <img src="assets/icons/delete.png" alt="" />
+                </button>
+              </div>
+              <!-- Keep the desktop delete action beside the description text area. -->
               <div class="input-row create-survey-description-row">
                 <!-- Limit the optional description to 300 characters. -->
                 <textarea
@@ -198,7 +209,7 @@
                 <!-- Clear only the description when this button is clicked. -->
                 <button
                   type="button"
-                  class="delete-button"
+                  class="delete-button description-desktop-delete"
                   aria-label="Clear description"
                   (click)="clearDescription()"
                 >
