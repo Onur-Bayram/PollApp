@@ -3,7 +3,8 @@
 .create-survey-mobile-close,
 .name-mobile-delete,
 .end-date-mobile-delete,
-.description-mobile-delete {
+.description-mobile-delete,
+.answer-mobile-header {
   display: none;
 }
 
@@ -189,6 +190,121 @@
     height: 34px;
   }
 
+  /* Keep the answer heading and multiple-answer option in one mobile row. */
+  .answers-group {
+    width: 100%;
+  }
+
+  .answers-header {
+    height: 22px;
+  }
+
+  .answers-label {
+    flex-shrink: 0;
+    width: 75px;
+    height: 23px;
+  }
+
+  .create-survey-multiple-answers-option {
+    flex-shrink: 0;
+    gap: 4px;
+    width: 179px;
+    height: 21px;
+  }
+
+  /* Stack each mobile answer header above its existing input. */
+  .answer-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .answer-list,
+  .answer-row {
+    width: 100%;
+  }
+
+  .answer-input {
+    max-width: 100%;
+  }
+
+  /* Center the supplied letter and icon sizes in the 24px header. */
+  .answer-mobile-header {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 24px;
+    padding-right: 16px;
+  }
+
+  /* Let the limit note continue below the mobile answer action. */
+  .answer-actions {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .add-answer-control {
+    flex-shrink: 0;
+    width: 146px;
+    height: 40px;
+  }
+
+  .add-answer-button {
+    gap: 4px;
+    width: 141px;
+    margin-left: 0;
+    padding: 8px 12px;
+  }
+
+  /* Keep the 89px text and 24px icon area inside the 117px content row. */
+  .add-answer-text {
+    gap: 4px;
+    width: 117px;
+    height: 24px;
+  }
+
+  .add-answer-label,
+  .add-answer-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .add-answer-label {
+    width: 89px;
+    height: 21px;
+  }
+
+  .add-answer-icon {
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+  }
+
+  .answer-icon {
+    position: static;
+  }
+
+  .answer-line {
+    left: 12px;
+    bottom: 8px;
+  }
+
+  /* Center the question action below the existing mobile question groups. */
+  .create-survey-questions-row {
+    row-gap: 44px;
+  }
+
+  .create-survey-questions-row > .question-field {
+    align-items: center;
+    width: 100%;
+  }
+
+  .add-question-button {
+    width: 195px;
+  }
+
   /* Stack the category and date controls in the mobile reference order. */
   .create-survey-date-category-row {
     flex-direction: column;
@@ -210,7 +326,9 @@
   .create-survey-desktop-close,
   .name-desktop-delete,
   .end-date-desktop-delete,
-  .description-desktop-delete {
+  .description-desktop-delete,
+  .answer-desktop-label,
+  .answer-desktop-delete {
     display: none;
   }
 

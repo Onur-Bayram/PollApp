@@ -273,9 +273,21 @@
                   <div class="answer-list">
                     @for (answer of question.answers; track answer; let answerIndex = $index) {
                       <!-- Keep each error below its answer row. -->
-                      <div>
-                        <div class="answer-row" [class.answer-row-b]="answerIndex > 0">
+                      <div class="answer-field">
+                        <!-- Place the answer letter and delete action above the mobile input. -->
+                        <div class="answer-mobile-header">
                           <label [for]="'survey-answer-' + questionIndex + '-' + answerIndex" class="label answer-label">{{ answerLetters[answerIndex] }}.</label>
+                          <button
+                            type="button"
+                            class="delete-button"
+                            [attr.aria-label]="(answerIndex < 2 ? 'Clear answer ' : 'Remove answer ') + answerLetters[answerIndex] + ' for question ' + (questionIndex + 1)"
+                            (click)="removeAnswer(questionIndex, answerIndex)"
+                          >
+                            <img src="assets/icons/delete.png" alt="" />
+                          </button>
+                        </div>
+                        <div class="answer-row" [class.answer-row-b]="answerIndex > 0">
+                          <label [for]="'survey-answer-' + questionIndex + '-' + answerIndex" class="label answer-label answer-desktop-label">{{ answerLetters[answerIndex] }}.</label>
                           <input
                             [id]="'survey-answer-' + questionIndex + '-' + answerIndex"
                             type="text"
@@ -289,7 +301,7 @@
                           <!-- Clear A/B or remove an added answer row. -->
                           <button
                             type="button"
-                            class="delete-button"
+                            class="delete-button answer-desktop-delete"
                             [attr.aria-label]="(answerIndex < 2 ? 'Clear answer ' : 'Remove answer ') + answerLetters[answerIndex] + ' for question ' + (questionIndex + 1)"
                             (click)="removeAnswer(questionIndex, answerIndex)"
                           >
@@ -303,23 +315,27 @@
                     }
                   </div>
                   <!-- Add answers only to this question and show its limit. -->
-                  <div class="input-row">
-                    <button
-                      type="button"
-                      class="action-button add-answer-button"
-                      [attr.aria-label]="'Add answer for question ' + (questionIndex + 1)"
-                      [attr.aria-describedby]="'answer-limit-' + questionIndex"
-                      [disabled]="question.answers.length >= answerLetters.length"
-                      (click)="addAnswer(question.answers)"
-                    >
-                      <span class="label action-text add-answer-text">
-                        Add answer
-                        <!-- Place the smaller white plus at the supplied text-relative position. -->
-                        <img class="answer-icon" src="assets/icons/add-circle-white.png" alt="" width="16" height="16" />
-                      </span>
-                      <!-- Draw the supplied white line below the answer action. -->
-                      <span class="answer-line" aria-hidden="true"></span>
-                    </button>
+                  <div class="input-row answer-actions">
+                    <div class="add-answer-control">
+                      <button
+                        type="button"
+                        class="action-button add-answer-button"
+                        [attr.aria-label]="'Add answer for question ' + (questionIndex + 1)"
+                        [attr.aria-describedby]="'answer-limit-' + questionIndex"
+                        [disabled]="question.answers.length >= answerLetters.length"
+                        (click)="addAnswer(question.answers)"
+                      >
+                        <span class="label action-text add-answer-text">
+                          <span class="add-answer-label">Add answer</span>
+                          <!-- Reuse the white plus inside the mobile icon area. -->
+                          <span class="add-answer-icon">
+                            <img class="answer-icon" src="assets/icons/add-circle-white.png" alt="" width="16" height="16" />
+                          </span>
+                        </span>
+                        <!-- Draw the supplied white line below the answer action. -->
+                        <span class="answer-line" aria-hidden="true"></span>
+                      </button>
+                    </div>
                     <span [id]="'answer-limit-' + questionIndex" class="answer-note answer-limit-note">You can add up to 6 answer fields.</span>
                   </div>
                 </div>
