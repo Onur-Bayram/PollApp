@@ -205,6 +205,14 @@
     max-width: 100%;
   }
 
+  /* Match the mobile title frame and keep longer survey names fully visible. */
+  .home-survey-card-title {
+    width: 306px;
+    max-width: 100%;
+    min-height: 50px;
+    font-size: 20px;
+  }
+
   /* Keep the deadline twelve pixels above the bottom of each mobile card. */
   .home-survey-card-deadline {
     margin-top: auto;
