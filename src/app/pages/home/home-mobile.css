@@ -32,6 +32,21 @@
     flex-grow: 1;
   }
 
+  /* Fit the text column to the mobile content width. */
+  .home-hero-content {
+    width: 100%;
+  }
+
+  /* Keep the headline on three lines at the 343 pixel design width. */
+  .home-title {
+    width: 343px;
+    max-width: 100%;
+    height: auto;
+    min-height: 150px;
+    font-size: 62px;
+    line-height: 50px;
+  }
+
   /* Use the group and page gaps instead of the desktop top margins. */
   .home-hero,
   .home-surveys {
