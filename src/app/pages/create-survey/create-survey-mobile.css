@@ -33,6 +33,29 @@
     padding-left: 0;
   }
 
+  /* Center the shared mobile heading and spread its two rows vertically. */
+  .create-survey-heading {
+    justify-content: space-between;
+    width: 325px;
+    max-width: 100%;
+    height: 136px;
+    margin: 0 auto;
+  }
+
+  /* Keep Draft on the left and the mobile close button on the right. */
+  .create-survey-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Wrap the mobile heading into two lines with the supplied line height. */
+  .create-survey-title {
+    width: 294px;
+    height: 94px;
+    line-height: 42px;
+  }
+
   /* Replace the desktop Cancel action with the compact mobile close button. */
   .create-survey-desktop-close {
     display: none;

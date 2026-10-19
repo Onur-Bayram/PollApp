@@ -31,11 +31,25 @@
       <div class="create-survey-content">
         <!-- Group the status, title and close button above the form. -->
         <div class="create-survey-heading">
-          <!-- Show the current survey status inside its badge. -->
-          <div class="create-survey-status">
-            <span class="create-survey-status-text">Draft</span>
+          <!-- Place Draft and the mobile close button in the same top row. -->
+          <div class="create-survey-status-row">
+            <div class="create-survey-status">
+              <span class="create-survey-status-text">Draft</span>
+            </div>
+            <!-- Return to Home through the icon-only mobile close button. -->
+            <button
+              type="button"
+              class="action-button close-button create-survey-mobile-close"
+              aria-label="Cancel survey and return to Home"
+              [disabled]="isSaving()"
+              (click)="goHome()"
+            >
+              <span class="button-icon" aria-hidden="true">
+                <img src="assets/icons/close.png" alt="" />
+              </span>
+            </button>
           </div>
-          <!-- Place the close button to the right of the page title. -->
+          <!-- Keep the desktop Cancel button beside the page title. -->
           <div class="create-survey-title-row">
             <h1 id="create-survey-title" class="create-survey-title">Create new survey</h1>
             <!-- Ask the parent page to close this overlay immediately. -->
@@ -49,18 +63,6 @@
               <!-- Visible label for cancelling survey creation. -->
               <span class="label action-text">Cancel</span>
               <!-- Decorative X icon next to the Cancel label. -->
-              <span class="button-icon" aria-hidden="true">
-                <img src="assets/icons/close.png" alt="" />
-              </span>
-            </button>
-            <!-- Return to Home through the icon-only mobile close button. -->
-            <button
-              type="button"
-              class="action-button close-button create-survey-mobile-close"
-              aria-label="Cancel survey and return to Home"
-              [disabled]="isSaving()"
-              (click)="goHome()"
-            >
               <span class="button-icon" aria-hidden="true">
                 <img src="assets/icons/close.png" alt="" />
               </span>
