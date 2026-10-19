@@ -89,20 +89,60 @@
     margin-top: 0;
   }
 
-  /* Let headings wrap without overlapping the following section. */
-  .home-surveys-title,
-  .home-surveys-subtitle {
+  /* Match the mobile section heading and allow wrapping on narrower phones. */
+  .home-surveys-title {
+    width: 343px;
+    max-width: 100%;
     height: auto;
+    min-height: 55px;
+    font-size: 54px;
   }
 
-  /* Keep the ending-soon row scrollable without widening the whole page. */
+  /* Match the subtitle typography while keeping it inside the mobile column. */
+  .home-surveys-subtitle {
+    width: 354px;
+    max-width: 100%;
+    height: auto;
+    min-height: 30px;
+    font-size: 24px;
+  }
+
+  /* Extend the row to the page edges and keep its cards inside 16 pixel gutters. */
   .home-highlight-cards {
+    box-sizing: content-box;
     justify-content: flex-start;
+    gap: 16px;
+    width: 100%;
+    min-height: 233px;
+    margin-right: -16px;
+    margin-left: -16px;
+    padding: 0 16px;
     overflow-x: auto;
   }
 
+  /* Keep each mobile highlight card at its Figma width and inner spacing. */
   .home-highlight-card {
+    gap: 10px;
+    width: 250px;
+    min-height: 233px;
     max-width: 100%;
+    padding: 24px 16px;
+  }
+
+  /* Fit the text blocks inside the narrower card without desktop height limits. */
+  .home-highlight-card-content,
+  .home-highlight-card-title {
+    width: 100%;
+    min-height: 0;
+  }
+
+  .home-highlight-card-category {
+    width: 100%;
+  }
+
+  /* Let the card padding provide the space below its deadline badge. */
+  .home-highlight-card-deadline {
+    margin-bottom: 0;
   }
 
   /* Move the category control to the next row when needed. */
