@@ -1,0 +1,62 @@
+@media (max-width: 767px) {
+  /* Reuse the creation page's white space above the mobile logo. */
+  .survey-view-layout {
+    padding: 48px 0;
+  }
+
+  .survey-view-frame {
+    gap: 54px;
+    width: 375px;
+    max-width: 100%;
+    min-height: 0;
+    margin: 0 auto;
+  }
+
+  /* Keep the same logo row as on the mobile creation page. */
+  .survey-view-header {
+    box-sizing: border-box;
+    justify-content: flex-start;
+    gap: 10px;
+    height: 49px;
+    padding: 0 16px;
+  }
+
+  .survey-view-header a {
+    display: flex;
+    width: 119px;
+    height: 49px;
+  }
+
+  .survey-view-logo {
+    width: 119px;
+    height: 49px;
+    object-fit: contain;
+  }
+
+  .survey-view-header .create-survey-button {
+    display: none;
+  }
+
+  /* Leave 16px beside the survey and place results below its mobile frame. */
+  .survey-view-layout .survey-view-content {
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  /* Let longer surveys extend the supplied frame instead of clipping them. */
+  .survey-panel,
+  .saved-survey .survey-panel {
+    flex-shrink: 0;
+    width: 343px;
+    max-width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 1378px;
+    gap: 40px;
+    padding: 40px 0;
+    border-top-right-radius: 100px;
+  }
+}

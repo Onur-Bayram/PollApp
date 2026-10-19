@@ -45,6 +45,16 @@
     padding-left: 0;
   }
 
+  /* Keep the heading and form inside the supplied padded mobile content area. */
+  .create-survey-content {
+    box-sizing: border-box;
+    gap: 32px;
+    width: 375px;
+    max-width: 100%;
+    min-height: 1068px;
+    padding: 0 16px;
+  }
+
   /* Center the shared mobile heading and spread its two rows vertically. */
   .create-survey-heading {
     justify-content: space-between;
@@ -64,6 +74,7 @@
   /* Wrap the mobile heading into two lines with the supplied line height. */
   .create-survey-title {
     width: 294px;
+    max-width: 100%;
     height: 94px;
     line-height: 42px;
   }
@@ -303,6 +314,24 @@
 
   .add-question-button {
     width: 195px;
+  }
+
+  .publish-actions {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  /* Center the fixed mobile Publish button and keep its check visible. */
+  .publish-actions .publish-button {
+    align-self: center;
+    flex-shrink: 0;
+    width: 123px;
+    background: #ffb770;
+  }
+
+  .publish-icon {
+    opacity: 1;
   }
 
   /* Stack the category and date controls in the mobile reference order. */

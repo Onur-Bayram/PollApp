@@ -18,7 +18,7 @@ import { RESULTS_REFRESH_DELAY } from '../../models/survey-constants';
   selector: 'app-survey-view',
   imports: [DatePipe, RouterLink, ReactiveFormsModule, CreateSurveyComponent],
   templateUrl: './survey-view.component.html',
-  styleUrls: ['./survey-view.component.css', './survey-view-content.css'],
+  styleUrls: ['./survey-view.component.css', './survey-view-content.css', './survey-view-mobile.css'],
 })
 export class SurveyViewComponent implements OnInit, OnDestroy {
   // Show the existing creation overlay above the survey details.
