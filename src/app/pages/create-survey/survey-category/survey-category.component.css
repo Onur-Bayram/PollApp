@@ -1,0 +1,147 @@
+/* Keep the native buttons consistent with the creation form. */
+button {
+  box-sizing: border-box;
+  border: 0;
+  cursor: pointer;
+}
+
+/* Keep the button and arrow in the same position for every category. */
+.category-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 206px;
+  height: 32px;
+  padding: 4px 6px 4px 10px;
+  border-radius: 6px;
+  background: transparent;
+}
+
+/* Match the home page's hover and selected backgrounds. */
+.category-button:hover,
+.category-button-selected {
+  background: #d9d9d91f;
+}
+
+/* Keep the icon area fixed while the supplied arrow images change. */
+.category-button-arrow {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+/* Show each arrow at its exported size. */
+.category-arrow-image {
+  display: block;
+}
+
+/* Position the smaller orange downward arrow in the same icon area. */
+.category-arrow-hover {
+  position: absolute;
+  top: 8px;
+  left: 5px;
+  display: none;
+}
+
+/* Use the orange downward arrow on hover or after selecting a category. */
+.category-button:hover .category-arrow-default,
+.category-button-selected .category-arrow-default {
+  display: none;
+}
+
+.category-button:hover .category-arrow-hover,
+.category-button-selected .category-arrow-hover {
+  display: block;
+}
+
+/* Place the white category list directly below the button. */
+.create-survey-category-menu {
+  box-sizing: border-box;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 206px;
+  padding: 8px 4px;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+/* Fit each topic option to its text and use the home page typography. */
+.create-survey-category-menu-item {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  height: 26px;
+  padding: 4px;
+  border-radius: 6px;
+  background: transparent;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.28px;
+  white-space: nowrap;
+}
+
+/* Highlight an option immediately on hover and keep the chosen one selected. */
+.create-survey-category-menu-item:hover,
+.create-survey-category-menu-item-selected {
+  background: #f4e9fb;
+}
+
+/* Show the chosen category in orange beneath the closed button. */
+.create-survey-category-selection {
+  box-sizing: border-box;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  min-width: 117px;
+  height: 26px;
+  padding: 4px 4px 4px 10px;
+  border-radius: 6px;
+  color: #ffb770;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.28px;
+  white-space: nowrap;
+}
+
+/* Match the supplied label without relying on the parent component styles. */
+.category-button-text {
+  display: flex;
+  align-items: center;
+  width: 145px;
+  height: 23px;
+  color: #ffffff;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  /* Match the closed button and ease its existing background states. */
+  .category-button {
+    width: 189px;
+    padding-left: 0;
+    transition: background-color 300ms ease-out;
+  }
+
+  /* Give the menu and selected category room above the date field. */
+  .create-survey-category-menu,
+  .create-survey-category-selection {
+    position: static;
+  }
+}

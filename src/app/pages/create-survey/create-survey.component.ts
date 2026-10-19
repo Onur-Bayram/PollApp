@@ -7,11 +7,12 @@ import { SurveyQuestionForm } from '../../models/survey-form';
 import { ANSWER_LETTERS, DESCRIPTION_LIMIT, MAX_QUESTIONS, MIN_ANSWERS, SURVEY_NAME_LIMIT } from '../../models/survey-constants';
 import { PublishFeedbackService } from '../../services/publish-feedback.service';
 import { SurveyService } from '../../services/survey.service';
+import { SurveyCategoryComponent } from './survey-category/survey-category.component';
 
 // Connect the creation overlay to its separate template and styles.
 @Component({
   selector: 'app-create-survey',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SurveyCategoryComponent],
   templateUrl: './create-survey.component.html',
   styleUrls: ['./create-survey.component.css', './create-survey-fields.css', './create-survey-mobile.css'],
 })

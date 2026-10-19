@@ -117,14 +117,23 @@
                   <p id="survey-name-error" class="field-error">Enter a survey name (up to 60 characters).</p>
                 }
               </div>
-              <!-- Place the category button beside the end date field. -->
+              <!-- Group the optional date and category controls. -->
               <div class="create-survey-date-category-row">
                 <!-- Keep the end date label above its smaller input. -->
                 <div class="end-date-field">
-                  <label for="survey-end-date" class="label">
-                    Set end date (optional)
-                  </label>
-                  <!-- Place the delete button beside the end date input. -->
+                  <!-- Keep the optional date label and mobile delete action together. -->
+                  <div class="end-date-header">
+                    <label for="survey-end-date" class="label">Set end date<span class="end-date-optional">&nbsp;(optional)</span></label>
+                    <button
+                      type="button"
+                      class="delete-button end-date-mobile-delete"
+                      aria-label="Clear end date"
+                      (click)="clearEndDate()"
+                    >
+                      <img src="assets/icons/delete.png" alt="" />
+                    </button>
+                  </div>
+                  <!-- Keep the desktop delete action beside the end date input. -->
                   <div class="input-row">
                     <!-- Use numeric date segments and the browser's calendar picker. -->
                     <input
@@ -145,7 +154,7 @@
                     <!-- Clear only the end date when this button is clicked. -->
                     <button
                       type="button"
-                      class="delete-button"
+                      class="delete-button end-date-desktop-delete"
                       aria-label="Clear end date"
                       (click)="clearEndDate()"
                     >
@@ -158,62 +167,13 @@
                 </div>
                 <!-- Anchor the category menu below its button. -->
                 <div class="create-survey-category-control">
-                  <!-- Open or close the category menu when the button is clicked. -->
-                  <button
-                    type="button"
-                    class="category-button"
-                    [class.category-button-selected]="selectedCategory !== ''"
-                    [attr.aria-expanded]="isCategoryMenuOpen"
-                    aria-controls="create-survey-category-menu"
-                    (click)="toggleCategoryMenu()"
-                  >
-                    <!-- Keep the button label unchanged after a selection. -->
-                    <span class="label category-button-text">Choose category</span>
-                    <!-- Switch between the supplied arrows inside the same icon area. -->
-                    <span class="category-button-arrow" aria-hidden="true">
-                      @if (isCategoryMenuOpen) {
-                        <img
-                          class="category-arrow-image"
-                          src="assets/icons/category-arrow-up-orange.png"
-                          alt=""
-                          width="24"
-                          height="24"
-                        />
-                      } @else {
-                        <img
-                          class="category-arrow-image category-arrow-default"
-                          src="assets/icons/category-arrow-down.png"
-                          alt=""
-                          width="24"
-                          height="24"
-                        />
-                        <img
-                          class="category-arrow-image category-arrow-hover"
-                          src="assets/icons/category-arrow-down-orange.png"
-                          alt=""
-                          width="15"
-                          height="8"
-                        />
-                      }
-                    </span>
-                  </button>
-                  @if (isCategoryMenuOpen) {
-                    <!-- Repeat the topic options and highlight the selected category. -->
-                    <div id="create-survey-category-menu" class="create-survey-category-menu">
-                      @for (category of categories; track category) {
-                        <button
-                          type="button"
-                          class="create-survey-category-menu-item"
-                          [class.create-survey-category-menu-item-selected]="selectedCategory === category"
-                          [attr.aria-pressed]="selectedCategory === category"
-                          (click)="selectCategory(category)"
-                        >{{ category }}</button>
-                      }
-                    </div>
-                  } @else if (selectedCategory) {
-                    <!-- Show the chosen category below the closed button. -->
-                    <div class="create-survey-category-selection">{{ selectedCategory }}</div>
-                  }
+                  <app-survey-category
+                    [categories]="categories"
+                    [isOpen]="isCategoryMenuOpen"
+                    [selectedCategory]="selectedCategory"
+                    (toggled)="toggleCategoryMenu()"
+                    (categorySelected)="selectCategory($event)"
+                  />
                 </div>
               </div>
             </div>
