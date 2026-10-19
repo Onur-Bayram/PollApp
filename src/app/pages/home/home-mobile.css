@@ -51,9 +51,12 @@
     object-fit: contain;
   }
 
-  /* Let the paragraph wrap within the available phone width. */
+  /* Match the mobile paragraph size and allow more lines on narrower phones. */
   .home-description {
-    width: 100%;
+    width: 343px;
+    max-width: 100%;
+    min-height: 92px;
+    font-size: 18px;
   }
 
   .home-create-button {
