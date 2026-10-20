@@ -22,31 +22,33 @@
       <!-- Keep the questions and results next to each other on desktop. -->
       <div class="survey-view-content">
         <article class="survey-panel" [attr.aria-busy]="isSubmitting()">
-          <div class="survey-status-row">
-            <div class="survey-status">
-              <span class="survey-status-text">Published</span>
+          <div class="survey-introduction">
+            <div class="survey-status-row">
+              <div class="survey-status">
+                <span class="survey-status-text">Published</span>
+              </div>
+              <!-- Return to Home from the mobile survey without interrupting a save. -->
+              <button type="button" class="survey-close-button" routerLink="/" [disabled]="isSubmitting()" aria-label="Back to surveys">
+                <img src="assets/icons/close_media.png" alt="" />
+              </button>
             </div>
-            <!-- Return to Home from the mobile survey without interrupting a save. -->
-            <button type="button" class="survey-close-button" routerLink="/" [disabled]="isSubmitting()" aria-label="Back to surveys">
-              <img src="assets/icons/close_media.png" alt="" />
-            </button>
-          </div>
-          <div class="survey-meta">
-            <span class="survey-end-date">
-              @if (page.endDate) {
-                Ends on {{ page.endDate | date:'dd.MM.yyyy' }}
-              } @else {
-                No deadline
+            <div class="survey-meta">
+              <span class="survey-end-date">
+                @if (page.endDate) {
+                  Ends on {{ page.endDate | date:'dd.MM.yyyy' }}
+                } @else {
+                  No deadline
+                }
+              </span>
+              @if (page.category) {
+                <span class="survey-category">Category: {{ page.category }}</span>
               }
-            </span>
-            @if (page.category) {
-              <span class="survey-category">Category: {{ page.category }}</span>
+            </div>
+            <h1 class="survey-title">{{ page.surveyTitle }}</h1>
+            @if (page.description) {
+              <p class="survey-description">{{ page.description }}</p>
             }
           </div>
-          <h1 class="survey-title">{{ page.surveyTitle }}</h1>
-          @if (page.description) {
-            <p class="survey-description">{{ page.description }}</p>
-          }
           @if (isSurveyClosed()) {
             <p class="survey-message">This survey has ended. Voting is closed.</p>
           }

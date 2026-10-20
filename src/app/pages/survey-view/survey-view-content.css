@@ -1,3 +1,11 @@
+/* Group the introduction while preserving the desktop spacing. */
+.survey-introduction {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
 /* Keep two question columns and let each row grow with its answers. */
 .survey-questions-row {
   display: flex;

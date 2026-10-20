@@ -65,13 +65,61 @@
     border-top-right-radius: 100px;
   }
 
+  /* Keep the larger panel gap between sections, with smaller gaps inside the heading. */
+  .survey-introduction {
+    gap: 0;
+    min-width: 0;
+  }
+
   /* Match the reference's 12px left and 24px right space around the status row. */
   .survey-status-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 32px;
-    margin: 0 24px 0 12px;
+    margin: 0 24px 20px 12px;
+  }
+
+  /* Fit date and category on one row and allow longer values to wrap. */
+  .survey-view-layout .survey-meta {
+    width: 320px;
+    max-width: 100%;
+    height: auto;
+    min-height: 18px;
+    margin: 0 auto 16px;
+  }
+
+  .survey-end-date,
+  .survey-view-layout .survey-category {
+    height: auto;
+    min-height: 18px;
+  }
+
+  .survey-end-date {
+    width: auto;
+    min-width: 0;
+  }
+
+  .survey-view-layout .survey-category {
+    justify-content: flex-end;
+    width: auto;
+    max-width: 58%;
+    text-align: right;
+  }
+
+  /* Let short titles and descriptions use their actual height on phones. */
+  .survey-view-layout .survey-title,
+  .survey-view-layout .survey-description {
+    width: 320px;
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0 auto;
+    overflow-wrap: anywhere;
+  }
+
+  .survey-view-layout .survey-description {
+    margin-top: 24px;
   }
 
   .survey-close-button {
