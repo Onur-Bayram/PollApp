@@ -1,0 +1,112 @@
+/* Preserve the desktop result column and show the toggle only on phones. */
+.survey-results-section {
+  flex-shrink: 0;
+  width: 315px;
+}
+
+.saved-survey .survey-results-section {
+  width: 324px;
+}
+
+.survey-results-toggle {
+  display: none;
+}
+
+/* Keep the desktop column independent of the mobile animation's height limit. */
+@media (min-width: 768px) {
+  .survey-results-content {
+    max-height: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .survey-view-layout .survey-results-section {
+    width: 320px;
+    max-width: 100%;
+    margin-top: 20px;
+  }
+
+  .survey-results-toggle {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 153px;
+    height: 32px;
+    padding: 4px 6px 4px 10px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #35273a;
+    font: 700 18px/1 "Mulish", Arial, sans-serif;
+    letter-spacing: 0;
+    cursor: pointer;
+  }
+
+  .survey-results-toggle-text {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: 94px;
+    height: 23px;
+  }
+
+  .survey-results-open .survey-results-toggle-text {
+    width: 109px;
+  }
+
+  .survey-results-toggle-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+  }
+
+  .survey-results-toggle-arrow img {
+    width: 15px;
+    height: 8px;
+  }
+
+  /* Keep hidden results out of keyboard navigation and the mobile page height. */
+  .survey-results-content {
+    max-height: 0;
+    margin-top: 0;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 400ms ease-in-out, margin-top 400ms ease-in-out,
+      opacity 300ms ease-in-out, visibility 0s linear 400ms;
+  }
+
+  .survey-results-open .survey-results-content {
+    margin-top: 32px;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  .survey-view-layout .survey-results {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+
+  .survey-results-title,
+  .survey-result-question,
+  .survey-result-question-title {
+    max-width: 100%;
+  }
+
+  .survey-result-tracks {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .survey-result-track {
+    width: 100%;
+  }
+}

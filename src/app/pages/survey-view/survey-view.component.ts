@@ -11,18 +11,26 @@ import { SurveyResultsService } from '../../services/survey-results.service';
 import { SurveyService } from '../../services/survey.service';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
 import { SurveyPageService } from '../../services/survey-page.service';
-import { RESULTS_REFRESH_DELAY } from '../../models/survey-constants';
+import { RESULTS_REFRESH_DELAY, RESULT_TRACK_WIDTH } from '../../models/survey-constants';
+
+const RESULTS_ANIMATION_EXTRA_HEIGHT: number = 200;
+const RESULTS_HEADING_CHARACTERS_PER_LINE: number = 14;
+const RESULTS_HEADING_LINE_HEIGHT: number = 18;
+const RESULTS_QUESTION_SPACING: number = 32;
 
 // Connect the survey detail view to its separate template and styles.
 @Component({
   selector: 'app-survey-view',
   imports: [DatePipe, RouterLink, ReactiveFormsModule, CreateSurveyComponent],
   templateUrl: './survey-view.component.html',
-  styleUrls: ['./survey-view.component.css', './survey-view-content.css', './survey-view-mobile.css'],
+  styleUrls: ['./survey-view.component.css', './survey-view-content.css', './survey-view-mobile.css', './survey-view-results-mobile.css'],
 })
 export class SurveyViewComponent implements OnInit, OnDestroy {
   // Show the existing creation overlay above the survey details.
   isCreateSurveyOpen: boolean = false;
+  // Keep mobile results collapsed until the voter opens them.
+  areResultsOpen = signal<boolean>(false);
+  resultTrackWidth: number = RESULT_TRACK_WIDTH;
   // Show success only after the selected answers have been saved.
   isSubmitting = signal<boolean>(false);
   isResetting = signal<boolean>(false);
@@ -67,6 +75,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
 
   /** Connect freshly loaded page data to this route's voting and results state. */
   async loadSurvey(): Promise<void> {
+    this.areResultsOpen.set(false);
     const request = ++this.loadRequest;
     this.stopWatchingResults();
     this.resetVoteState();
@@ -78,6 +87,20 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       this.watchResults();
       this.loadResults();
     }
+  }
+
+  /** Toggle mobile visibility while keeping the live results connected. */
+  toggleResults(): void {
+    this.areResultsOpen.set(!this.areResultsOpen());
+  }
+
+  /** Allow enough animation space for charts, wrapped headings and result messages. */
+  get resultsAnimationLimit(): number {
+    return this.page.resultQuestions.reduce((height, question) => {
+      const lines = Math.ceil(question.text.length / RESULTS_HEADING_CHARACTERS_PER_LINE);
+      const heading = Math.max(question.headingHeight, lines * RESULTS_HEADING_LINE_HEIGHT);
+      return height + heading + question.chartHeight + RESULTS_QUESTION_SPACING;
+    }, RESULTS_ANIMATION_EXTRA_HEIGHT);
   }
 
   /** Allow voting until the end of the stored deadline's final day. */
