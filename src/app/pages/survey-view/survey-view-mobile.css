@@ -125,8 +125,11 @@
     line-height: 42px;
   }
 
+  /* Keep the reference description height while allowing additional text. */
   .survey-view-layout .survey-description {
+    min-height: 79px;
     margin-top: 24px;
+    line-height: 1;
   }
 
   .survey-close-button {
