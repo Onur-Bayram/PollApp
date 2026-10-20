@@ -78,6 +78,29 @@
   line-height: 20px;
 }
 
+/* Keep the confirmation and close control inside narrow phone screens. */
+@media (max-width: 767px) {
+  .publish-feedback {
+    right: 16px;
+    left: 16px;
+    width: auto;
+    max-width: 357px;
+    margin-left: auto;
+  }
+
+  .publish-feedback-text {
+    position: static;
+    width: auto;
+    height: auto;
+    min-height: 58px;
+    margin: 14px 60px 14px 20px;
+  }
+
+  .publish-feedback-error {
+    margin: 0 20px 14px;
+  }
+}
+
 /* Bring the feedback in from the right using the confirmed timing. */
 @keyframes publish-feedback-enter {
   from {

@@ -103,10 +103,12 @@
                 <a routerLink="/" class="complete-survey-button">
                   <span class="complete-survey-button-text">
                     @if (page.isPreview) {
-                      <span class="complete-survey-desktop-label">Complete survey</span>
-                      <span class="complete-survey-mobile-label">Complete</span>
+                      Complete
                     } @else { Back to surveys }
                   </span>
+                  @if (page.isPreview) {
+                    <img class="complete-survey-icon" src="assets/icons/publish-check.png" alt="" width="18" height="16" />
+                  }
                 </a>
               } @else {
                 <button type="button" class="complete-survey-button" [disabled]="isSubmitting()" (click)="voteSaved() ? voteAgain() : submitVote()">
@@ -114,10 +116,12 @@
                     @if (isSubmitting() || voteSaved()) {
                       {{ isResetting() ? 'Resetting…' : isSubmitting() ? 'Saving…' : 'Vote again' }}
                     } @else {
-                      <span class="complete-survey-desktop-label">Complete survey</span>
-                      <span class="complete-survey-mobile-label">Complete</span>
+                      Complete
                     }
                   </span>
+                  @if (!isSubmitting() && !voteSaved()) {
+                    <img class="complete-survey-icon" src="assets/icons/publish-check.png" alt="" width="18" height="16" />
+                  }
                 </button>
               }
             </div>
