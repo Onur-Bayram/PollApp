@@ -1,33 +1,33 @@
 # PollApp
 
-PollApp ist eine responsive Web-App zum Erstellen und Beantworten von Umfragen. Die Oberfläche wurde anhand einer Figma-Vorlage für Desktop und Smartphone umgesetzt. Umfragen und Stimmen werden in Supabase gespeichert; die Ergebnisse aktualisieren sich live.
+PollApp is a responsive web app for creating and answering surveys. Its desktop and mobile interfaces follow a Figma design. Surveys and votes are stored in Supabase, and results update in real time.
 
-## Funktionen
+## Features
 
-- Übersicht mit aktiven und vergangenen Umfragen sowie einem Kategorienfilter.
-- Die drei als Nächstes endenden Umfragen als hervorgehobene Karten.
-- Neue Umfragen direkt in einem Overlay erstellen und veröffentlichen.
-- Bis zu sechs Fragen mit jeweils zwei bis sechs Antwortmöglichkeiten.
-- Einfach- oder Mehrfachauswahl je Frage.
-- Optional eine Kategorie, eine Beschreibung und ein Enddatum ergänzen.
-- Bestätigung nach dem Veröffentlichen; beim Schließen öffnet sich die neue Umfrage.
-- Mit „Complete“ abstimmen und die Ergebnisse als Balkendiagramme sehen.
-- Mit „Vote again“ die eigene gespeicherte Abgabe zurücknehmen und erneut abstimmen.
-- Vergangene Umfragen und ihre Ergebnisse ansehen; weitere Abstimmungen sind gesperrt.
-- Mobile Ergebnisse über „See results“ und „Close results“ ein- und ausklappen.
+- Browse active and past surveys and filter them by category.
+- See the three surveys ending soonest as highlighted cards.
+- Create and publish surveys directly in an overlay.
+- Add up to six questions with two to six answer options each.
+- Allow single or multiple answers for each question.
+- Optionally add a category, description, and end date.
+- View a publishing confirmation and open the new survey when closing it.
+- Submit answers with "Complete" and view the results as bar charts.
+- Use "Vote again" to withdraw the saved submission and vote again.
+- View past surveys and their results; voting is closed after the deadline.
+- Expand and collapse mobile results with "See results" and "Close results".
 
-## Technik
+## Tech Stack
 
-- Angular 22 und TypeScript
-- HTML und CSS in separaten Component-Dateien
-- Angular Reactive Forms für die Formulare
-- Supabase für die Datenbank und Live-Aktualisierungen
-- localStorage zum Wiedererkennen der gespeicherten Abstimmung im selben Browser
-- Lokale Bilder, Icons und Schriftdateien unter `public/assets`
+- Angular 22 and TypeScript
+- Separate HTML and CSS component files
+- Angular Reactive Forms for form handling
+- Supabase for database storage and real-time updates
+- localStorage to remember saved submissions in the same browser
+- Local images, icons, and fonts in `public/assets`
 
-## Lokal starten
+## Getting Started
 
-Voraussetzung: Node.js 22 ab Version 22.22.3 oder Node.js 24 ab Version 24.15.0 sowie npm.
+Requirements: Node.js 22.22.3 or later within version 22, or Node.js 24.15.0 or later within version 24, and npm.
 
 ```sh
 git clone https://github.com/Onur-Bayram/PollApp.git
@@ -36,51 +36,51 @@ npm ci
 npm start
 ```
 
-Anschließend die App unter **http://localhost:4200/** öffnen. Die Angular-Vorschau wird mit `npm start` gestartet.
+Open **http://localhost:4200/** in your browser. Use `npm start` to run the Angular development server.
 
 ## Supabase
 
-Die Browser-Verbindung wird in `src/environments/environment.ts` konfiguriert. Die aktuelle Konfiguration verbindet die App mit dem vorhandenen Projekt-Backend.
+The browser connection is configured in `src/environments/environment.ts`. The current configuration connects the app to the existing project backend.
 
-Für ein eigenes Backend werden die Tabellen `surveys`, `questions`, `answers` und `votes` mit ihren Beziehungen benötigt. Außerdem müssen passende Zugriffsregeln eingerichtet und Live-Änderungen für die Stimmen aktiviert werden. Nur das Ersetzen der URL und des öffentlichen Schlüssels legt dieses Datenmodell noch nicht an.
+To use your own backend, create the `surveys`, `questions`, `answers`, and `votes` tables with their relationships. You also need appropriate access policies and real-time updates enabled for votes. Replacing the URL and public key alone does not create the required data model.
 
-## Abstimmungen und „Vote again“
+## Voting and "Vote again"
 
-Die App benötigt kein Benutzerkonto. Nach einer erfolgreichen Abstimmung merkt sich der Browser die Auswahl und die IDs der gespeicherten Stimmen. Beim erneuten Öffnen derselben Umfrage bleibt die Abgabe dadurch erkennbar.
+No user account is required. After a successful submission, the browser remembers the selected answers and the IDs of the saved vote records. This allows the app to recognize the submission when the same survey is reopened.
 
-„Vote again“ löscht die zu dieser Abgabe gespeicherten Stimmen, bevor eine neue Abstimmung möglich wird. Die Wiedererkennung gilt für denselben Browser. Ein anderer Browser oder das Löschen der Browserdaten kann sie zurücksetzen; die App garantiert deshalb keine Beschränkung auf eine Stimme pro Person.
+"Vote again" deletes the vote records associated with that submission before allowing another vote. This recognition only applies to the same browser. Using a different browser or clearing browser data can reset it, so the app does not guarantee one vote per person.
 
-## Projektstruktur
+## Project Structure
 
 ```text
 src/app/
-  models/       Datenmodelle und gemeinsame Grenzen
-  pages/        Startseite, Umfrageformular, Detailansicht und Bestätigung
-  services/     Supabase, Umfragen, Ergebnisse und gespeicherte Abstimmungen
+  models/       Data models and shared limits
+  pages/        Home, survey form, survey details, and confirmation
+  services/     Supabase, surveys, results, and saved submissions
 src/environments/
-                Öffentliche Supabase-Verbindungskonfiguration
-public/assets/  Bilder, Icons und Schriftdateien
+                Public Supabase connection configuration
+public/assets/  Images, icons, and fonts
 ```
 
-## Ansichten
+## Views
 
-| Pfad | Inhalt |
+| Path | Content |
 | --- | --- |
-| `/` | Startseite mit Umfragen und Filtern |
-| `/survey/:id` | Gespeicherte Umfrage mit Abstimmung und Ergebnissen |
-| `/survey` | Separate Designvorschau ohne echte Stimmabgabe |
-| `/thumbnail` | Statisches Projektvorschaubild |
+| `/` | Home page with surveys and filters |
+| `/survey/:id` | Saved survey with voting and results |
+| `/survey` | Separate design preview without real vote submission |
+| `/thumbnail` | Static project preview |
 
-Das Erstellungsformular öffnet sich als Overlay und hat keine eigene Route.
+The survey creation form opens as an overlay and has no dedicated route.
 
-## Produktionsbuild
+## Production Build
 
 ```sh
 npm run build
 ```
 
-Die Build-Dateien werden unter `dist/pollapp/` erzeugt. Beim Hosting müssen Aufrufe von Angular-Routen wie `/survey/11` auf die `index.html` zurückfallen.
+Build output is generated in `dist/pollapp/`. When hosting the app, configure a fallback to `index.html` for Angular routes such as `/survey/11`.
 
-## Gestaltung
+## Design
 
-Die Gestaltung basiert auf der bereitgestellten Figma-Vorlage „Poll App Design“. Die Umsetzung verwendet die Schriftarten Nerko One, Mulish und Nokora sowie die mitgelieferten Grafiken.
+The interface is based on the supplied "Poll App Design" Figma template. It uses the Nerko One, Mulish, and Nokora fonts alongside the provided graphics.
