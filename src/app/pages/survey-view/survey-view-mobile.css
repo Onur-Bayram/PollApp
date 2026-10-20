@@ -132,6 +132,56 @@
     line-height: 1;
   }
 
+  /* Stack the questions inside the supplied mobile voting frame. */
+  .survey-voting {
+    flex: none;
+    gap: 40px;
+    width: 320px;
+    max-width: 100%;
+    min-height: 946px;
+    margin: 0 auto;
+  }
+
+  .survey-voting .survey-questions-row {
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  .survey-voting .survey-question,
+  .survey-voting .survey-question-title,
+  .survey-voting .survey-answers,
+  .survey-voting .survey-answer {
+    max-width: 100%;
+  }
+
+  .survey-voting .survey-question-title {
+    height: auto;
+    min-height: 46px;
+    overflow-wrap: anywhere;
+  }
+
+  /* Place the multiple-answer hint inside its indented mobile frame. */
+  .survey-voting .survey-question-hint {
+    box-sizing: border-box;
+    display: flex;
+    gap: 3px;
+    width: 299px;
+    max-width: 100%;
+    height: auto;
+    min-height: 17px;
+    margin: 0;
+    padding-left: 26px;
+  }
+
+  .survey-question-hint-text {
+    width: 257px;
+    max-width: 100%;
+    min-height: 17px;
+  }
+
   .survey-close-button {
     box-sizing: border-box;
     display: flex;

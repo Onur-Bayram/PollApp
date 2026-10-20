@@ -6,6 +6,14 @@
   gap: 8px;
 }
 
+/* Keep questions and their action together, with the action at the panel bottom. */
+.survey-voting {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+
 /* Keep two question columns and let each row grow with its answers. */
 .survey-questions-row {
   display: flex;
