@@ -107,7 +107,7 @@
     text-align: right;
   }
 
-  /* Let short titles and descriptions use their actual height on phones. */
+  /* Keep the supplied content width and let longer text grow on phones. */
   .survey-view-layout .survey-title,
   .survey-view-layout .survey-description {
     width: 320px;
@@ -116,6 +116,13 @@
     min-height: 0;
     margin: 0 auto;
     overflow-wrap: anywhere;
+  }
+
+  /* Match the mobile title frame and typography without clipping longer titles. */
+  .survey-view-layout .survey-title {
+    min-height: 127px;
+    font-size: 48px;
+    line-height: 42px;
   }
 
   .survey-view-layout .survey-description {
