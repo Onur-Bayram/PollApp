@@ -278,8 +278,6 @@
   width: 1065px;
   height: 422px;
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #ffb770 transparent;
   /* The controls are 32px tall, so 33px places the list 65px below their top. */
   margin-top: 33px;
 }

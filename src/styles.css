@@ -13,6 +13,24 @@ body {
   background: #35273a;
 }
 
+/* Style native scrollbars while the browser controls thumb length and position. */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  min-height: 64px;
+  border-radius: 10px;
+  background: #ffb770;
+  box-shadow: 3px 3px 3.2px 0 #00000040;
+}
+
 /* Load the local Nerko One font for the home page headline. */
 @font-face {
   font-family: "Nerko One";
