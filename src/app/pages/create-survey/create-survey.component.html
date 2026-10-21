@@ -245,13 +245,14 @@
                     class="survey-input input-text question-input"
                     [formControl]="question.text"
                     placeholder="Choose the activities you prefer"
+                    [maxlength]="questionTextLimit"
                     required
                     [class.input-error]="hasError(question.text)"
                     [attr.aria-invalid]="hasError(question.text)"
                     [attr.aria-describedby]="hasError(question.text) ? 'question-error-' + questionIndex : null"
                   />
                   @if (hasError(question.text)) {
-                    <p [id]="'question-error-' + questionIndex" class="field-error">Enter a question.</p>
+                    <p [id]="'question-error-' + questionIndex" class="field-error">Enter a question (up to {{ questionTextLimit }} characters).</p>
                   }
                 </div>
                 <!-- Keep the checkbox and answers independent for every question. -->

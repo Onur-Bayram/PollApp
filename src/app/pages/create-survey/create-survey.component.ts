@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { NewSurvey, NewSurveyQuestion } from '../../models/survey';
 import { SurveyQuestionForm } from '../../models/survey-form';
-import { ANSWER_LETTERS, DESCRIPTION_LIMIT, MAX_QUESTIONS, MIN_ANSWERS, SURVEY_NAME_LIMIT } from '../../models/survey-constants';
+import { ANSWER_LETTERS, DESCRIPTION_LIMIT, MAX_QUESTIONS, MIN_ANSWERS, QUESTION_TEXT_LIMIT, SURVEY_NAME_LIMIT } from '../../models/survey-constants';
 import { PublishFeedbackService } from '../../services/publish-feedback.service';
 import { SurveyService } from '../../services/survey.service';
 import { SurveyCategoryComponent } from './survey-category/survey-category.component';
@@ -42,6 +42,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
 
   // Allow up to six questions and start with only one question.
   maxQuestions: number = MAX_QUESTIONS;
+  questionTextLimit: number = QUESTION_TEXT_LIMIT;
   questions: SurveyQuestionForm[] = [this.createQuestion()];
 
   // Label up to six answers per question as shown in the design.
@@ -125,7 +126,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   /** Give every new question blank text, independent answers and its own checkbox. */
   createQuestion(): SurveyQuestionForm {
     return {
-      text: new FormControl('', { nonNullable: true, validators: Validators.required }),
+      text: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(QUESTION_TEXT_LIMIT)] }),
       answers: [this.createAnswer(), this.createAnswer()],
       allowMultipleAnswers: new FormControl(false, { nonNullable: true }),
     };
