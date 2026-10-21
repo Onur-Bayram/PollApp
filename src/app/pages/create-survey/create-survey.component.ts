@@ -23,8 +23,9 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   // Require a survey name within the existing 60-character limit.
   surveyName = new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(SURVEY_NAME_LIMIT)] });
 
-  // Reveal validation messages only after Publish has been clicked.
+  // Reveal optional-field validation after Publish has been clicked.
   showValidation: boolean = false;
+  private validatedFields: FormControl<string>[] = [];
 
   // Prevent repeated submissions and keep failures visible inside the form.
   isSaving = signal<boolean>(false);
@@ -142,9 +143,33 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     return control.invalid || !control.value.trim();
   }
 
-  /** Keep field errors hidden until the first validation attempt. */
+  /** Check a required field after it loses focus. */
+  validateField(control: FormControl<string>): void {
+    if (!this.validatedFields.includes(control)) this.validatedFields.push(control);
+  }
+
+  /** Keep untouched new fields quiet until they are checked individually or by Publish. */
   hasError(control: FormControl<string>): boolean {
-    return this.showValidation && this.isFieldInvalid(control);
+    return this.validatedFields.includes(control) && this.isFieldInvalid(control);
+  }
+
+  /** Announce only errors that are currently highlighted in the form. */
+  hasValidationErrors(): boolean {
+    return this.validatedFields.some(control => this.isFieldInvalid(control))
+      || (this.showValidation && (!!this.endDateError || this.description.invalid));
+  }
+
+  /** Collect the required controls that currently belong to the form. */
+  private getRequiredFields(): FormControl<string>[] {
+    const fields = [this.surveyName];
+    this.questions.forEach(question => fields.push(question.text, ...question.answers));
+    return fields;
+  }
+
+  /** Forget removed controls while keeping the remaining fields' validation state. */
+  private discardRemovedFields(): void {
+    const fields = this.getRequiredFields();
+    this.validatedFields = this.validatedFields.filter(control => fields.includes(control));
   }
 
   /** Format the local date without shifting it to another day in UTC. */
@@ -177,6 +202,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     if (this.isSaving()) return;
     this.checkEndDate(endDateInput);
     this.showValidation = true;
+    this.validatedFields = this.getRequiredFields();
     this.publishError.set('');
     if (this.isSurveyComplete()) await this.publishSurvey();
     else this.focusInvalidField();
@@ -232,6 +258,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
       return;
     }
     this.questions = this.questions.filter((_, index) => index !== questionIndex);
+    this.discardRemovedFields();
     const nextIndex = Math.min(questionIndex, this.questions.length - 1);
     setTimeout(() => document.getElementById('survey-question-' + nextIndex)?.focus());
   }
@@ -245,6 +272,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
       return;
     }
     question.answers = question.answers.filter((_, index) => index !== answerIndex);
+    this.discardRemovedFields();
     const nextIndex = Math.min(answerIndex, question.answers.length - 1);
     setTimeout(() => document.getElementById('survey-answer-' + questionIndex + '-' + nextIndex)?.focus());
   }

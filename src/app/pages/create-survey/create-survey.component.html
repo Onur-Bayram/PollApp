@@ -97,6 +97,7 @@
                     type="text"
                     class="survey-input name-input"
                     [formControl]="surveyName"
+                    (blur)="validateField(surveyName)"
                     maxlength="60"
                     required
                     [class.input-error]="hasError(surveyName)"
@@ -244,6 +245,7 @@
                     type="text"
                     class="survey-input input-text question-input"
                     [formControl]="question.text"
+                    (blur)="validateField(question.text)"
                     placeholder="Choose the activities you prefer"
                     [maxlength]="questionTextLimit"
                     required
@@ -295,6 +297,7 @@
                             type="text"
                             class="survey-input answer-input"
                             [formControl]="answer"
+                            (blur)="validateField(answer)"
                             required
                             [class.input-error]="hasError(answer)"
                             [attr.aria-invalid]="hasError(answer)"
@@ -368,12 +371,10 @@
             {{ publishError() }}
           } @else if (isSaving()) {
             Publishing your survey…
-          } @else if (showValidation) {
-            @if (isSurveyComplete()) {
-              All required fields are complete.
-            } @else {
-              Please check the highlighted fields.
-            }
+          } @else if (showValidation && isSurveyComplete()) {
+            All required fields are complete.
+          } @else if (hasValidationErrors()) {
+            Please check the highlighted fields.
           } @else {
             * Required fields
           }
