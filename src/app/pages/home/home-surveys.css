@@ -55,7 +55,7 @@
   font-family: "Nokora", Arial, sans-serif;
   font-weight: 400;
   font-size: 16px;
-  line-height: 1;
+  line-height: 20px;
   letter-spacing: 0;
   white-space: nowrap;
 }
@@ -162,7 +162,6 @@
   flex-direction: column;
   gap: 4px;
   width: 206px;
-  height: 222px;
   padding: 8px 4px;
   border-radius: 6px;
   background: #ffffff;
@@ -174,10 +173,10 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  align-self: flex-start;
   flex-shrink: 0;
   gap: 10px;
-  width: 83px;
-  height: 26px;
+  min-height: 28px;
   padding: 4px;
   border: 0;
   border-radius: 6px;
@@ -185,53 +184,18 @@
   color: #35273a;
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1;
-  /* Match the design's 2% letter spacing at a font size of 14px. */
+  font-size: 16px;
+  line-height: 20px;
   letter-spacing: 0.28px;
   white-space: nowrap;
   cursor: pointer;
 }
 
-/* Give the team activities option its wider design size. */
-.home-sort-menu-item-team {
-  width: 111px;
-}
-
-/* Give the health and wellness option its design width. */
-.home-sort-menu-item-health {
-  width: 132px;
-}
-
-/* Give the gaming and entertainment option its design width. */
-.home-sort-menu-item-gaming {
-  width: 174px;
-}
-
-/* Fit the remaining category buttons to their labels and padding. */
-.home-sort-menu-item-auto {
-  align-self: flex-start;
-  width: auto;
-}
-
-/* Center the category labels inside their fixed text areas. */
+/* Center category labels while letting their text determine the width. */
 .home-sort-menu-item-text {
   display: flex;
   align-items: center;
-  height: 18px;
-}
-
-/* Keep the category text widths from the design. */
-.home-sort-menu-item-team-text {
-  width: 103px;
-}
-
-.home-sort-menu-item-health-text {
-  width: 124px;
-}
-
-.home-sort-menu-item-gaming-text {
-  width: 166px;
+  height: 20px;
 }
 
 /* Highlight a hovered category and keep the clicked category selected. */
@@ -250,22 +214,22 @@
   align-items: center;
   gap: 10px;
   min-width: 117px;
-  height: 26px;
+  height: 28px;
   padding: 4px 4px 4px 10px;
   border-radius: 6px;
   color: #ffb770;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 20px;
   letter-spacing: 0.28px;
 }
 
-/* Keep the team label at its design size and let longer category names fit. */
+/* Keep the chosen category on one line inside its control. */
 .home-sort-selection-text {
   display: flex;
   align-items: center;
   min-width: 103px;
-  height: 18px;
+  height: 20px;
   white-space: nowrap;
 }
 
@@ -285,7 +249,8 @@
 /* Keep loading, retry and empty-list messages readable on the dark page. */
 .home-data-message {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 /* Keep the card's padding inside its size and round the top-right corner more. */
@@ -324,7 +289,7 @@
   color: #ffcfa1;
   font-weight: 500;
   font-size: 16px;
-  line-height: 1;
+  line-height: 20px;
 }
 
 /* Style the survey title with the local Mulish Bold font. */

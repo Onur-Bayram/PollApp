@@ -225,12 +225,12 @@
 /* Style the category label and center its text area inside the card. */
 .home-highlight-card-category {
   width: 233px;
-  height: 18px;
+  min-height: 20px;
   margin: 0 auto;
   color: #35273a;
   font-weight: 600;
-  font-size: 14px;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 /* Style the survey title with the local Mulish Bold font. */
@@ -254,7 +254,7 @@
   align-items: center;
   gap: 10px;
   min-width: 102px;
-  height: 24px;
+  height: 26px;
   padding: 3px 6px;
   border-top-right-radius: 14px;
   background: #ffcfa1;
@@ -274,10 +274,10 @@
   align-items: center;
   /* Allow the longer labels with "Days" to widen their badges. */
   min-width: 90px;
-  height: 18px;
+  height: 20px;
   font-weight: 500;
-  font-size: 14px;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 20px;
   white-space: nowrap;
 }
 
