@@ -10,45 +10,62 @@ import { ResultQuestion } from '../../models/survey-result';
 import { SurveyResultsService } from '../../services/survey-results.service';
 import { SurveyService } from '../../services/survey.service';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
+import { SurveyResultsComponent } from './survey-results/survey-results.component';
 import { SurveyPageService } from '../../services/survey-page.service';
-import { RESULTS_REFRESH_DELAY, RESULT_TRACK_WIDTH } from '../../models/survey-constants';
+import { RESULTS_REFRESH_DELAY } from '../../models/survey-constants';
 
 const RESULTS_ANIMATION_EXTRA_HEIGHT: number = 200;
 const RESULTS_HEADING_CHARACTERS_PER_LINE: number = 14;
 const RESULTS_HEADING_LINE_HEIGHT: number = 18;
 const RESULTS_QUESTION_SPACING: number = 32;
 
-// Connect the survey detail view to its separate template and styles.
+/** Coordinate survey loading, voting and live totals while child views render the data. */
 @Component({
   selector: 'app-survey-view',
-  imports: [DatePipe, RouterLink, ReactiveFormsModule, CreateSurveyComponent],
+  imports: [DatePipe, RouterLink, ReactiveFormsModule, CreateSurveyComponent, SurveyResultsComponent],
   templateUrl: './survey-view.component.html',
-  styleUrls: ['./survey-view.component.css', './survey-view-content.css', './survey-view-mobile.css', './survey-view-results-mobile.css'],
+  styleUrls: ['./survey-view-shared.css', './survey-view.component.css', './survey-view-content.css', './survey-view-mobile.css', './survey-view-results-mobile.css'],
 })
 export class SurveyViewComponent implements OnInit, OnDestroy {
-  // Show the existing creation overlay above the survey details.
+  /** Show the creation dialog over the current survey. */
   isCreateSurveyOpen: boolean = false;
-  // Keep mobile results collapsed until the voter opens them.
+  /** Keep stacked results collapsed until the voter opens them. */
   areResultsOpen = signal<boolean>(false);
-  resultTrackWidth: number = RESULT_TRACK_WIDTH;
-  // Show success only after the selected answers have been saved.
+  /** Lock the voting controls while saving or resetting a submission. */
   isSubmitting = signal<boolean>(false);
+  /** Distinguish a pending withdrawal from a pending vote save. */
   isResetting = signal<boolean>(false);
+  /** Show success only after the selected answers have been saved. */
   voteSaved = signal<boolean>(false);
+  /** Keep a failed save or withdrawal visible beside the vote controls. */
   voteError = signal<string>('');
+  /** Explain when the vote succeeds but local browser memory cannot be updated. */
   voteMemoryNotice = signal<string>('');
+  /** Check unanswered questions only after an attempted submission. */
   showVoteValidation: boolean = false;
+  /** Expose an active totals request to the results view. */
   isLoadingResults = signal<boolean>(false);
+  /** Distinguish loaded zero totals from results that have not arrived yet. */
   resultsLoaded = signal<boolean>(false);
+  /** Preserve a failed totals request until the next retry. */
   resultsError = signal<string>('');
+  /** Distinguish an empty survey from one with stored votes. */
   hasVotes = signal<boolean>(false);
+  /** Announce live updates only after the subscription is connected. */
   liveStatus = signal<string>('');
+  /** Keep stored totals separate from the current unsaved selection. */
   private voteCounts: AnswerVoteCount[] = [];
+  /** Retain the exact saved vote IDs for a later withdrawal. */
   private savedVote: SavedVote | null = null;
+  /** Release route changes when this survey view is destroyed. */
   private routeSubscription?: Subscription;
+  /** Retain the current live channel so another survey can replace it. */
   private voteChannel?: RealtimeChannel;
+  /** Combine a burst of live events into one totals refresh. */
   private resultsTimer?: ReturnType<typeof setTimeout>;
+  /** Ignore survey responses that belong to an earlier route. */
   private loadRequest: number = 0;
+  /** Apply only the latest totals response for the current survey. */
   private resultsRequest: number = 0;
 
   /** Connect the services used by this component. */

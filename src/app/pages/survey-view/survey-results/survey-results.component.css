@@ -1,0 +1,163 @@
+:host {
+  display: block;
+}
+
+/* Stack the results using the height required by their questions. */
+.survey-results {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 16px;
+  width: 315px;
+}
+
+/* Use the supplied heading size and the local Nerko One font. */
+.survey-results-title {
+  flex-shrink: 0;
+  width: 315px;
+  height: 39px;
+  margin: 0;
+  color: #221227;
+  font-family: "Nerko One", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Inherit the heading typography and use primary orange for LIVE. */
+.survey-results-live {
+  color: #ffb770;
+}
+
+/* Keep each question's heading and chart together with the supplied gap. */
+.survey-result-question {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 16px;
+  width: 315px;
+}
+
+/* Match the first result block's supplied height before the next question. */
+.survey-result-question-first {
+  min-height: 172px;
+}
+
+/* Stretch the three columns to this question's chart height. */
+.survey-result-chart {
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  gap: 7px;
+  padding: 3px 0;
+}
+
+/* Use the same vertical spacing for all three result columns. */
+.survey-result-letters,
+.survey-result-tracks,
+.survey-result-percentages {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+/* Share the local Mulish font and text size between result labels. */
+.survey-result-letters,
+.survey-result-percentages {
+  font-family: "Mulish", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+/* Keep the supplied letter column width and bold weight. */
+.survey-result-letters {
+  width: 15px;
+  color: #35273a;
+  font-weight: 700;
+}
+
+/* Center each label against its 14px result track. */
+.survey-result-letter-area,
+.survey-result-percentage-area {
+  display: flex;
+  align-items: center;
+  height: 14px;
+}
+
+/* Center each letter vertically inside its specified text area. */
+.survey-result-letter {
+  display: flex;
+  align-items: center;
+}
+
+/* Keep 100% readable at 16px without extending into the result track. */
+.survey-result-percentages {
+  width: 48px;
+  color: #d79451;
+  font-weight: 800;
+  text-align: right;
+}
+
+/* Center the percentage vertically and align its text to the right. */
+.survey-result-percentage {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 48px;
+}
+
+/* Let the track yield space to readable percentages on narrow screens. */
+.survey-result-tracks {
+  flex-shrink: 1;
+  min-width: 0;
+  width: 255px;
+}
+
+/* Share the bar height and right corners between backgrounds and fills. */
+.survey-result-track,
+.survey-result-fill {
+  height: 14px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+/* Keep the full result background gray. */
+.survey-result-track {
+  width: 100%;
+  background: #ededed;
+}
+
+/* Color the example result fills with primary orange. */
+.survey-result-fill {
+  background: #ffb770;
+}
+
+/* Fit the shared question heading to the results column. */
+.survey-result-question-title {
+  flex-shrink: 0;
+  width: 315px;
+}
+
+.results-retry-button {
+  align-self: flex-start;
+}
+
+.survey-results.saved-survey-results {
+  width: 324px;
+}
+
+@media (max-width: 1359px) {
+  .survey-results,
+  .survey-results.saved-survey-results {
+    width: 100%;
+  }
+
+  .survey-results-title,
+  .survey-result-question,
+  .survey-result-question-title {
+    max-width: 100%;
+  }
+}

@@ -90,15 +90,4 @@
     pointer-events: auto;
     transition-delay: 0s;
   }
-
-  .survey-view-layout .survey-results {
-    width: 100%;
-  }
-
-  .survey-results-title,
-  .survey-result-question,
-  .survey-result-question-title {
-    max-width: 100%;
-  }
-
 }

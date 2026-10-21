@@ -33,33 +33,6 @@
   width: 299px;
 }
 
-/* Align the question number and text with the local Mulish Bold font. */
-.survey-question-title {
-  display: flex;
-  gap: 4px;
-  width: 299px;
-  height: 46px;
-  margin: 0;
-  color: #35273a;
-  font-family: "Mulish", Arial, sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 1;
-  letter-spacing: 0;
-}
-
-/* Fit the shared question heading to the results column. */
-.survey-result-question-title {
-  flex-shrink: 0;
-  width: 315px;
-}
-
-/* Reserve space for the number so the question and hint share one text edge. */
-.survey-question-number {
-  flex-shrink: 0;
-  width: 16px;
-}
-
 /* Align the hint below the question text and use local Mulish Regular. */
 .survey-question-hint {
   width: 257px;
@@ -185,61 +158,9 @@
   align-items: flex-start;
 }
 
-/* Keep the survey action aligned to the right of its row. */
-.complete-survey-button {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  align-self: flex-end;
-  flex-shrink: 0;
-  gap: 10px;
-  width: 151px;
-  height: 37px;
-  padding: 8px 12px;
-  border: 0;
-  cursor: pointer;
-  border-radius: 10px;
-  background: #ffb7704d;
-  text-decoration: none;
-  transition: background-color 200ms ease-out;
-}
-
-/* Highlight the completion link with primary orange when hovered. */
-.complete-survey-button:hover:not(:disabled) {
-  background: #ffb770;
-}
-
-/* Keep saving controls still and place the results retry beside its message. */
-.complete-survey-button:disabled,
-.create-survey-button:disabled {
-  cursor: default;
-}
-
-.results-retry-button {
-  align-self: flex-start;
-}
-
-/* Match the label's size and local Nokora Bold typography. */
-.complete-survey-button-text {
-  display: flex;
-  align-items: center;
-  width: 127px;
-  height: 21px;
-  color: #35273a;
-  font-family: "Nokora", Arial, sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1;
-  letter-spacing: 0;
-}
-
 /* Let real survey content grow without changing the fixed Figma preview. */
 .saved-survey .survey-view-content {
   align-items: flex-start;
-}
-
-.saved-survey .survey-results {
-  width: 324px;
 }
 
 .saved-survey .survey-title {
@@ -264,12 +185,6 @@
   margin-top: 16px;
 }
 
-.saved-survey .survey-question-title {
-  height: auto;
-  min-height: 46px;
-  overflow-wrap: anywhere;
-}
-
 .saved-survey .survey-answer,
 .saved-survey .survey-answer-text,
 .saved-survey .survey-answer-value {
@@ -287,11 +202,4 @@
 
 .saved-survey .survey-answer-letter {
   flex-shrink: 0;
-}
-
-/* Share readable text for loading, missing surveys and empty results. */
-.survey-message {
-  margin: 0;
-  color: #35273a;
-  font: 400 16px/20px "Mulish", Arial, sans-serif;
 }
