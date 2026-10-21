@@ -1,0 +1,203 @@
+/* Set the wider button size for adding another question. */
+.add-question-button {
+  width: 204px;
+}
+
+/* Align the answer text with its line and keep the button's supplied size. */
+.add-answer-button {
+  position: relative;
+  justify-content: flex-start;
+  width: 146px;
+  margin-left: 31px;
+  padding: 0 0 0 9px;
+  background: transparent;
+}
+
+/* Draw the 117px white line without changing the button's layout. */
+.answer-line {
+  position: absolute;
+  left: 9px;
+  bottom: 6px;
+  width: 117px;
+  border-top: 1px solid #ffffff;
+}
+
+/* Show when this question has reached its answer limit. */
+.add-answer-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Stack each question's content and allow room for additional answers. */
+.question-group {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 24px;
+  width: 429px;
+  min-height: 271px;
+}
+
+/* Stack the answer content with 16px spacing and grow with its rows. */
+.answers-group {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 16px;
+  width: 429px;
+  min-height: 176px;
+}
+
+/* Align the answer heading and note, wrapping them on narrow screens. */
+.answers-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Stack any number of answer rows with 8px spacing. */
+.answer-list {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 8px;
+  width: 424px;
+}
+
+/* Align the answer letter, input and delete button in the same row. */
+.answer-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 422px;
+  height: 37px;
+}
+
+/* Use the supplied width for the second answer row. */
+.answer-row-b {
+  width: 424px;
+}
+
+/* Keep the supplied widths for all three parts of an answer row. */
+.answer-label,
+.answer-input,
+.answer-row .delete-button {
+  flex-shrink: 0;
+}
+
+/* Keep the checkbox and its clickable label together. */
+.create-survey-multiple-answers-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* Leave 3px of space around the checkbox inside its 21px area. */
+.create-survey-multiple-answers-icon {
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+  width: 21px;
+  height: 21px;
+  padding: 3px;
+}
+
+/* Replace the unchecked browser style with the white Figma border. */
+.create-survey-multiple-answers-checkbox {
+  appearance: none;
+  box-sizing: border-box;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  border: 1.5px solid #ffffff;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Use the browser's own check mark when the option is selected. */
+.create-survey-multiple-answers-checkbox:checked {
+  appearance: auto;
+  accent-color: #ffb770;
+}
+
+/* Stack the question label and input with a small vertical space. */
+.question-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 429px;
+}
+
+/* Keep the question label and delete button side by side with a 16px gap. */
+.question-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 441px;
+  height: 26px;
+}
+
+/* Reserve the supplied text width inside Add next question. */
+.add-question-text {
+  width: 137px;
+}
+
+/* Anchor the smaller plus to the supplied Add answer text area. */
+.add-answer-text {
+  position: relative;
+  width: 94px;
+}
+
+/* Use the supplied offsets for the 16px white plus. */
+.answer-icon {
+  position: absolute;
+  top: 2px;
+  left: 100.5px;
+}
+
+/* Set the width of the numbered question label. */
+.question-label {
+  width: 399px;
+}
+
+/* Set the answer heading width and remove the default heading margins. */
+.answers-label {
+  width: 184px;
+  margin: 0;
+}
+
+/* Use the shared Mulish Bold label style for each answer letter. */
+.answer-label {
+  width: 23px;
+  height: 30px;
+}
+
+/* Share the white Mulish Regular style between the answer notes. */
+.answer-note {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: 20px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+/* Let the limit note continue below the action when the row is too narrow. */
+.answer-actions {
+  flex-wrap: wrap;
+}
+
+/* Use the shared input style at the smaller answer field width. */
+.answer-input {
+  width: 363px;
+}
+
+.answer-error {
+  margin: 4px 0 0 31px;
+}

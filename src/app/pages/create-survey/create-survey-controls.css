@@ -1,0 +1,140 @@
+/* Share border sizing and the pointer cursor across this page's buttons. */
+button {
+  box-sizing: border-box;
+  border: 0;
+  cursor: pointer;
+}
+
+/* Share the action buttons' padding, rounded corners and background. */
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 111px;
+  height: 40px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #ffb7704d;
+}
+
+/* Use the same lighter background when either action button is hovered. */
+.close-button:hover,
+.add-question-button:hover {
+  background: #ae7e5a;
+}
+
+/* Center each supplied icon inside its 24px area. */
+.button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+/* Share the label height, text alignment and local Mulish Bold font. */
+.label {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  color: #fefdff;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Use Nokora Bold for button text while sharing the label alignment and color. */
+.action-text {
+  width: 50px;
+  height: 21px;
+  font-family: "Nokora", Arial, sans-serif;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+/* Align each input and its delete button vertically. */
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Share the input height, padding, rounded corners and background. */
+.survey-input {
+  box-sizing: border-box;
+  height: 37px;
+  padding: 7px 13px;
+  border: 0;
+  border-radius: 5px 20px 5px 5px;
+  background: #fefdff;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+/* Use the same width for the survey name and question inputs. */
+.name-input,
+.question-input {
+  width: 429px;
+}
+
+/* Change the input background immediately while it is focused. */
+.survey-input:focus {
+  background: #fee9d4;
+}
+
+/* Use a transparent button around the supplied delete icon. */
+.delete-button {
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  border-radius: 3px;
+  background: transparent;
+}
+
+/* Show the orange layer over white immediately when the button is hovered. */
+.delete-button:hover {
+  background:
+    linear-gradient(0deg, rgba(255, 183, 112, 0.6), rgba(255, 183, 112, 0.6)),
+    linear-gradient(0deg, #ffffff, #ffffff);
+}
+
+/* The PNG includes its own spacing; offset it to keep its original size. */
+.delete-button img {
+  display: block;
+  width: 26px;
+  height: 26px;
+  margin: -4px;
+}
+
+/* Mark required labels and highlight invalid fields without resizing them. */
+.required-mark {
+  margin-left: 4px;
+  color: #ffb770;
+}
+
+.input-error {
+  box-shadow: inset 0 0 0 2px #ffb770;
+}
+
+/* Keep error messages readable against the dark form background. */
+.field-error,
+.validation-message {
+  margin: 0;
+  color: #ffb770;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+/* Reserve each message's wrapping height so validation cannot move later fields. */
+.field-error {
+  min-height: 20px;
+  visibility: hidden;
+}
+
+.field-error-visible {
+  visibility: visible;
+}

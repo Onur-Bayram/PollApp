@@ -1,0 +1,150 @@
+/* Keep the mobile answer headers out of the desktop form. */
+.answer-mobile-header {
+  display: none;
+}
+
+@media (max-width: 1359px) {
+
+  /* Match the mobile question frame and allow added answers to extend it. */
+  .question-group {
+    width: 320px;
+    max-width: 100%;
+    min-height: 316px;
+  }
+
+  /* Fit each question field to its mobile group. */
+  .question-group .question-field,
+  .question-header,
+  .question-input {
+    width: 100%;
+  }
+
+  /* Reserve 26px for the delete button and 16px of space to its right. */
+  .question-header {
+    box-sizing: border-box;
+    gap: 4px;
+    padding-right: 16px;
+  }
+
+  .question-label {
+    width: 274px;
+    min-width: 0;
+  }
+
+  .question-header .delete-button {
+    flex-shrink: 0;
+  }
+
+  .question-input {
+    height: 34px;
+  }
+
+  /* Fit the answer group to the mobile column and let its header wrap if needed. */
+  .answers-group {
+    width: 100%;
+  }
+
+  .answers-label {
+    flex-shrink: 0;
+    width: auto;
+    height: 23px;
+  }
+
+  .create-survey-multiple-answers-option {
+    flex-shrink: 0;
+    gap: 4px;
+  }
+
+  /* Stack each mobile answer header above its existing input. */
+  .answer-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .answer-list,
+  .answer-row {
+    width: 100%;
+  }
+
+  .answer-input {
+    max-width: 100%;
+  }
+
+  /* Center the supplied letter and icon sizes in the 24px header. */
+  .answer-mobile-header {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 24px;
+    padding-right: 16px;
+  }
+
+  /* Let the limit note continue below the mobile answer action. */
+  .answer-actions {
+    gap: 10px;
+  }
+
+  .add-answer-control {
+    flex-shrink: 0;
+    width: 146px;
+    height: 40px;
+  }
+
+  .add-answer-button {
+    gap: 4px;
+    width: 141px;
+    margin-left: 0;
+    padding: 8px 12px;
+  }
+
+  /* Keep the 89px text and 24px icon area inside the 117px content row. */
+  .add-answer-text {
+    gap: 4px;
+    width: 117px;
+    height: 24px;
+  }
+
+  .add-answer-label,
+  .add-answer-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .add-answer-label {
+    width: 89px;
+    height: 21px;
+  }
+
+  .add-answer-icon {
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+  }
+
+  .answer-icon {
+    position: static;
+  }
+
+  .answer-line {
+    left: 12px;
+    bottom: 8px;
+  }
+
+  .add-question-field {
+    align-items: center;
+    width: 100%;
+  }
+
+  .add-question-button {
+    width: 195px;
+  }
+
+  /* Use the separate mobile answer labels and delete actions. */
+  .answer-desktop-label,
+  .answer-desktop-delete {
+    display: none;
+  }
+}

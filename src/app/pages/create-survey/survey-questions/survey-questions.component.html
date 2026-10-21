@@ -1,0 +1,124 @@
+<!-- Track the original controls to preserve field values when the lists change. -->
+@for (question of questions(); track question; let questionIndex = $index) {
+  <div class="question-group">
+    <div class="question-field">
+      <div class="question-header">
+        <label [for]="'survey-question-' + questionIndex" class="label question-label">{{ questionIndex + 1 }}. Question <span class="required-mark" aria-hidden="true">*</span></label>
+        <button
+          type="button"
+          class="delete-button"
+          [attr.aria-label]="questionIndex === 0 ? 'Clear question 1 and its answers' : 'Remove question ' + (questionIndex + 1)"
+          (click)="questionRemoved.emit(questionIndex)"
+        >
+          <img src="assets/icons/delete.png" alt="" />
+        </button>
+      </div>
+      <input
+        [id]="'survey-question-' + questionIndex"
+        type="text"
+        class="survey-input question-input"
+        [formControl]="question.text"
+        (blur)="fieldBlurred.emit(question.text)"
+        placeholder="Choose the activities you prefer"
+        [maxlength]="questionTextLimit()"
+        required
+        [class.input-error]="questionErrors()[questionIndex]"
+        [attr.aria-invalid]="questionErrors()[questionIndex]"
+        [attr.aria-describedby]="questionErrors()[questionIndex] ? 'question-error-' + questionIndex : null"
+      />
+      <!-- Reserve hidden error text in the layout, as in the surrounding form. -->
+      <p [id]="'question-error-' + questionIndex" class="field-error" [class.field-error-visible]="questionErrors()[questionIndex]">Enter a question (up to {{ questionTextLimit() }} characters).</p>
+    </div>
+    <div class="answers-group">
+      <div class="answers-header">
+        <h2 class="label answers-label">Answers <span class="required-mark" aria-hidden="true">*</span></h2>
+        <label [for]="'allow-multiple-answers-' + questionIndex" class="create-survey-multiple-answers-option">
+          <span class="create-survey-multiple-answers-icon">
+            <input
+              [id]="'allow-multiple-answers-' + questionIndex"
+              type="checkbox"
+              class="create-survey-multiple-answers-checkbox"
+              [formControl]="question.allowMultipleAnswers"
+            />
+          </span>
+          <span class="answer-note">Allow multiple answers.</span>
+        </label>
+      </div>
+      <div class="answer-list">
+        @for (answer of question.answers; track answer; let answerIndex = $index) {
+          <div class="answer-field">
+            <div class="answer-mobile-header">
+              <label [for]="'survey-answer-' + questionIndex + '-' + answerIndex" class="label answer-label">{{ answerLetters()[answerIndex] }}.</label>
+              <button
+                type="button"
+                class="delete-button"
+                [attr.aria-label]="(answerIndex < minAnswers ? 'Clear answer ' : 'Remove answer ') + answerLetters()[answerIndex] + ' for question ' + (questionIndex + 1)"
+                (click)="answerRemoved.emit({ questionIndex: questionIndex, answerIndex: answerIndex })"
+              >
+                <img src="assets/icons/delete.png" alt="" />
+              </button>
+            </div>
+            <div class="answer-row" [class.answer-row-b]="answerIndex > 0">
+              <label [for]="'survey-answer-' + questionIndex + '-' + answerIndex" class="label answer-label answer-desktop-label">{{ answerLetters()[answerIndex] }}.</label>
+              <input
+                [id]="'survey-answer-' + questionIndex + '-' + answerIndex"
+                type="text"
+                class="survey-input answer-input"
+                [formControl]="answer"
+                (blur)="fieldBlurred.emit(answer)"
+                required
+                [class.input-error]="answerErrors()[questionIndex][answerIndex]"
+                [attr.aria-invalid]="answerErrors()[questionIndex][answerIndex]"
+                [attr.aria-describedby]="answerErrors()[questionIndex][answerIndex] ? 'answer-error-' + questionIndex + '-' + answerIndex : null"
+              />
+              <button
+                type="button"
+                class="delete-button answer-desktop-delete"
+                [attr.aria-label]="(answerIndex < minAnswers ? 'Clear answer ' : 'Remove answer ') + answerLetters()[answerIndex] + ' for question ' + (questionIndex + 1)"
+                (click)="answerRemoved.emit({ questionIndex: questionIndex, answerIndex: answerIndex })"
+              >
+                <img src="assets/icons/delete.png" alt="" />
+              </button>
+            </div>
+            <p [id]="'answer-error-' + questionIndex + '-' + answerIndex" class="field-error answer-error" [class.field-error-visible]="answerErrors()[questionIndex][answerIndex]">Enter answer {{ answerLetters()[answerIndex] }}.</p>
+          </div>
+        }
+      </div>
+      <div class="input-row answer-actions">
+        <div class="add-answer-control">
+          <button
+            type="button"
+            class="action-button add-answer-button"
+            [attr.aria-label]="'Add answer for question ' + (questionIndex + 1)"
+            [attr.aria-describedby]="'answer-limit-' + questionIndex"
+            [disabled]="question.answers.length >= answerLetters().length"
+            (click)="answerAdded.emit(question.answers)"
+          >
+            <span class="label action-text add-answer-text">
+              <span class="add-answer-label">Add answer</span>
+              <span class="add-answer-icon">
+                <img class="answer-icon" src="assets/icons/add-circle-white.png" alt="" width="16" height="16" />
+              </span>
+            </span>
+            <span class="answer-line" aria-hidden="true"></span>
+          </button>
+        </div>
+        <span [id]="'answer-limit-' + questionIndex" class="answer-note">You can add up to 6 answer fields.</span>
+      </div>
+    </div>
+  </div>
+}
+@if (questions().length < maxQuestions()) {
+  <div class="question-field add-question-field">
+    <button
+      type="button"
+      class="action-button add-question-button"
+      (click)="questionAdded.emit()"
+    >
+      <span class="label action-text add-question-text">Add next question</span>
+      <span class="button-icon" aria-hidden="true">
+        <img src="assets/icons/add-circle-white.png" alt="" width="20" height="20" />
+      </span>
+    </button>
+  </div>
+}

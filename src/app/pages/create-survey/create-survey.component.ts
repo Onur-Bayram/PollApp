@@ -8,49 +8,60 @@ import { ANSWER_LETTERS, DESCRIPTION_LIMIT, MAX_QUESTIONS, MIN_ANSWERS, QUESTION
 import { PublishFeedbackService } from '../../services/publish-feedback.service';
 import { SurveyService } from '../../services/survey.service';
 import { SurveyCategoryComponent } from './survey-category/survey-category.component';
+import { SurveyQuestionsComponent } from './survey-questions/survey-questions.component';
 
-// Connect the creation overlay to its separate template and styles.
+/** Manage the survey controls, validation and publishing inside the creation dialog. */
 @Component({
   selector: 'app-create-survey',
-  imports: [ReactiveFormsModule, SurveyCategoryComponent],
+  imports: [ReactiveFormsModule, SurveyCategoryComponent, SurveyQuestionsComponent],
   templateUrl: './create-survey.component.html',
-  styleUrls: ['./create-survey.component.css', './create-survey-fields.css', './create-survey-mobile.css'],
+  styleUrls: ['./create-survey-controls.css', './create-survey.component.css', './create-survey-fields.css', './create-survey-mobile.css'],
 })
 export class CreateSurveyComponent implements OnInit, OnDestroy {
-  // Let the parent page know when this overlay should close.
+  /** Let the parent page remove this dialog after cancellation or a successful save. */
   closed = output<void>();
 
-  // Require a survey name within the existing 60-character limit.
+  /** Require a survey name within the agreed character limit. */
   surveyName = new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(SURVEY_NAME_LIMIT)] });
 
-  // Reveal optional-field validation after Publish has been clicked.
+  /** Reveal optional-field validation after Publish has been clicked. */
   showValidation: boolean = false;
+
+  /** Remember which required controls have been checked by blur or Publish. */
   private validatedFields: FormControl<string>[] = [];
 
-  // Prevent repeated submissions and keep failures visible inside the form.
+  /** Prevent duplicate submissions while a save is in progress. */
   isSaving = signal<boolean>(false);
+
+  /** Keep a failed save visible without losing the current form values. */
   publishError = signal<string>('');
 
-  // Connect the optional end date input to a separate form control.
+  /** Keep the deadline optional while retaining the user's current value. */
   endDate = new FormControl('', { nonNullable: true });
 
-  // Keep new surveys open at least until the end of the current local day.
-  minimumEndDate = this.getToday();
+  /** Keep new surveys open at least until the end of the current local day. */
+  minimumEndDate: string = this.getToday();
+
+  /** Describe a malformed or past date without changing the date control's value. */
   endDateError: string = '';
 
-  // Connect the optional description to its own form control.
+  /** Limit the optional description to the agreed length. */
   description = new FormControl('', { nonNullable: true, validators: Validators.maxLength(DESCRIPTION_LIMIT) });
 
-  // Allow up to six questions and start with only one question.
+  /** Limit the number of question groups offered by the child view. */
   maxQuestions: number = MAX_QUESTIONS;
+
+  /** Share the question validator's length limit with the child view. */
   questionTextLimit: number = QUESTION_TEXT_LIMIT;
+
+  /** Retain the original question and answer controls when the list changes. */
   questions: SurveyQuestionForm[] = [this.createQuestion()];
 
-  // Label up to six answers per question as shown in the design.
+  /** Label the available answers and limit how many can be added. */
   answerLetters: string[] = ANSWER_LETTERS;
 
-  // Use the same topic categories as the home page.
-  categories = [
+  /** Offer the same six topic categories as the home page. */
+  categories: string[] = [
     'Team Activities',
     'Health & Wellness',
     'Gaming & Entertainment',
@@ -59,13 +70,13 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     'Technology & Innovation',
   ];
 
-  // Track whether the category menu is open.
+  /** Preserve the category menu's open state while other fields change. */
   isCategoryMenuOpen: boolean = false;
 
-  // Store the category shown below the button.
+  /** Store the category to include in the saved survey. */
   selectedCategory: string = '';
 
-  /** Save the form and share its confirmation with the outer component. */
+  /** Receive the services used to save, confirm and navigate from this dialog. */
   constructor(
     private publishFeedback: PublishFeedbackService,
     private surveys: SurveyService,
@@ -151,6 +162,16 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   /** Keep untouched new fields quiet until they are checked individually or by Publish. */
   hasError(control: FormControl<string>): boolean {
     return this.validatedFields.includes(control) && this.isFieldInvalid(control);
+  }
+
+  /** Give the question view the current visibility of each question's error. */
+  getQuestionErrors(): boolean[] {
+    return this.questions.map(question => this.hasError(question.text));
+  }
+
+  /** Keep answer validation in the form while the question view displays its results. */
+  getAnswerErrors(): boolean[][] {
+    return this.questions.map(question => question.answers.map(answer => this.hasError(answer)));
   }
 
   /** Announce only errors that are currently highlighted in the form. */

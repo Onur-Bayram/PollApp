@@ -1,4 +1,4 @@
-<!-- Cover the current page with a labelled, keyboard-accessible dialog. -->
+<!-- Keep the creation dialog over the current page and trap keyboard focus inside it. -->
 <div
   class="create-survey-overlay"
   role="dialog"
@@ -9,9 +9,7 @@
   (document:keydown.escape)="close()"
   (keydown)="keepFocusInside($event, cancelButton, publishButton, homeButton)"
 >
-  <!-- Center the desktop design area in wider browser windows. -->
   <div class="create-survey-layout">
-    <!-- Return to Home through the mobile brand header. -->
     <header class="create-survey-mobile-header">
       <button
         #homeButton
@@ -25,18 +23,13 @@
         <img class="create-survey-home-logo" src="assets/icons/poll-app-logo-dark.png" alt="Poll App" width="119" height="49" />
       </button>
     </header>
-    <!-- Dark frame for the survey form. -->
     <div class="create-survey-frame">
-      <!-- Keep the heading and form panel together. -->
       <div class="create-survey-content">
-        <!-- Group the status, title and close button above the form. -->
         <div class="create-survey-heading">
-          <!-- Place Draft and the mobile close button in the same top row. -->
           <div class="create-survey-status-row">
             <div class="create-survey-status">
               <span class="create-survey-status-text">Draft</span>
             </div>
-            <!-- Return to Home through the icon-only mobile close button. -->
             <button
               type="button"
               class="action-button close-button create-survey-mobile-close"
@@ -49,10 +42,8 @@
               </span>
             </button>
           </div>
-          <!-- Keep the desktop Cancel button beside the page title. -->
           <div class="create-survey-title-row">
             <h1 id="create-survey-title" class="create-survey-title">Create new survey</h1>
-            <!-- Ask the parent page to close this overlay immediately. -->
             <button
               #cancelButton
               type="button"
@@ -60,24 +51,18 @@
               [disabled]="isSaving()"
               (click)="close()"
             >
-              <!-- Visible label for cancelling survey creation. -->
               <span class="label action-text">Cancel</span>
-              <!-- Decorative X icon next to the Cancel label. -->
               <span class="button-icon" aria-hidden="true">
                 <img src="assets/icons/close.png" alt="" />
               </span>
             </button>
           </div>
         </div>
-        <!-- Inner panel for the survey details and questions. -->
+        <!-- The fieldset disables controls in this view and in the questions component while saving. -->
         <fieldset class="create-survey-form-panel" aria-label="Survey details and questions" [disabled]="isSaving()">
-          <!-- Arrange the survey details and description side by side. -->
           <div class="create-survey-details-row">
-            <!-- Stack the survey name and the date/category row in the left column. -->
             <div class="create-survey-details-column">
-              <!-- Keep the survey name label directly above its text input. -->
               <div class="name-field">
-                <!-- Keep the required label and mobile delete action together. -->
                 <div class="name-header">
                   <label for="survey-name" class="label"><span class="name-label-text">Survey name</span> <span class="required-mark" aria-hidden="true">*</span></label>
                   <button
@@ -89,9 +74,7 @@
                     <img src="assets/icons/delete.png" alt="" />
                   </button>
                 </div>
-                <!-- Keep the desktop delete action beside the name input. -->
                 <div class="input-row">
-                  <!-- Limit the survey name to 60 characters. -->
                   <input
                     id="survey-name"
                     type="text"
@@ -104,7 +87,6 @@
                     [attr.aria-invalid]="hasError(surveyName)"
                     [attr.aria-describedby]="hasError(surveyName) ? 'survey-name-error' : null"
                   />
-                  <!-- Clear only the survey name when this button is clicked. -->
                   <button
                     type="button"
                     class="delete-button name-desktop-delete"
@@ -114,13 +96,11 @@
                     <img src="assets/icons/delete.png" alt="" />
                   </button>
                 </div>
+                <!-- Keep hidden error text mounted so validation cannot move the following fields. -->
                 <p id="survey-name-error" class="field-error" [class.field-error-visible]="hasError(surveyName)">Enter a survey name (up to 60 characters).</p>
               </div>
-              <!-- Group the optional date and category controls. -->
               <div class="create-survey-date-category-row">
-                <!-- Keep the end date label above its smaller input. -->
                 <div class="end-date-field">
-                  <!-- Keep the optional date label and mobile delete action together. -->
                   <div class="end-date-header">
                     <label for="survey-end-date" class="label">Set end date<span class="end-date-optional">&nbsp;(optional)</span></label>
                     <button
@@ -132,9 +112,7 @@
                       <img src="assets/icons/delete.png" alt="" />
                     </button>
                   </div>
-                  <!-- Keep the desktop delete action beside the end date input. -->
                   <div class="input-row">
-                    <!-- Use numeric date segments and the browser's calendar picker. -->
                     <input
                       #endDateInput
                       id="survey-end-date"
@@ -150,7 +128,6 @@
                       [attr.aria-invalid]="showValidation && endDateError !== ''"
                       [attr.aria-describedby]="showValidation && endDateError !== '' ? 'end-date-error' : null"
                     />
-                    <!-- Clear only the end date when this button is clicked. -->
                     <button
                       type="button"
                       class="delete-button end-date-desktop-delete"
@@ -162,7 +139,6 @@
                   </div>
                   <p id="end-date-error" class="field-error" [class.field-error-visible]="showValidation && endDateError !== ''">{{ endDateError }}</p>
                 </div>
-                <!-- Anchor the category menu below its button. -->
                 <div class="create-survey-category-control">
                   <app-survey-category
                     [categories]="categories"
@@ -174,9 +150,7 @@
                 </div>
               </div>
             </div>
-            <!-- Keep the description label directly above its text area. -->
             <div class="create-survey-description-field">
-              <!-- Keep the optional description label and mobile delete action together. -->
               <div class="description-header">
                 <label for="survey-description" class="label description-label">
                   <span>Describing text</span>
@@ -191,9 +165,7 @@
                   <img src="assets/icons/delete.png" alt="" />
                 </button>
               </div>
-              <!-- Keep the desktop delete action beside the description text area. -->
               <div class="input-row create-survey-description-row">
-                <!-- Limit the optional description to 300 characters. -->
                 <textarea
                   id="survey-description"
                   class="survey-input create-survey-description-input"
@@ -203,7 +175,6 @@
                   [attr.aria-invalid]="showValidation && description.invalid"
                   [attr.aria-describedby]="showValidation && description.invalid ? 'description-error' : null"
                 ></textarea>
-                <!-- Clear only the description when this button is clicked. -->
                 <button
                   type="button"
                   class="delete-button description-desktop-delete"
@@ -216,145 +187,24 @@
               <p id="description-error" class="field-error" [class.field-error-visible]="showValidation && description.invalid">Use up to 300 characters.</p>
             </div>
           </div>
-          <!-- Repeat independent questions in the desktop columns. -->
-          <div class="create-survey-questions-row">
-            @for (question of questions; track question; let questionIndex = $index) {
-              <!-- Keep each question together with its own answers. -->
-              <div class="question-group">
-                <div class="question-field">
-                  <!-- Clear the first question's fields or remove an added question group. -->
-                  <div class="question-header">
-                    <label [for]="'survey-question-' + questionIndex" class="label question-label">{{ questionIndex + 1 }}. Question <span class="required-mark" aria-hidden="true">*</span></label>
-                    <button
-                      type="button"
-                      class="delete-button"
-                      [attr.aria-label]="questionIndex === 0 ? 'Clear question 1 and its answers' : 'Remove question ' + (questionIndex + 1)"
-                      (click)="removeQuestion(questionIndex)"
-                    >
-                      <img src="assets/icons/delete.png" alt="" />
-                    </button>
-                  </div>
-                  <input
-                    [id]="'survey-question-' + questionIndex"
-                    type="text"
-                    class="survey-input question-input"
-                    [formControl]="question.text"
-                    (blur)="validateField(question.text)"
-                    placeholder="Choose the activities you prefer"
-                    [maxlength]="questionTextLimit"
-                    required
-                    [class.input-error]="hasError(question.text)"
-                    [attr.aria-invalid]="hasError(question.text)"
-                    [attr.aria-describedby]="hasError(question.text) ? 'question-error-' + questionIndex : null"
-                  />
-                  <p [id]="'question-error-' + questionIndex" class="field-error" [class.field-error-visible]="hasError(question.text)">Enter a question (up to {{ questionTextLimit }} characters).</p>
-                </div>
-                <!-- Keep the checkbox and answers independent for every question. -->
-                <div class="answers-group">
-                  <div class="answers-header">
-                    <h2 class="label answers-label">Answers <span class="required-mark" aria-hidden="true">*</span></h2>
-                    <label [for]="'allow-multiple-answers-' + questionIndex" class="create-survey-multiple-answers-option">
-                      <span class="create-survey-multiple-answers-icon">
-                        <input
-                          [id]="'allow-multiple-answers-' + questionIndex"
-                          type="checkbox"
-                          class="create-survey-multiple-answers-checkbox"
-                          [formControl]="question.allowMultipleAnswers"
-                        />
-                      </span>
-                      <span class="answer-note">Allow multiple answers.</span>
-                    </label>
-                  </div>
-                  <!-- Preserve each answer control when more fields are added. -->
-                  <div class="answer-list">
-                    @for (answer of question.answers; track answer; let answerIndex = $index) {
-                      <!-- Keep each error below its answer row. -->
-                      <div class="answer-field">
-                        <!-- Place the answer letter and delete action above the mobile input. -->
-                        <div class="answer-mobile-header">
-                          <label [for]="'survey-answer-' + questionIndex + '-' + answerIndex" class="label answer-label">{{ answerLetters[answerIndex] }}.</label>
-                          <button
-                            type="button"
-                            class="delete-button"
-                            [attr.aria-label]="(answerIndex < 2 ? 'Clear answer ' : 'Remove answer ') + answerLetters[answerIndex] + ' for question ' + (questionIndex + 1)"
-                            (click)="removeAnswer(questionIndex, answerIndex)"
-                          >
-                            <img src="assets/icons/delete.png" alt="" />
-                          </button>
-                        </div>
-                        <div class="answer-row" [class.answer-row-b]="answerIndex > 0">
-                          <label [for]="'survey-answer-' + questionIndex + '-' + answerIndex" class="label answer-label answer-desktop-label">{{ answerLetters[answerIndex] }}.</label>
-                          <input
-                            [id]="'survey-answer-' + questionIndex + '-' + answerIndex"
-                            type="text"
-                            class="survey-input answer-input"
-                            [formControl]="answer"
-                            (blur)="validateField(answer)"
-                            required
-                            [class.input-error]="hasError(answer)"
-                            [attr.aria-invalid]="hasError(answer)"
-                            [attr.aria-describedby]="hasError(answer) ? 'answer-error-' + questionIndex + '-' + answerIndex : null"
-                          />
-                          <!-- Clear A/B or remove an added answer row. -->
-                          <button
-                            type="button"
-                            class="delete-button answer-desktop-delete"
-                            [attr.aria-label]="(answerIndex < 2 ? 'Clear answer ' : 'Remove answer ') + answerLetters[answerIndex] + ' for question ' + (questionIndex + 1)"
-                            (click)="removeAnswer(questionIndex, answerIndex)"
-                          >
-                            <img src="assets/icons/delete.png" alt="" />
-                          </button>
-                        </div>
-                        <p [id]="'answer-error-' + questionIndex + '-' + answerIndex" class="field-error answer-error" [class.field-error-visible]="hasError(answer)">Enter answer {{ answerLetters[answerIndex] }}.</p>
-                      </div>
-                    }
-                  </div>
-                  <!-- Add answers only to this question and show its limit. -->
-                  <div class="input-row answer-actions">
-                    <div class="add-answer-control">
-                      <button
-                        type="button"
-                        class="action-button add-answer-button"
-                        [attr.aria-label]="'Add answer for question ' + (questionIndex + 1)"
-                        [attr.aria-describedby]="'answer-limit-' + questionIndex"
-                        [disabled]="question.answers.length >= answerLetters.length"
-                        (click)="addAnswer(question.answers)"
-                      >
-                        <span class="label action-text add-answer-text">
-                          <span class="add-answer-label">Add answer</span>
-                          <!-- Reuse the white plus inside the mobile icon area. -->
-                          <span class="add-answer-icon">
-                            <img class="answer-icon" src="assets/icons/add-circle-white.png" alt="" width="16" height="16" />
-                          </span>
-                        </span>
-                        <!-- Draw the supplied white line below the answer action. -->
-                        <span class="answer-line" aria-hidden="true"></span>
-                      </button>
-                    </div>
-                    <span [id]="'answer-limit-' + questionIndex" class="answer-note">You can add up to 6 answer fields.</span>
-                  </div>
-                </div>
-              </div>
-            }
-            @if (questions.length < maxQuestions) {
-              <!-- Put the button in the next free column until six questions exist. -->
-              <div class="question-field">
-                <button
-                  type="button"
-                  class="action-button add-question-button"
-                  (click)="addNextQuestion()"
-                >
-                  <span class="label action-text add-question-text">Add next question</span>
-                  <span class="button-icon" aria-hidden="true">
-                    <img src="assets/icons/add-circle-white.png" alt="" width="20" height="20" />
-                  </span>
-                </button>
-              </div>
-            }
-          </div>
+          <!-- Pass the original controls to the child; validation and list changes stay here. -->
+          <app-survey-questions
+            class="create-survey-questions-row"
+            [questions]="questions"
+            [questionErrors]="getQuestionErrors()"
+            [answerErrors]="getAnswerErrors()"
+            [maxQuestions]="maxQuestions"
+            [questionTextLimit]="questionTextLimit"
+            [answerLetters]="answerLetters"
+            (fieldBlurred)="validateField($event)"
+            (questionAdded)="addNextQuestion()"
+            (questionRemoved)="removeQuestion($event)"
+            (answerAdded)="addAnswer($event)"
+            (answerRemoved)="removeAnswer($event.questionIndex, $event.answerIndex)"
+          ></app-survey-questions>
         </fieldset>
       </div>
-      <!-- Explain required fields and announce the current validation result. -->
+      <!-- Announce validation and save results beside the final action. -->
       <div class="publish-actions">
         <p class="validation-message" aria-live="polite">
           @if (publishError()) {
@@ -369,7 +219,6 @@
             * Required fields
           }
         </p>
-        <!-- Validate the fields while keeping the existing hover animation. -->
         <button #publishButton type="button" class="action-button publish-button" [disabled]="isSaving()" (click)="validateSurvey(endDateInput)">
           <span class="label action-text publish-text">Publish</span>
           <img class="publish-icon" src="assets/icons/publish-check.png" alt="" width="18" height="16" />

@@ -95,33 +95,9 @@
   line-height: 1;
 }
 
-/* Share border sizing and the pointer cursor across this page's buttons. */
-button {
-  box-sizing: border-box;
-  border: 0;
-  cursor: pointer;
-}
-
-/* Share the action buttons' padding, rounded corners and background. */
-.action-button {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 111px;
-  height: 40px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: #ffb7704d;
-}
-
 /* Keep the existing background transition for the Cancel button. */
 .close-button {
   transition: background-color 200ms ease-out;
-}
-
-/* Set the wider button size for adding another question. */
-.add-question-button {
-  width: 204px;
 }
 
 /* Keep the final action at the right edge and animate its width and color. */
@@ -154,46 +130,6 @@ button {
 /* Show the check only while Publish is hovered. */
 .publish-button:hover .publish-icon {
   opacity: 1;
-}
-
-/* Align the answer text with its line and keep the button's supplied size. */
-.add-answer-button {
-  position: relative;
-  justify-content: flex-start;
-  width: 146px;
-  margin-left: 31px;
-  padding: 0 0 0 9px;
-  background: transparent;
-}
-
-/* Draw the 117px white line without changing the button's layout. */
-.answer-line {
-  position: absolute;
-  left: 9px;
-  bottom: 6px;
-  width: 117px;
-  border-top: 1px solid #ffffff;
-}
-
-/* Show when this question has reached its answer limit. */
-.add-answer-button:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-/* Use the same lighter background when either action button is hovered. */
-.close-button:hover,
-.add-question-button:hover {
-  background: #ae7e5a;
-}
-
-/* Center each supplied icon inside its 24px area. */
-.button-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
 }
 
 /* Use the Figma size for the X itself. */
@@ -232,117 +168,4 @@ button {
   align-items: flex-start;
   justify-content: space-between;
   row-gap: 64px;
-}
-
-/* Stack each question's content and allow room for additional answers. */
-.question-group {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  gap: 24px;
-  width: 429px;
-  min-height: 271px;
-}
-
-/* Stack the answer content with 16px spacing and grow with its rows. */
-.answers-group {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  gap: 16px;
-  width: 429px;
-  min-height: 176px;
-}
-
-/* Align the answer heading and note, wrapping them on narrow screens. */
-.answers-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-/* Stack any number of answer rows with 8px spacing. */
-.answer-list {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  gap: 8px;
-  width: 424px;
-}
-
-/* Align the answer letter, input and delete button in the same row. */
-.answer-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 422px;
-  height: 37px;
-}
-
-/* Use the supplied width for the second answer row. */
-.answer-row-b {
-  width: 424px;
-}
-
-/* Keep the supplied widths for all three parts of an answer row. */
-.answer-label,
-.answer-input,
-.answer-row .delete-button {
-  flex-shrink: 0;
-}
-
-/* Keep the checkbox and its clickable label together. */
-.create-survey-multiple-answers-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-
-/* Leave 3px of space around the checkbox inside its 21px area. */
-.create-survey-multiple-answers-icon {
-  box-sizing: border-box;
-  display: flex;
-  flex-shrink: 0;
-  width: 21px;
-  height: 21px;
-  padding: 3px;
-}
-
-/* Replace the unchecked browser style with the white Figma border. */
-.create-survey-multiple-answers-checkbox {
-  appearance: none;
-  box-sizing: border-box;
-  width: 15px;
-  height: 15px;
-  margin: 0;
-  border: 1.5px solid #ffffff;
-  border-radius: 3px;
-  background: transparent;
-  cursor: pointer;
-}
-
-/* Use the browser's own check mark when the option is selected. */
-.create-survey-multiple-answers-checkbox:checked {
-  appearance: auto;
-  accent-color: #ffb770;
-}
-
-/* Stack the question label and input with a small vertical space. */
-.question-field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 429px;
-}
-
-/* Keep the question label and delete button side by side with a 16px gap. */
-.question-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: 441px;
-  height: 26px;
 }
