@@ -114,9 +114,7 @@
                     <img src="assets/icons/delete.png" alt="" />
                   </button>
                 </div>
-                @if (hasError(surveyName)) {
-                  <p id="survey-name-error" class="field-error">Enter a survey name (up to 60 characters).</p>
-                }
+                <p id="survey-name-error" class="field-error" [class.field-error-visible]="hasError(surveyName)">Enter a survey name (up to 60 characters).</p>
               </div>
               <!-- Group the optional date and category controls. -->
               <div class="create-survey-date-category-row">
@@ -162,9 +160,7 @@
                       <img src="assets/icons/delete.png" alt="" />
                     </button>
                   </div>
-                  @if (showValidation && endDateError) {
-                    <p id="end-date-error" class="field-error">{{ endDateError }}</p>
-                  }
+                  <p id="end-date-error" class="field-error" [class.field-error-visible]="showValidation && endDateError !== ''">{{ endDateError }}</p>
                 </div>
                 <!-- Anchor the category menu below its button. -->
                 <div class="create-survey-category-control">
@@ -217,9 +213,7 @@
                   <img src="assets/icons/delete.png" alt="" />
                 </button>
               </div>
-              @if (showValidation && description.invalid) {
-                <p id="description-error" class="field-error">Use up to 300 characters.</p>
-              }
+              <p id="description-error" class="field-error" [class.field-error-visible]="showValidation && description.invalid">Use up to 300 characters.</p>
             </div>
           </div>
           <!-- Repeat independent questions in the desktop columns. -->
@@ -253,9 +247,7 @@
                     [attr.aria-invalid]="hasError(question.text)"
                     [attr.aria-describedby]="hasError(question.text) ? 'question-error-' + questionIndex : null"
                   />
-                  @if (hasError(question.text)) {
-                    <p [id]="'question-error-' + questionIndex" class="field-error">Enter a question (up to {{ questionTextLimit }} characters).</p>
-                  }
+                  <p [id]="'question-error-' + questionIndex" class="field-error" [class.field-error-visible]="hasError(question.text)">Enter a question (up to {{ questionTextLimit }} characters).</p>
                 </div>
                 <!-- Keep the checkbox and answers independent for every question. -->
                 <div class="answers-group">
@@ -313,9 +305,7 @@
                             <img src="assets/icons/delete.png" alt="" />
                           </button>
                         </div>
-                        @if (hasError(answer)) {
-                          <p [id]="'answer-error-' + questionIndex + '-' + answerIndex" class="field-error answer-error">Enter answer {{ answerLetters[answerIndex] }}.</p>
-                        }
+                        <p [id]="'answer-error-' + questionIndex + '-' + answerIndex" class="field-error answer-error" [class.field-error-visible]="hasError(answer)">Enter answer {{ answerLetters[answerIndex] }}.</p>
                       </div>
                     }
                   </div>

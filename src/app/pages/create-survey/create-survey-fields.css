@@ -241,6 +241,16 @@
   line-height: 18px;
 }
 
+/* Reserve each message's wrapping height so validation cannot move later fields. */
+.field-error {
+  min-height: 18px;
+  visibility: hidden;
+}
+
+.field-error-visible {
+  visibility: visible;
+}
+
 .answer-error {
   margin: 4px 0 0 31px;
 }
