@@ -21,9 +21,11 @@
 
 @media (max-width: 767px) {
   .survey-view-layout .survey-results-section {
-    width: 320px;
+    box-sizing: border-box;
+    width: 343px;
     max-width: 100%;
     margin-top: 20px;
+    padding: 0 12px;
   }
 
   .survey-results-toggle {
