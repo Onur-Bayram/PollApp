@@ -101,12 +101,4 @@
     max-width: 100%;
   }
 
-  .survey-result-tracks {
-    flex-shrink: 1;
-    min-width: 0;
-  }
-
-  .survey-result-track {
-    width: 100%;
-  }
 }

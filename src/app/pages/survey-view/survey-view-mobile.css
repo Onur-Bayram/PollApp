@@ -97,16 +97,12 @@
     align-items: flex-start;
     width: 320px;
     max-width: 100%;
-    height: auto;
-    min-height: 18px;
     margin: 0 auto 16px;
   }
 
   .survey-end-date,
   .survey-view-layout .survey-category {
     align-items: flex-start;
-    height: auto;
-    min-height: 18px;
   }
 
   .survey-end-date {
@@ -179,8 +175,6 @@
     gap: 3px;
     width: 299px;
     max-width: 100%;
-    height: auto;
-    min-height: 17px;
     margin: 0;
     padding-left: 26px;
   }
@@ -188,7 +182,6 @@
   .survey-question-hint-text {
     width: 257px;
     max-width: 100%;
-    min-height: 17px;
   }
 
   /* Indent the answer list while keeping its padding inside the reference width. */

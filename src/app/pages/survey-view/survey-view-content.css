@@ -63,13 +63,13 @@
 /* Align the hint below the question text and use local Mulish Regular. */
 .survey-question-hint {
   width: 257px;
-  height: 17px;
+  height: auto;
   margin: 0 0 0 20px;
   color: #35273a;
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 20px;
   letter-spacing: 0;
 }
 
@@ -242,12 +242,6 @@
   width: 324px;
 }
 
-/* Leave room for 100% in real results while preserving the Figma preview. */
-.saved-survey .survey-result-percentages,
-.saved-survey .survey-result-percentage {
-  width: 40px;
-}
-
 .saved-survey .survey-title {
   height: auto;
   overflow-wrap: anywhere;
@@ -257,12 +251,6 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   line-height: 20px;
-}
-
-.saved-survey .survey-meta,
-.saved-survey .survey-category {
-  height: auto;
-  min-height: 18px;
 }
 
 .saved-survey .survey-category {

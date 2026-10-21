@@ -146,6 +146,7 @@
   align-items: stretch;
   flex-shrink: 0;
   gap: 7px;
+  padding: 3px 0;
 }
 
 /* Use the same vertical spacing for all three result columns. */
@@ -162,8 +163,8 @@
 .survey-result-letters,
 .survey-result-percentages {
   font-family: "Mulish", Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 20px;
   letter-spacing: 0;
 }
 
@@ -186,13 +187,11 @@
 .survey-result-letter {
   display: flex;
   align-items: center;
-  width: 11px;
-  height: 10px;
 }
 
-/* Use the supplied percentage column size and ExtraBold font weight. */
+/* Keep 100% readable at 16px without extending into the result track. */
 .survey-result-percentages {
-  width: 31px;
+  width: 48px;
   color: #d79451;
   font-weight: 800;
   text-align: right;
@@ -203,12 +202,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  width: 31px;
-  height: 15px;
+  width: 48px;
 }
 
-/* Keep every track at the supplied width. */
+/* Let the track yield space to readable percentages on narrow screens. */
 .survey-result-tracks {
+  flex-shrink: 1;
+  min-width: 0;
   width: 255px;
 }
 
@@ -222,7 +222,7 @@
 
 /* Keep the full result background gray. */
 .survey-result-track {
-  width: 255px;
+  width: 100%;
   background: #ededed;
 }
 
@@ -278,11 +278,12 @@
   justify-content: space-between;
   flex-shrink: 0;
   width: 608px;
-  height: 18px;
+  height: auto;
+  min-height: 20px;
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 500;
-  font-size: 14px;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 20px;
   letter-spacing: 0;
 }
 
@@ -291,7 +292,8 @@
   display: flex;
   align-items: center;
   width: 182px;
-  height: 18px;
+  height: auto;
+  min-height: 20px;
   color: #35273a;
 }
 
@@ -300,7 +302,8 @@
   display: flex;
   align-items: center;
   width: 165px;
-  height: 18px;
+  height: auto;
+  min-height: 20px;
   color: #221227;
 }
 
