@@ -157,17 +157,6 @@
     margin-left: 0;
   }
 
-  /* Ease the category button's background between its existing mobile states. */
-  .home-sort-button {
-    transition: background-color 300ms ease-out;
-  }
-
-  /* Keep the open menu and selected category in the page flow above the cards. */
-  .home-sort-menu,
-  .home-sort-selection {
-    position: static;
-  }
-
   /* Keep every saved survey in one full-width mobile column. */
   .home-survey-list {
     width: 100%;

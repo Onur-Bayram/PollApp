@@ -1,8 +1,5 @@
-<!-- Home page with its logo, introduction, illustration and survey section. -->
 <main class="home" aria-label="Surveys" [attr.inert]="isCreateSurveyOpen ? '' : null">
-  <!-- Group the logo and introduction before the survey list. -->
   <div class="home-intro">
-    <!-- Brand logo at the top of the page. -->
     <header class="home-header">
       <img
         class="home-logo"
@@ -12,13 +9,11 @@
         height="46"
       >
     </header>
-    <!-- Follow the mobile reading order; desktop CSS places the image beside the text. -->
+    <!-- Mobile reads this order; desktop CSS places the illustration beside the text. -->
     <section class="home-hero" aria-labelledby="home-title">
-      <!-- Main headline with a fixed line break. -->
       <h1 id="home-title" class="home-title">Collect Feedback,<br>Unlock Ideas</h1>
-      <!-- Two overlapping images form the illustration's hover effect. -->
+      <!-- Keep both images mounted so CSS can fade between them. -->
       <div class="home-visual">
-        <!-- Keep this default image visible underneath the hover overlay. -->
         <img
           class="home-hero-image"
           src="assets/images/home-survey-default.png"
@@ -26,7 +21,6 @@
           width="426"
           height="420"
         >
-        <!-- CSS fades this image in when the pointer enters the illustration. -->
         <img
           class="home-hero-image home-hero-image-hover"
           src="assets/images/home-survey-hover.png"
@@ -35,12 +29,10 @@
           height="420"
         >
       </div>
-      <!-- Short introduction to creating and sharing surveys. -->
       <p class="home-description">
         Create and share surveys in minutes – from team events to workplace culture.
         Collect opinions, engage your audience, and turn feedback into action.
       </p>
-      <!-- Open the form overlay while keeping this page and its state. -->
       <button
         #newSurveyButton
         type="button"
@@ -59,12 +51,10 @@
       </button>
     </section>
   </div>
-  <!-- Survey section with its centered heading. -->
   <section class="home-surveys" aria-labelledby="home-surveys-title">
     <h2 id="home-surveys-title" class="home-surveys-title">Your surveys</h2>
-    <!-- Label the surveys that are ending soon. -->
     <h3 class="home-surveys-subtitle">Ending soon surveys</h3>
-    <!-- Share one loading/error state for both lists of saved surveys. -->
+    <!-- Both lists share the same loading and retry state. -->
     @if (isLoading()) {
       <p class="home-data-message" role="status">Loading saved surveys…</p>
     } @else if (loadError()) {
@@ -73,7 +63,6 @@
         <span class="home-past-survey-button-text">Try again</span>
       </button>
     }
-    <!-- Open each real ending-soon survey by its own saved ID. -->
     <div class="home-highlight-cards" [attr.aria-busy]="isLoading()">
       @for (survey of endingSoonCards(); track survey.link) {
         <a class="home-highlight-card" [routerLink]="survey.link">
@@ -91,9 +80,7 @@
         }
       }
     </div>
-    <!-- Place the survey controls below the highlight cards. -->
     <div class="home-survey-controls">
-      <!-- Show active surveys and keep the selected status. -->
       <button
         type="button"
         class="home-active-survey-button"
@@ -103,7 +90,6 @@
       >
         <span class="home-active-survey-button-text">Active survey</span>
       </button>
-      <!-- Show past surveys without mixing them with active ones. -->
       <button
         type="button"
         class="home-past-survey-button"
@@ -113,140 +99,21 @@
       >
         <span class="home-past-survey-button-text">Past survey</span>
       </button>
-      <!-- Anchor the category menu below its button. -->
-      <div class="home-sort-control">
-        <!-- Open or close the category menu and update its arrow on each click. -->
-        <button
-          type="button"
-          class="home-sort-button"
-          [class.home-sort-button-selected]="selectedCategory !== ''"
-          (click)="toggleSortMenu()"
-          [attr.aria-expanded]="isSortMenuOpen"
-          aria-controls="home-sort-menu"
-        >
-          <span class="home-sort-button-text">Sort by categories</span>
-          <!-- Keep the arrow area fixed while switching between the supplied images. -->
-          <span class="home-sort-button-arrow" aria-hidden="true">
-            @if (isSortMenuOpen) {
-              <!-- Show the upward arrow only after the control has been clicked. -->
-              <img
-                class="home-sort-button-arrow-image"
-                src="assets/icons/category-arrow-up-orange.png"
-                alt=""
-                width="24"
-                height="24"
-              >
-            } @else {
-              <!-- Show the white downward arrow while the control is closed. -->
-              <img
-                class="home-sort-button-arrow-image home-sort-button-arrow-default"
-                src="assets/icons/category-arrow-down.png"
-                alt=""
-                width="24"
-                height="24"
-              >
-              <!-- Show the orange arrow on hover or when a category is selected. -->
-              <img
-                class="home-sort-button-arrow-image home-sort-button-arrow-hover"
-                src="assets/icons/category-arrow-down-orange.png"
-                alt=""
-                width="15"
-                height="8"
-              >
-            }
-          </span>
-        </button>
-        @if (isSortMenuOpen) {
-          <!-- White container for the category list. -->
-          <div id="home-sort-menu" class="home-sort-menu">
-            <!-- First category option for all surveys. -->
-            <button
-              type="button"
-              class="home-sort-menu-item"
-              [class.home-sort-menu-item-selected]="selectedCategory === 'All Surveys'"
-              [attr.aria-pressed]="selectedCategory === 'All Surveys'"
-              (click)="selectCategory('All Surveys')"
-            >All Surveys</button>
-            <!-- Second category option for team activities. -->
-            <button
-              type="button"
-              class="home-sort-menu-item"
-              [class.home-sort-menu-item-selected]="selectedCategory === 'Team Activities'"
-              [attr.aria-pressed]="selectedCategory === 'Team Activities'"
-              (click)="selectCategory('Team Activities')"
-            >
-              <span class="home-sort-menu-item-text">Team Activities</span>
-            </button>
-            <!-- Third category option for health and wellness. -->
-            <button
-              type="button"
-              class="home-sort-menu-item"
-              [class.home-sort-menu-item-selected]="selectedCategory === 'Health & Wellness'"
-              [attr.aria-pressed]="selectedCategory === 'Health & Wellness'"
-              (click)="selectCategory('Health & Wellness')"
-            >
-              <span class="home-sort-menu-item-text">Health &amp; Wellness</span>
-            </button>
-            <!-- Fourth category option for gaming and entertainment. -->
-            <button
-              type="button"
-              class="home-sort-menu-item"
-              [class.home-sort-menu-item-selected]="selectedCategory === 'Gaming & Entertainment'"
-              [attr.aria-pressed]="selectedCategory === 'Gaming & Entertainment'"
-              (click)="selectCategory('Gaming & Entertainment')"
-            >
-              <span class="home-sort-menu-item-text">Gaming &amp; Entertainment</span>
-            </button>
-            <!-- Fifth category option for education and learning. -->
-            <button
-              type="button"
-              class="home-sort-menu-item"
-              [class.home-sort-menu-item-selected]="selectedCategory === 'Education & Learning'"
-              [attr.aria-pressed]="selectedCategory === 'Education & Learning'"
-              (click)="selectCategory('Education & Learning')"
-            >
-              <span class="home-sort-menu-item-text">Education &amp; Learning</span>
-            </button>
-            <!-- Sixth category option for lifestyle and preferences. -->
-            <button
-              type="button"
-              class="home-sort-menu-item"
-              [class.home-sort-menu-item-selected]="selectedCategory === 'Lifestyle & Preferences'"
-              [attr.aria-pressed]="selectedCategory === 'Lifestyle & Preferences'"
-              (click)="selectCategory('Lifestyle & Preferences')"
-            >
-              <span class="home-sort-menu-item-text">Lifestyle &amp; Preferences</span>
-            </button>
-            <!-- Seventh category option for technology and innovation. -->
-            <button
-              type="button"
-              class="home-sort-menu-item"
-              [class.home-sort-menu-item-selected]="selectedCategory === 'Technology & Innovation'"
-              [attr.aria-pressed]="selectedCategory === 'Technology & Innovation'"
-              (click)="selectCategory('Technology & Innovation')"
-            >
-              <span class="home-sort-menu-item-text">Technology &amp; Innovation</span>
-            </button>
-          </div>
-        } @else if (selectedCategory) {
-          <!-- Show only the chosen category below the closed control. -->
-          <div class="home-sort-selection">
-            <span class="home-sort-selection-text">{{ selectedCategory }}</span>
-          </div>
-        }
-      </div>
+      <app-home-category
+        class="home-sort-control"
+        [isOpen]="isSortMenuOpen"
+        [selectedCategory]="selectedCategory"
+        (toggled)="toggleSortMenu()"
+        (categorySelected)="selectCategory($event)"
+      ></app-home-category>
     </div>
-    <!-- List only saved surveys with their own working detail links. -->
     <div class="home-survey-list" [attr.aria-busy]="isLoading()">
-      <!-- Reuse the card layout and open each saved survey by its own ID. -->
       @for (survey of surveyCards(); track survey.link) {
         <a class="home-survey-card" [routerLink]="survey.link">
-          <!-- Group the category and title above the deadline area. -->
           <article class="home-survey-card-content">
             <p class="home-survey-card-category">{{ survey.category }}</p>
             <h3 class="home-survey-card-title">{{ survey.title }}</h3>
           </article>
-          <!-- Show how soon this survey ends at the bottom-right. -->
           <div class="home-survey-card-deadline">
             <span class="home-survey-card-deadline-text">{{ survey.deadline }}</span>
           </div>
@@ -259,7 +126,7 @@
     </div>
   </section>
 </main>
+<!-- Keep Home mounted beneath the creation dialog to preserve its filters. -->
 @if (isCreateSurveyOpen) {
-  <!-- Close the overlay when its component sends the closed event. -->
   <app-create-survey (closed)="closeCreateSurvey(newSurveyButton)"></app-create-survey>
 }

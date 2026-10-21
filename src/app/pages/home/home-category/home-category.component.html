@@ -1,0 +1,55 @@
+<button
+  type="button"
+  class="home-sort-button"
+  [class.home-sort-button-selected]="selectedCategory() !== ''"
+  [attr.aria-expanded]="isOpen()"
+  aria-controls="home-sort-menu"
+  (click)="toggled.emit()"
+>
+  <span class="home-sort-button-text">Sort by categories</span>
+  <span class="home-sort-button-arrow" aria-hidden="true">
+    @if (isOpen()) {
+      <img
+        class="home-sort-button-arrow-image"
+        src="assets/icons/category-arrow-up-orange.png"
+        alt=""
+        width="24"
+        height="24"
+      >
+    } @else {
+      <img
+        class="home-sort-button-arrow-image home-sort-button-arrow-default"
+        src="assets/icons/category-arrow-down.png"
+        alt=""
+        width="24"
+        height="24"
+      >
+      <img
+        class="home-sort-button-arrow-image home-sort-button-arrow-hover"
+        src="assets/icons/category-arrow-down-orange.png"
+        alt=""
+        width="15"
+        height="8"
+      >
+    }
+  </span>
+</button>
+@if (isOpen()) {
+  <div id="home-sort-menu" class="home-sort-menu">
+    @for (category of categories; track category) {
+      <button
+        type="button"
+        class="home-sort-menu-item"
+        [class.home-sort-menu-item-selected]="selectedCategory() === category"
+        [attr.aria-pressed]="selectedCategory() === category"
+        (click)="categorySelected.emit(category)"
+      >
+        <span class="home-sort-menu-item-text">{{ category }}</span>
+      </button>
+    }
+  </div>
+} @else if (selectedCategory()) {
+  <div class="home-sort-selection">
+    <span class="home-sort-selection-text">{{ selectedCategory() }}</span>
+  </div>
+}

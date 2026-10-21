@@ -5,7 +5,9 @@ import { Survey } from '../../models/survey';
 import { ENDING_SOON_LIMIT, MILLISECONDS_PER_DAY } from '../../models/survey-constants';
 import { SurveyService } from '../../services/survey.service';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
+import { HomeCategoryComponent } from './home-category/home-category.component';
 
+/** Display data shared by the ending-soon and filtered survey cards. */
 interface SurveyCard {
   category: string;
   title: string;
@@ -14,26 +16,45 @@ interface SurveyCard {
   isPast: boolean;
 }
 
-// Connect the home page template and styles to this Angular component.
+/** Load and filter saved surveys while keeping the creation dialog on Home. */
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, CreateSurveyComponent],
+  imports: [RouterLink, CreateSurveyComponent, HomeCategoryComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css', './home-surveys.css', './home-mobile.css'],
 })
 export class HomeComponent implements OnInit {
-  // Show the creation overlay without leaving the home page.
+  /** Show the creation dialog without replacing the current list. */
   isCreateSurveyOpen: boolean = false;
 
-  // Keep saved surveys in Supabase; only the current list is held on this page.
+  /** Store the cards matching the current status and category filters. */
   surveyCards = signal<SurveyCard[]>([]);
+
+  /** Store the three nearest active deadlines independently of the filters. */
   endingSoonCards = signal<SurveyCard[]>([]);
-  private savedSurveys: Survey[] = [];
+
+  /** Expose the current list request's progress to both survey sections. */
   isLoading = signal<boolean>(false);
+
+  /** Keep a failed list request visible until the user retries. */
   loadError = signal<string>('');
+
+  /** Keep active and past surveys in separate filtered views. */
+  selectedSurveyStatus: string = 'active';
+
+  /** Keep the category menu open until it is toggled or an option is chosen. */
+  isSortMenuOpen: boolean = false;
+
+  /** Preserve the chosen category when switching between active and past views. */
+  selectedCategory: string = '';
+
+  /** Cache the loaded records so changing filters needs no additional request. */
+  private savedSurveys: Survey[] = [];
+
+  /** Identify the latest request so an older response cannot replace its data. */
   private loadRequest: number = 0;
 
-  /** Connect the services used by this component. */
+  /** Receive the shared service used to refresh saved survey data. */
   constructor(private surveys: SurveyService) {}
 
   /** Load the saved surveys when the home page opens. */
@@ -89,15 +110,6 @@ export class HomeComponent implements OnInit {
     return Math.round((Date.UTC(end.getFullYear(), end.getMonth(), end.getDate())
       - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())) / MILLISECONDS_PER_DAY);
   }
-
-  // Store which survey status button is currently selected.
-  selectedSurveyStatus: string = 'active';
-
-  // Track whether the category menu is open.
-  isSortMenuOpen: boolean = false;
-
-  // Store the category shown below the button and highlighted in the menu.
-  selectedCategory: string = '';
 
   /** Open the dialog, which sets its own focus after rendering. */
   openCreateSurvey(): void {
