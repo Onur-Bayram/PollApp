@@ -131,7 +131,7 @@ button {
   white-space: nowrap;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1359px) {
   /* Match the closed button and ease its existing background states. */
   .category-button {
     width: 189px;

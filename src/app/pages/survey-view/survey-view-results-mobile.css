@@ -13,13 +13,13 @@
 }
 
 /* Keep the desktop column independent of the mobile animation's height limit. */
-@media (min-width: 768px) {
+@media (min-width: 1360px) {
   .survey-results-content {
     max-height: none !important;
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1359px) {
   .survey-view-layout .survey-results-section {
     box-sizing: border-box;
     width: 343px;

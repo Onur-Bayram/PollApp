@@ -1,5 +1,5 @@
-/* Start the mobile frame; individual element layouts follow their Figma values. */
-@media (max-width: 767px) {
+/* Keep the stacked layout until the full desktop columns fit comfortably. */
+@media (max-width: 1359px) {
   .home {
     box-sizing: border-box;
     display: flex;
