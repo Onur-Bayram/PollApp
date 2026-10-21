@@ -12,13 +12,12 @@
   padding: 39px 0;
 }
 
-/* Apply the Figma frame size, left offset and spacing for its future content. */
+/* Keep the shared content width and spacing while allowing short pages to stay compact. */
 .survey-view-frame {
   display: flex;
   flex-direction: column;
   gap: 40px;
   width: 1218px;
-  min-height: 943px;
   margin-left: 110px;
 }
 
@@ -99,14 +98,13 @@
   gap: 40px;
 }
 
-/* Reserve the supplied size and spacing for the upcoming results. */
+/* Stack the results using the height required by their questions. */
 .survey-results {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 16px;
   width: 315px;
-  height: 761px;
 }
 
 /* Use the supplied heading size and the local Nerko One font. */
@@ -240,7 +238,6 @@
   flex-direction: column;
   gap: 8px;
   width: 702px;
-  height: 855px;
   padding: 40px;
   border-top-right-radius: 160px;
   background: #8e70991a;
@@ -323,7 +320,6 @@
 /* Match the description's typography and let longer survey text grow. */
 .survey-description {
   width: 622px;
-  min-height: 40px;
   margin: 0;
   color: #35273a;
   font-family: "Mulish", Arial, sans-serif;

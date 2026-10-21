@@ -1,9 +1,9 @@
-/* Keep the survey action at the bottom while sharing its desktop alignment. */
+/* Leave a clear gap below the questions and align their action to the right. */
 .survey-complete-actions {
   display: flex;
   justify-content: flex-end;
   flex-shrink: 0;
-  margin-top: auto;
+  margin-top: 32px;
 }
 
 .survey-complete-actions .complete-survey-button-text {
@@ -29,7 +29,6 @@
     gap: 54px;
     width: 375px;
     max-width: 100%;
-    min-height: 0;
     margin: 0 auto;
   }
 
@@ -67,15 +66,12 @@
     padding: 0 16px;
   }
 
-  /* Let longer surveys extend the supplied frame instead of clipping them. */
-  .survey-panel,
-  .saved-survey .survey-panel {
+  /* Let the panel follow the actual survey content, including short surveys. */
+  .survey-panel {
     flex-shrink: 0;
     width: 343px;
     max-width: 100%;
     min-width: 0;
-    height: auto;
-    min-height: 1378px;
     gap: 40px;
     padding: 40px 0;
     border-top-right-radius: 100px;
@@ -131,32 +127,27 @@
     width: 320px;
     max-width: 100%;
     height: auto;
-    min-height: 0;
     margin: 0 auto;
     overflow-wrap: anywhere;
   }
 
-  /* Match the mobile title frame and typography without clipping longer titles. */
+  /* Keep the mobile title typography and allow its text to determine the height. */
   .survey-view-layout .survey-title {
-    min-height: 127px;
     font-size: 48px;
     line-height: 42px;
   }
 
-  /* Keep the reference description height while allowing additional text. */
+  /* Separate the optional description without adding empty text lines. */
   .survey-view-layout .survey-description {
-    min-height: 79px;
     margin-top: 24px;
     line-height: 1;
   }
 
-  /* Stack the questions inside the supplied mobile voting frame. */
+  /* Stack questions and the action with the same gap regardless of question count. */
   .survey-voting {
-    flex: none;
     gap: 40px;
     width: 320px;
     max-width: 100%;
-    min-height: 946px;
     margin: 0 auto;
   }
 
@@ -177,7 +168,7 @@
 
   .survey-voting .survey-question-title {
     height: auto;
-    min-height: 46px;
+    min-height: 0;
     overflow-wrap: anywhere;
   }
 
@@ -204,7 +195,6 @@
   .survey-voting .survey-answers {
     box-sizing: border-box;
     width: 299px;
-    min-height: 108px;
     padding-left: 8px;
   }
 
@@ -246,12 +236,12 @@
     width: 320px;
     max-width: 100%;
     min-height: 48px;
+    margin-top: 0;
   }
 
   .survey-complete-actions .complete-survey-button {
     width: 147px;
     height: 48px;
-    margin-top: 0;
     padding: 12px 16px;
   }
 

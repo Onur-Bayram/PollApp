@@ -6,11 +6,10 @@
   gap: 8px;
 }
 
-/* Keep questions and their action together, with the action at the panel bottom. */
+/* Keep questions, feedback and their action in normal content order. */
 .survey-voting {
   display: flex;
   flex-direction: column;
-  flex: 1;
   gap: 8px;
 }
 
@@ -186,7 +185,7 @@
   align-items: flex-start;
 }
 
-/* Keep the Home link at the panel's bottom-right corner. */
+/* Keep the survey action aligned to the right of its row. */
 .complete-survey-button {
   box-sizing: border-box;
   display: flex;
@@ -196,7 +195,6 @@
   gap: 10px;
   width: 151px;
   height: 37px;
-  margin-top: auto;
   padding: 8px 12px;
   border: 0;
   cursor: pointer;
@@ -218,7 +216,6 @@
 }
 
 .results-retry-button {
-  margin-top: 0;
   align-self: flex-start;
 }
 
@@ -241,15 +238,8 @@
   align-items: flex-start;
 }
 
-.saved-survey .survey-panel {
-  height: auto;
-  min-height: 855px;
-}
-
 .saved-survey .survey-results {
   width: 324px;
-  height: auto;
-  min-height: 761px;
 }
 
 /* Leave room for 100% in real results while preserving the Figma preview. */
@@ -260,7 +250,6 @@
 
 .saved-survey .survey-title {
   height: auto;
-  min-height: 103px;
   overflow-wrap: anywhere;
 }
 
