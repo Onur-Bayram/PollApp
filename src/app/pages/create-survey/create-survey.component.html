@@ -139,7 +139,7 @@
                       #endDateInput
                       id="survey-end-date"
                       type="date"
-                      class="survey-input input-text end-date-input"
+                      class="survey-input end-date-input"
                       [formControl]="endDate"
                       inputmode="numeric"
                       [min]="minimumEndDate"
@@ -237,7 +237,7 @@
                   <input
                     [id]="'survey-question-' + questionIndex"
                     type="text"
-                    class="survey-input input-text question-input"
+                    class="survey-input question-input"
                     [formControl]="question.text"
                     (blur)="validateField(question.text)"
                     placeholder="Choose the activities you prefer"
@@ -331,7 +331,7 @@
                         <span class="answer-line" aria-hidden="true"></span>
                       </button>
                     </div>
-                    <span [id]="'answer-limit-' + questionIndex" class="answer-note answer-limit-note">You can add up to 6 answer fields.</span>
+                    <span [id]="'answer-limit-' + questionIndex" class="answer-note">You can add up to 6 answer fields.</span>
                   </div>
                 </div>
               </div>

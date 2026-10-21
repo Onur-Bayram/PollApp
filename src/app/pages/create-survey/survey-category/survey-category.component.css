@@ -77,15 +77,15 @@ button {
   display: flex;
   align-items: center;
   align-self: flex-start;
-  height: 26px;
+  min-height: 28px;
   padding: 4px;
   border-radius: 6px;
   background: transparent;
   color: #35273a;
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 20px;
   letter-spacing: 0.28px;
   white-space: nowrap;
 }
@@ -105,14 +105,14 @@ button {
   display: flex;
   align-items: center;
   min-width: 117px;
-  height: 26px;
+  height: 28px;
   padding: 4px 4px 4px 10px;
   border-radius: 6px;
   color: #ffb770;
   font-family: "Mulish", Arial, sans-serif;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 20px;
   letter-spacing: 0.28px;
   white-space: nowrap;
 }

@@ -114,17 +114,17 @@
 .answer-note {
   display: flex;
   align-items: center;
-  width: 154px;
-  height: 18px;
+  max-width: 100%;
+  min-height: 20px;
   color: #ffffff;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 20px;
 }
 
-/* Reserve the supplied width for the six-answer limit note. */
-.answer-limit-note {
-  width: 222px;
+/* Let the limit note continue below the action when the row is too narrow. */
+.answer-actions {
+  flex-wrap: wrap;
 }
 
 /* Separate the description label's two text parts. */
@@ -159,21 +159,17 @@
   border: 0;
   border-radius: 5px 20px 5px 5px;
   background: #fefdff;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 /* Use the same width for the survey name and question inputs. */
 .name-input,
 .question-input {
   width: 429px;
-}
-
-/* Share the local Mulish Regular font between question and date inputs. */
-.input-text {
-  color: #35273a;
-  font-family: "Mulish", Arial, sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1;
 }
 
 /* Use the shared input style at the smaller answer field width. */
@@ -237,13 +233,13 @@
 .validation-message {
   margin: 0;
   color: #ffb770;
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 /* Reserve each message's wrapping height so validation cannot move later fields. */
 .field-error {
-  min-height: 18px;
+  min-height: 20px;
   visibility: hidden;
 }
 

@@ -201,26 +201,20 @@
     height: 34px;
   }
 
-  /* Keep the answer heading and multiple-answer option in one mobile row. */
+  /* Fit the answer group to the mobile column and let its header wrap if needed. */
   .answers-group {
     width: 100%;
   }
 
-  .answers-header {
-    height: 22px;
-  }
-
   .answers-label {
     flex-shrink: 0;
-    width: 75px;
+    width: auto;
     height: 23px;
   }
 
   .create-survey-multiple-answers-option {
     flex-shrink: 0;
     gap: 4px;
-    width: 179px;
-    height: 21px;
   }
 
   /* Stack each mobile answer header above its existing input. */
@@ -251,7 +245,6 @@
 
   /* Let the limit note continue below the mobile answer action. */
   .answer-actions {
-    flex-wrap: wrap;
     gap: 10px;
   }
 
@@ -341,7 +334,7 @@
 
   .create-survey-category-control {
     order: -1;
-    width: 189px;
+    width: 206px;
   }
 
   .name-mobile-delete,

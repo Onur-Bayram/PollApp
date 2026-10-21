@@ -254,11 +254,13 @@ button {
   min-height: 176px;
 }
 
-/* Align the answer heading on the left and the note on the right. */
+/* Align the answer heading and note, wrapping them on narrow screens. */
 .answers-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
 }
 
 /* Stack any number of answer rows with 8px spacing. */
@@ -303,6 +305,7 @@ button {
 .create-survey-multiple-answers-icon {
   box-sizing: border-box;
   display: flex;
+  flex-shrink: 0;
   width: 21px;
   height: 21px;
   padding: 3px;
