@@ -244,6 +244,7 @@
                     type="text"
                     class="survey-input input-text question-input"
                     [formControl]="question.text"
+                    placeholder="Choose the activities you prefer"
                     required
                     [class.input-error]="hasError(question.text)"
                     [attr.aria-invalid]="hasError(question.text)"

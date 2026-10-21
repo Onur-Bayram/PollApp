@@ -122,10 +122,10 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     return document.activeElement === button;
   }
 
-  /** Give every new question its own text, answers and checkbox. */
+  /** Give every new question blank text, independent answers and its own checkbox. */
   createQuestion(): SurveyQuestionForm {
     return {
-      text: new FormControl('Choose the activities you prefer', { nonNullable: true, validators: Validators.required }),
+      text: new FormControl('', { nonNullable: true, validators: Validators.required }),
       answers: [this.createAnswer(), this.createAnswer()],
       allowMultipleAnswers: new FormControl(false, { nonNullable: true }),
     };
