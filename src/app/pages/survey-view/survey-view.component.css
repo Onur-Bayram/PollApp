@@ -5,11 +5,11 @@
   background: #ffffff;
 }
 
-/* Center the desktop area and leave 39px above and below the frame. */
+/* Align the desktop header with the home page. */
 .survey-view-layout {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 39px 0;
+  padding: 40px 0;
 }
 
 /* Keep the shared content width and spacing while allowing short pages to stay compact. */
@@ -17,8 +17,8 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
-  width: 1218px;
-  margin-left: 110px;
+  width: 1216px;
+  margin: 0 auto;
 }
 
 /* Place the logo and creation button at opposite edges of the header. */
@@ -32,7 +32,7 @@
 .survey-view-logo {
   display: block;
   width: 119px;
-  height: 43.76px;
+  height: 50px;
 }
 
 /* Match the New survey button's width and background transitions. */

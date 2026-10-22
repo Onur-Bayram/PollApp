@@ -185,10 +185,6 @@
   margin-top: 32px;
 }
 
-.survey-complete-actions .complete-survey-button-text {
-  width: auto;
-}
-
 .complete-survey-icon {
   flex-shrink: 0;
 }

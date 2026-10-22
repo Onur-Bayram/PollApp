@@ -24,10 +24,11 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  justify-content: center;
   align-self: flex-end;
   flex-shrink: 0;
   gap: 10px;
-  width: 151px;
+  width: auto;
   height: 37px;
   padding: 8px 12px;
   border: 0;
@@ -53,7 +54,7 @@
 .complete-survey-button-text {
   display: flex;
   align-items: center;
-  width: 127px;
+  width: auto;
   height: 21px;
   color: #35273a;
   font-family: "Nokora", Arial, sans-serif;

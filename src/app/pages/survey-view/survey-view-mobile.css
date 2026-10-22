@@ -21,20 +21,14 @@
     box-sizing: border-box;
     justify-content: flex-start;
     gap: 10px;
-    height: 49px;
+    height: 50px;
     padding: 0 16px;
   }
 
   .survey-view-header a {
     display: flex;
     width: 119px;
-    height: 49px;
-  }
-
-  .survey-view-logo {
-    width: 119px;
-    height: 49px;
-    object-fit: contain;
+    height: 50px;
   }
 
   .survey-view-header .create-survey-button {
