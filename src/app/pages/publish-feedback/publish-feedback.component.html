@@ -1,5 +1,4 @@
 @if (feedback.isVisible()) {
-  <!-- Keep the confirmation open until Close or Escape returns to Home. -->
   <div class="publish-feedback-overlay" (keydown.escape)="close()">
     <div class="publish-feedback" role="dialog" aria-modal="true" aria-labelledby="publish-confirmation-text" [attr.aria-busy]="isOpening()" (keydown)="keepFocusInside($event, closeButton)">
       <p id="publish-confirmation-text" class="publish-feedback-text">Your survey is now published</p>

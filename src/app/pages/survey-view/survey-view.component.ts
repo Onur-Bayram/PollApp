@@ -27,39 +27,25 @@ const RESULTS_QUESTION_SPACING: number = 32;
   styleUrls: ['./survey-view-shared.css', './survey-view.component.css', './survey-view-content.css', './survey-view-mobile.css', './survey-view-results-mobile.css'],
 })
 export class SurveyViewComponent implements OnInit, OnDestroy {
-  /** Show the creation dialog over the current survey. */
   isCreateSurveyOpen: boolean = false;
-  /** Keep stacked results collapsed until the voter opens them. */
-  areResultsOpen = signal<boolean>(false);
-  /** Lock the voting controls while saving or resetting a submission. */
+  areResultsOpen = signal<boolean>(true);
   isSubmitting = signal<boolean>(false);
-  /** Distinguish a pending withdrawal from a pending vote save. */
   isResetting = signal<boolean>(false);
-  /** Show success only after the selected answers have been saved. */
   voteSaved = signal<boolean>(false);
-  /** Keep a failed save or withdrawal visible beside the vote controls. */
   voteError = signal<string>('');
-  /** Explain when the vote succeeds but local browser memory cannot be updated. */
   voteMemoryNotice = signal<string>('');
-  /** Check unanswered questions only after an attempted submission. */
   showVoteValidation: boolean = false;
-  /** Expose an active totals request to the results view. */
   isLoadingResults = signal<boolean>(false);
   /** Distinguish loaded zero totals from results that have not arrived yet. */
   resultsLoaded = signal<boolean>(false);
-  /** Preserve a failed totals request until the next retry. */
   resultsError = signal<string>('');
-  /** Distinguish an empty survey from one with stored votes. */
   hasVotes = signal<boolean>(false);
-  /** Announce live updates only after the subscription is connected. */
   liveStatus = signal<string>('');
   /** Keep stored totals separate from the current unsaved selection. */
   private voteCounts: AnswerVoteCount[] = [];
   /** Retain the exact saved vote IDs for a later withdrawal. */
   private savedVote: SavedVote | null = null;
-  /** Release route changes when this survey view is destroyed. */
   private routeSubscription?: Subscription;
-  /** Retain the current live channel so another survey can replace it. */
   private voteChannel?: RealtimeChannel;
   /** Combine a burst of live events into one totals refresh. */
   private resultsTimer?: ReturnType<typeof setTimeout>;
@@ -92,7 +78,7 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
 
   /** Connect freshly loaded page data to this route's voting and results state. */
   async loadSurvey(): Promise<void> {
-    this.areResultsOpen.set(false);
+    this.areResultsOpen.set(true);
     const request = ++this.loadRequest;
     this.stopWatchingResults();
     this.resetVoteState();

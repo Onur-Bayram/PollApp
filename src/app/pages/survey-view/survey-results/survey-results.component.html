@@ -25,7 +25,6 @@
           <span class="survey-question-number">{{ question.number }}.</span>
           <span>{{ question.text }}</span>
         </h3>
-        <!-- Derive the chart height from the number of stored answer options. -->
         <div class="survey-result-chart" [style.height.px]="question.chartHeight">
           <div class="survey-result-letters">
             @for (answer of question.answers; track answer.letter) {

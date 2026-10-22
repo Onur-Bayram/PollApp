@@ -7,7 +7,6 @@ import { Component, input, output } from '@angular/core';
   styleUrl: './home-category.component.css',
 })
 export class HomeCategoryComponent {
-  /** Include the reset option before the six supported survey topics. */
   categories: string[] = [
     'All Surveys',
     'Team Activities',
@@ -18,15 +17,11 @@ export class HomeCategoryComponent {
     'Technology & Innovation',
   ];
 
-  /** Receive the category that Home keeps selected across status changes. */
   selectedCategory = input<string>('');
 
-  /** Receive the menu state without maintaining a second copy of it. */
   isOpen = input<boolean>(false);
 
-  /** Ask Home to open or close the menu. */
   toggled = output<void>();
 
-  /** Send the chosen option to Home so it can update its survey cards. */
   categorySelected = output<string>();
 }

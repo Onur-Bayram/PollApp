@@ -2,7 +2,6 @@
   @if (isClosed()) {
     <p class="survey-message">This survey has ended. Voting is closed.</p>
   }
-  <!-- Render the same question layout for one to six questions. -->
   @for (row of questionRows(); track $index; let rowIndex = $index) {
     <div class="survey-questions-row" [class.survey-questions-row-bottom]="rowIndex > 0">
       @for (question of row; track question.number) {
@@ -18,7 +17,6 @@
             @for (answer of question.answers; track answer.letter; let answerIndex = $index) {
               <label class="survey-answer" [class.survey-answer-multiline]="answer.multiline" [class.survey-answer-disabled]="answerControls()[question.number - 1][answerIndex].disabled">
                 <span class="survey-answer-checkbox-area">
-                  <!-- Show the selection and respect the question's multiple-answer setting. -->
                   <input #answerCheckbox type="checkbox" class="survey-answer-checkbox" [formControl]="answerControls()[question.number - 1][answerIndex]" [attr.aria-invalid]="answerErrors()[question.number - 1]" [attr.aria-describedby]="answerErrors()[question.number - 1] ? 'answer-error-' + question.number : null" (change)="answerChanged.emit({ question: question, answerIndex: answerIndex, checked: answerCheckbox.checked })" />
                 </span>
                 <span class="survey-answer-text">
@@ -46,7 +44,6 @@
   @if (voteMemoryNotice()) {
     <p class="survey-message" role="status">{{ voteMemoryNotice() }}</p>
   }
-  <!-- Keep real voters on this page after a successful submission. -->
   <div class="survey-complete-actions">
     @if (isPreview() || isClosed()) {
       <a routerLink="/" class="complete-survey-button">

@@ -54,7 +54,6 @@
   <section class="home-surveys" aria-labelledby="home-surveys-title">
     <h2 id="home-surveys-title" class="home-surveys-title">Your surveys</h2>
     <h3 class="home-surveys-subtitle">Ending soon surveys</h3>
-    <!-- Both lists share the same loading and retry state. -->
     @if (isLoading()) {
       <p class="home-data-message" role="status">Loading saved surveys…</p>
     } @else if (loadError()) {

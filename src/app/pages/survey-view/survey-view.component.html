@@ -1,11 +1,9 @@
-<!-- Load real surveys by ID and keep the existing design preview separate. -->
 <main class="survey-view-layout" [class.saved-survey]="!page.isPreview" aria-label="Survey details" [attr.inert]="isCreateSurveyOpen ? '' : null">
   <div class="survey-view-frame">
     <header class="survey-view-header">
       <a routerLink="/" aria-label="Poll App home">
         <img class="survey-view-logo" src="assets/icons/poll-app-logo-dark.png" alt="Poll App" width="119" height="50" />
       </a>
-      <!-- Reuse the same creation overlay and hover effect as Home. -->
       <button #createSurveyButton type="button" class="create-survey-button" aria-haspopup="dialog" [disabled]="isSubmitting()" (click)="openCreateSurvey()">
         <span class="create-survey-button-text">Create survey</span>
         <img class="create-survey-button-icon" src="assets/icons/add-circle.png" alt="" width="20" height="20" />
@@ -19,7 +17,6 @@
         <span class="complete-survey-button-text">Try again</span>
       </button>
     } @else {
-      <!-- Keep the questions and results next to each other on desktop. -->
       <div class="survey-view-content">
         <article class="survey-panel" [attr.aria-busy]="isSubmitting()">
           <div class="survey-introduction">
@@ -27,7 +24,6 @@
               <div class="survey-status">
                 <span class="survey-status-text">Published</span>
               </div>
-              <!-- Return to Home from the mobile survey without interrupting a save. -->
               <button type="button" class="survey-close-button" routerLink="/" [disabled]="isSubmitting()" aria-label="Back to surveys">
                 <img src="assets/icons/close_media.png" alt="" />
               </button>

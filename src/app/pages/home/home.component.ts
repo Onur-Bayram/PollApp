@@ -24,28 +24,20 @@ interface SurveyCard {
   styleUrls: ['./home.component.css', './home-surveys.css', './home-mobile.css'],
 })
 export class HomeComponent implements OnInit {
-  /** Show the creation dialog without replacing the current list. */
   isCreateSurveyOpen: boolean = false;
 
-  /** Store the cards matching the current status and category filters. */
   surveyCards = signal<SurveyCard[]>([]);
 
-  /** Store the three nearest active deadlines independently of the filters. */
   endingSoonCards = signal<SurveyCard[]>([]);
 
-  /** Expose the current list request's progress to both survey sections. */
   isLoading = signal<boolean>(false);
 
-  /** Keep a failed list request visible until the user retries. */
   loadError = signal<string>('');
 
-  /** Keep active and past surveys in separate filtered views. */
   selectedSurveyStatus: string = 'active';
 
-  /** Keep the category menu open until it is toggled or an option is chosen. */
   isSortMenuOpen: boolean = false;
 
-  /** Preserve the chosen category when switching between active and past views. */
   selectedCategory: string = '';
 
   /** Cache the loaded records so changing filters needs no additional request. */

@@ -18,49 +18,35 @@ import { SurveyQuestionsComponent } from './survey-questions/survey-questions.co
   styleUrls: ['./create-survey-controls.css', './create-survey.component.css', './create-survey-mobile.css'],
 })
 export class CreateSurveyComponent implements OnInit, OnDestroy {
-  /** Let the parent page remove this dialog after cancellation or a successful save. */
   closed = output<void>();
 
-  /** Require a survey name within the agreed character limit. */
   surveyName = new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(SURVEY_NAME_LIMIT)] });
 
-  /** Reveal optional-field validation after Publish has been clicked. */
   showValidation: boolean = false;
 
   /** Remember which required controls have been checked by blur or Publish. */
   private validatedFields: FormControl<string>[] = [];
 
-  /** Prevent duplicate submissions while a save is in progress. */
   isSaving = signal<boolean>(false);
 
-  /** Keep a failed save visible without losing the current form values. */
   publishError = signal<string>('');
 
-  /** Keep the deadline optional while retaining the user's current value. */
   endDate = new FormControl('', { nonNullable: true });
 
-  /** Keep new surveys open at least until the end of the current local day. */
   minimumEndDate: string = this.getToday();
 
-  /** Describe a malformed or past date without changing the date control's value. */
   endDateError: string = '';
 
-  /** Limit the optional description to the agreed length. */
   description = new FormControl('', { nonNullable: true, validators: Validators.maxLength(DESCRIPTION_LIMIT) });
 
-  /** Limit the number of question groups offered by the child view. */
   maxQuestions: number = MAX_QUESTIONS;
 
-  /** Share the question validator's length limit with the child view. */
   questionTextLimit: number = QUESTION_TEXT_LIMIT;
 
-  /** Retain the original question and answer controls when the list changes. */
   questions: SurveyQuestionForm[] = [this.createQuestion()];
 
-  /** Label the available answers and limit how many can be added. */
   answerLetters: string[] = ANSWER_LETTERS;
 
-  /** Offer the same six topic categories as the home page. */
   categories: string[] = [
     'Team Activities',
     'Health & Wellness',
@@ -70,10 +56,8 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     'Technology & Innovation',
   ];
 
-  /** Preserve the category menu's open state while other fields change. */
   isCategoryMenuOpen: boolean = false;
 
-  /** Store the category to include in the saved survey. */
   selectedCategory: string = '';
 
   /** Receive the services used to save, confirm and navigate from this dialog. */
