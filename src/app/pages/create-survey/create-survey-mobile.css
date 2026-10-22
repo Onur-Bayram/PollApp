@@ -153,3 +153,72 @@
     object-fit: contain;
   }
 }
+
+/* Grow with wider phones before adding the tablet gutters. */
+@media (min-width: 376px) and (max-width: 599px) {
+  .create-survey-mobile-header,
+  .create-survey-frame,
+  .create-survey-content,
+  .create-survey-heading,
+  .create-survey-form-panel {
+    width: 100%;
+  }
+}
+
+/* Let tablets use a wider dialog while preserving the narrow phone layout. */
+@media (min-width: 600px) and (max-width: 1359px) {
+  .create-survey-layout {
+    width: 100%;
+    max-width: 1120px;
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+
+  .create-survey-mobile-header,
+  .create-survey-frame,
+  .create-survey-content,
+  .create-survey-heading,
+  .create-survey-title,
+  .create-survey-form-panel {
+    width: 100%;
+  }
+
+  .create-survey-mobile-header {
+    padding: 0;
+  }
+
+  .create-survey-frame {
+    min-height: 0;
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+
+  .create-survey-content {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .create-survey-heading {
+    height: auto;
+    gap: 24px;
+  }
+
+  .create-survey-title {
+    height: auto;
+    line-height: 1;
+  }
+
+  .create-survey-form-panel {
+    min-height: 0;
+    gap: 40px;
+    padding: 32px 24px;
+  }
+}
+
+/* Share the tablet form between two columns only when its fields fit. */
+@media (min-width: 900px) and (max-width: 1359px) {
+  .create-survey-details-row {
+    flex-direction: row;
+    gap: 4%;
+  }
+}

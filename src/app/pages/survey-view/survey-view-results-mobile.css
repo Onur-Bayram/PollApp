@@ -91,3 +91,18 @@
     transition-delay: 0s;
   }
 }
+
+/* Keep results aligned while wider phones grow toward the tablet layout. */
+@media (min-width: 376px) and (max-width: 599px) {
+  .survey-view-layout .survey-results-section {
+    width: 100%;
+  }
+}
+
+/* Keep the results aligned with the wider tablet voting area. */
+@media (min-width: 600px) and (max-width: 1359px) {
+  .survey-view-layout .survey-results-section {
+    width: 100%;
+    padding: 0 32px;
+  }
+}

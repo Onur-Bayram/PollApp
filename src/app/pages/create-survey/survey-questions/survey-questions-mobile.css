@@ -148,3 +148,23 @@
     display: none;
   }
 }
+
+/* Let question and answer inputs fill the wider tablet panel. */
+@media (min-width: 376px) and (max-width: 1359px) {
+  .question-group,
+  .answer-input {
+    width: 100%;
+  }
+
+  .question-label {
+    flex-grow: 1;
+    width: auto;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1359px) {
+  .question-group {
+    width: 48%;
+    min-width: 0;
+  }
+}

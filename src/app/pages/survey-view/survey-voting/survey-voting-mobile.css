@@ -104,3 +104,32 @@
     height: 24px;
   }
 }
+
+/* Fill the tablet panel without retaining the phone's fixed text widths. */
+@media (min-width: 376px) and (max-width: 1359px) {
+  .survey-voting,
+  .survey-voting .survey-question,
+  .survey-voting .survey-question-title,
+  .survey-voting .survey-question-hint,
+  .survey-voting .survey-question-hint-text,
+  .survey-voting .survey-answers,
+  .survey-voting .survey-answer,
+  .survey-voting .survey-answer-text,
+  .survey-voting .survey-answer-value,
+  .survey-complete-actions {
+    width: 100%;
+  }
+}
+
+/* Keep the two questions of each row beside one another on larger tablets. */
+@media (min-width: 768px) and (max-width: 1359px) {
+  .survey-voting .survey-questions-row {
+    flex-direction: row;
+    gap: 4%;
+  }
+
+  .survey-voting .survey-question {
+    width: 48%;
+    min-width: 0;
+  }
+}

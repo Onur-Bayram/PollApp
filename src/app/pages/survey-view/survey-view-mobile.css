@@ -143,3 +143,43 @@
     height: 13.15px;
   }
 }
+
+/* Grow with wider phones before adding the tablet gutters. */
+@media (min-width: 376px) and (max-width: 599px) {
+  .survey-view-frame,
+  .survey-panel,
+  .survey-view-layout .survey-meta,
+  .survey-view-layout .survey-title,
+  .survey-view-layout .survey-description {
+    width: 100%;
+  }
+}
+
+/* Give tablets a fluid survey panel with comfortable outer and inner gutters. */
+@media (min-width: 600px) and (max-width: 1359px) {
+  .survey-view-frame {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1120px;
+    padding: 0 32px;
+  }
+
+  .survey-view-header {
+    padding: 0;
+  }
+
+  .survey-view-layout .survey-view-content {
+    padding: 0;
+  }
+
+  .survey-panel {
+    width: 100%;
+    padding: 40px 32px;
+  }
+
+  .survey-view-layout .survey-meta,
+  .survey-view-layout .survey-title,
+  .survey-view-layout .survey-description {
+    width: 100%;
+  }
+}

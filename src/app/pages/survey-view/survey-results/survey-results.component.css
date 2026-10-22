@@ -161,3 +161,16 @@
     max-width: 100%;
   }
 }
+
+/* Let tablet charts use the available panel width instead of a phone column. */
+@media (min-width: 376px) and (max-width: 1359px) {
+  .survey-results-title,
+  .survey-result-question,
+  .survey-result-question-title {
+    width: 100%;
+  }
+
+  .survey-result-tracks {
+    flex-grow: 1;
+  }
+}

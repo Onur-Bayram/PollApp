@@ -102,3 +102,24 @@
     display: none;
   }
 }
+
+/* Stretch the existing controls with the tablet dialog. */
+@media (min-width: 376px) and (max-width: 1359px) {
+  .create-survey-details-column,
+  .create-survey-description-field,
+  .name-header,
+  .end-date-header,
+  .description-header,
+  .end-date-field,
+  .name-input {
+    width: 100%;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1359px) {
+  .create-survey-details-column,
+  .create-survey-description-field {
+    width: 48%;
+    min-width: 0;
+  }
+}

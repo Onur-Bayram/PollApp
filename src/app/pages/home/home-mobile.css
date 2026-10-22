@@ -191,3 +191,101 @@
     margin-top: auto;
   }
 }
+
+/* Grow between the phone design width and the tablet breakpoint. */
+@media (min-width: 376px) and (max-width: 599px) {
+  .home,
+  .home-intro,
+  .home-title,
+  .home-description,
+  .home-surveys-title,
+  .home-surveys-subtitle {
+    width: 100%;
+  }
+}
+
+/* Use the available width on small tablets instead of a fixed phone column. */
+@media (min-width: 600px) and (max-width: 1359px) {
+  .home {
+    width: 100%;
+    max-width: 1120px;
+    min-height: 100vh;
+    padding: 48px 32px;
+  }
+
+  .home-intro,
+  .home-title,
+  .home-description,
+  .home-surveys,
+  .home-surveys-title,
+  .home-surveys-subtitle {
+    width: 100%;
+  }
+
+  .home-intro,
+  .home-title,
+  .home-description {
+    min-height: 0;
+  }
+
+  .home-highlight-cards {
+    box-sizing: border-box;
+    margin-right: 0;
+    margin-left: 0;
+    padding: 0;
+  }
+
+  .home-highlight-card {
+    flex-grow: 1;
+  }
+
+  .home-survey-controls {
+    align-items: flex-start;
+  }
+
+  .home-sort-control {
+    margin-left: auto;
+  }
+
+  .home-survey-card-category,
+  .home-survey-card-title {
+    width: 100%;
+  }
+}
+
+/* Keep two readable cards per row once both columns have enough space. */
+@media (min-width: 768px) and (max-width: 1359px) {
+  .home-survey-list {
+    justify-content: space-between;
+  }
+
+  .home-survey-card {
+    width: 48%;
+  }
+}
+
+/* Place the illustration beside the introduction on wider tablets. */
+@media (min-width: 900px) and (max-width: 1359px) {
+  .home-hero {
+    flex-wrap: wrap;
+    align-content: space-between;
+    column-gap: 0;
+    height: 420px;
+  }
+
+  .home-title,
+  .home-description {
+    width: 55%;
+  }
+
+  .home-visual {
+    order: 3;
+    width: 40%;
+    height: 420px;
+    margin: 0;
+  }
+
+  .home-create-button {
+    align-self: flex-start;
+  }
+}
