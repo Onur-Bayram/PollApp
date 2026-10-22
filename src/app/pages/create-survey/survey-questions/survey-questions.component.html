@@ -19,7 +19,6 @@
         class="survey-input question-input"
         [formControl]="question.text"
         (blur)="fieldBlurred.emit(question.text)"
-        placeholder="Choose the activities you prefer"
         [maxlength]="questionTextLimit()"
         required
         [class.input-error]="questionErrors()[questionIndex]"

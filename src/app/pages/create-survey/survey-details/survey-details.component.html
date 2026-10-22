@@ -1,0 +1,125 @@
+<div class="create-survey-details-column">
+  <div class="name-field">
+    <div class="name-header">
+      <label for="survey-name" class="label"><span class="name-label-text">Survey name</span> <span class="required-mark" aria-hidden="true">*</span></label>
+      <button
+        type="button"
+        class="delete-button name-mobile-delete"
+        aria-label="Clear survey name"
+        (click)="nameCleared.emit()"
+      >
+        <img src="assets/icons/delete.png" alt="" />
+      </button>
+    </div>
+    <div class="input-row">
+      <input
+        id="survey-name"
+        type="text"
+        class="survey-input name-input"
+        [formControl]="form.surveyName"
+        (blur)="fieldBlurred.emit(form.surveyName)"
+        maxlength="60"
+        required
+        [class.input-error]="nameHasError()"
+        [attr.aria-invalid]="nameHasError()"
+        [attr.aria-describedby]="nameHasError() ? 'survey-name-error' : null"
+      />
+      <button
+        type="button"
+        class="delete-button name-desktop-delete"
+        aria-label="Clear survey name"
+        (click)="nameCleared.emit()"
+      >
+        <img src="assets/icons/delete.png" alt="" />
+      </button>
+    </div>
+    <!-- Keep hidden error text mounted so validation cannot move the following fields. -->
+    <p id="survey-name-error" class="field-error" [class.field-error-visible]="nameHasError()">Enter a survey name (up to 60 characters).</p>
+  </div>
+  <div class="create-survey-date-category-row">
+    <div class="end-date-field">
+      <div class="end-date-header">
+        <label for="survey-end-date" class="label">Set end date<span class="end-date-optional">&nbsp;(optional)</span></label>
+        <button
+          type="button"
+          class="delete-button end-date-mobile-delete"
+          aria-label="Clear end date"
+          (click)="dateCleared.emit()"
+        >
+          <img src="assets/icons/delete.png" alt="" />
+        </button>
+      </div>
+      <div class="input-row">
+        <input
+          #endDateInput
+          id="survey-end-date"
+          type="date"
+          class="survey-input end-date-input"
+          [formControl]="form.endDate"
+          inputmode="numeric"
+          [min]="minimumEndDate()"
+          max="9999-12-31"
+          (input)="dateChecked.emit(endDateInput)"
+          (blur)="dateChecked.emit(endDateInput)"
+          [class.input-error]="showValidation() && endDateError() !== ''"
+          [attr.aria-invalid]="showValidation() && endDateError() !== ''"
+          [attr.aria-describedby]="showValidation() && endDateError() !== '' ? 'end-date-error' : null"
+        />
+        <button
+          type="button"
+          class="delete-button end-date-desktop-delete"
+          aria-label="Clear end date"
+          (click)="dateCleared.emit()"
+        >
+          <img src="assets/icons/delete.png" alt="" />
+        </button>
+      </div>
+      <p id="end-date-error" class="field-error" [class.field-error-visible]="showValidation() && endDateError() !== ''">{{ endDateError() }}</p>
+    </div>
+    <div class="create-survey-category-control">
+      <app-survey-category
+        [categories]="categories()"
+        [isOpen]="isCategoryMenuOpen()"
+        [selectedCategory]="selectedCategory()"
+        (toggled)="categoryToggled.emit()"
+        (categorySelected)="categorySelected.emit($event)"
+      />
+    </div>
+  </div>
+</div>
+<div class="create-survey-description-field">
+  <div class="description-header">
+    <label for="survey-description" class="label description-label">
+      <span>Describing text</span>
+      <span class="create-survey-description-optional">(optional)</span>
+    </label>
+    <button
+      type="button"
+      class="delete-button description-mobile-delete"
+      aria-label="Clear description"
+      (click)="descriptionCleared.emit()"
+    >
+      <img src="assets/icons/delete.png" alt="" />
+    </button>
+  </div>
+  <div class="input-row create-survey-description-row">
+    <textarea
+      id="survey-description"
+      class="survey-input create-survey-description-input"
+      [formControl]="form.description"
+      maxlength="300"
+      [class.input-error]="showValidation() && form.description.invalid"
+      [attr.aria-invalid]="showValidation() && form.description.invalid"
+      [attr.aria-describedby]="showValidation() && form.description.invalid ? 'description-error' : null"
+    ></textarea>
+    <button
+      type="button"
+      class="delete-button description-desktop-delete"
+      aria-label="Clear description"
+      (click)="descriptionCleared.emit()"
+    >
+      <img src="assets/icons/delete.png" alt="" />
+    </button>
+  </div>
+  <p id="description-error" class="field-error" [class.field-error-visible]="showValidation() && form.description.invalid">Use up to 300 characters.</p>
+</div>

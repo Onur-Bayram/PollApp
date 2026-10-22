@@ -1,9 +1,6 @@
 /* Keep the mobile controls out of the existing desktop dialog. */
 .create-survey-mobile-header,
-.create-survey-mobile-close,
-.name-mobile-delete,
-.end-date-mobile-delete,
-.description-mobile-delete {
+.create-survey-mobile-close {
   display: none;
 }
 
@@ -89,81 +86,10 @@
     padding: 40px 10px;
   }
 
-  /* Fit the name group into the mobile panel without shrinking its column. */
-  .create-survey-details-column {
-    flex-shrink: 0;
-    width: 320px;
-    max-width: 100%;
-  }
-
-  .name-field {
-    width: 100%;
-  }
-
-  /* Place each field label and delete action at opposite ends of their row. */
-  .name-header,
-  .end-date-header,
-  .description-header {
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 320px;
-    max-width: 100%;
-    height: 26px;
-    padding-right: 16px;
-  }
-
-  /* Size the name text separately so the required marker keeps its own space. */
-  .name-header .label,
-  .end-date-header .label,
-  .description-header .label {
-    height: 23px;
-  }
-
-  .name-label-text {
-    display: flex;
-    align-items: center;
-    width: 113px;
-    height: 23px;
-  }
-
-  /* Match the date label width and distinguish its optional note. */
-  .end-date-field {
-    width: 320px;
-    max-width: 100%;
-  }
-
-  /* Fill the mobile fields with the shared input styling. */
-  .end-date-input,
-  .create-survey-description-row,
-  .create-survey-description-input {
-    width: 100%;
-  }
-
   /* Place the description below the date with room for its mobile text area. */
   .create-survey-details-row {
     flex-direction: column;
     gap: 10px;
-  }
-
-  .create-survey-description-field {
-    width: 320px;
-    max-width: 100%;
-  }
-
-  .description-header .label {
-    width: 218px;
-    white-space: nowrap;
-  }
-
-  .end-date-header .label {
-    width: 193px;
-    white-space: nowrap;
-  }
-
-  .end-date-optional {
-    font-weight: 400;
   }
 
   /* Center the question action below the existing mobile question groups. */
@@ -189,28 +115,7 @@
     opacity: 1;
   }
 
-  /* Stack the category and date controls in the mobile reference order. */
-  .create-survey-date-category-row {
-    flex-direction: column;
-  }
-
-  .create-survey-category-control {
-    order: -1;
-    width: 206px;
-  }
-
-  .name-mobile-delete,
-  .end-date-mobile-delete,
-  .description-mobile-delete {
-    display: block;
-    flex-shrink: 0;
-  }
-
-  /* Hide the desktop actions that have a separate mobile position. */
-  .create-survey-desktop-close,
-  .name-desktop-delete,
-  .end-date-desktop-delete,
-  .description-desktop-delete {
+  .create-survey-desktop-close {
     display: none;
   }
 

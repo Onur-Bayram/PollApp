@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, output, signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { NewSurvey, NewSurveyQuestion } from '../../models/survey';
@@ -7,15 +7,15 @@ import { SurveyQuestionForm } from '../../models/survey-form';
 import { ANSWER_LETTERS, DESCRIPTION_LIMIT, MAX_QUESTIONS, MIN_ANSWERS, QUESTION_TEXT_LIMIT, SURVEY_NAME_LIMIT } from '../../models/survey-constants';
 import { PublishFeedbackService } from '../../services/publish-feedback.service';
 import { SurveyService } from '../../services/survey.service';
-import { SurveyCategoryComponent } from './survey-category/survey-category.component';
+import { SurveyDetailsComponent } from './survey-details/survey-details.component';
 import { SurveyQuestionsComponent } from './survey-questions/survey-questions.component';
 
 /** Manage the survey controls, validation and publishing inside the creation dialog. */
 @Component({
   selector: 'app-create-survey',
-  imports: [ReactiveFormsModule, SurveyCategoryComponent, SurveyQuestionsComponent],
+  imports: [SurveyDetailsComponent, SurveyQuestionsComponent],
   templateUrl: './create-survey.component.html',
-  styleUrls: ['./create-survey-controls.css', './create-survey.component.css', './create-survey-fields.css', './create-survey-mobile.css'],
+  styleUrls: ['./create-survey-controls.css', './create-survey.component.css', './create-survey-mobile.css'],
 })
 export class CreateSurveyComponent implements OnInit, OnDestroy {
   /** Let the parent page remove this dialog after cancellation or a successful save. */
@@ -219,8 +219,10 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   }
 
   /** Save valid values before closing the form or showing success feedback. */
-  async validateSurvey(endDateInput: HTMLInputElement): Promise<void> {
+  async validateSurvey(): Promise<void> {
     if (this.isSaving()) return;
+    const endDateInput = document.querySelector<HTMLInputElement>('#survey-end-date');
+    if (!endDateInput) return;
     this.checkEndDate(endDateInput);
     this.showValidation = true;
     this.validatedFields = this.getRequiredFields();

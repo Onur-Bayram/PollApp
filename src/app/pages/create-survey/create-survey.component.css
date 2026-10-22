@@ -169,3 +169,20 @@
   justify-content: space-between;
   row-gap: 64px;
 }
+
+
+
+/* Use the supplied Publish text size and dark Nokora Bold color. */
+.publish-text {
+  width: 63px;
+  height: 24px;
+  color: #221227;
+  font-size: 18px;
+}
+
+/* Keep Publish on the right and its validation message on the left. */
+.publish-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

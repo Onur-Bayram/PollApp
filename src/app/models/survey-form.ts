@@ -6,3 +6,10 @@ export interface SurveyQuestionForm {
   answers: FormControl<string>[];
   allowMultipleAnswers: FormControl<boolean>;
 }
+
+/** Pass the original survey detail controls together without copying their values. */
+export interface SurveyDetailsForm {
+  surveyName: FormControl<string>;
+  endDate: FormControl<string>;
+  description: FormControl<string>;
+}

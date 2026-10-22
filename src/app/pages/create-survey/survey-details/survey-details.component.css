@@ -46,14 +46,6 @@
   width: 206px;
 }
 
-/* Use the supplied Publish text size and dark Nokora Bold color. */
-.publish-text {
-  width: 63px;
-  height: 24px;
-  color: #221227;
-  font-size: 18px;
-}
-
 /* Separate the description label's two text parts. */
 .description-label {
   gap: 8px;
@@ -81,11 +73,4 @@
   width: 418px;
   height: 108px;
   resize: none;
-}
-
-/* Keep Publish on the right and its validation message on the left. */
-.publish-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
