@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { PublishFeedbackService } from '../../services/publish-feedback.service';
 
-// Open the saved survey only after the user closes its confirmation.
+/** Return to Home after the user closes the publishing confirmation. */
 @Component({
   selector: 'app-publish-feedback',
   templateUrl: './publish-feedback.component.html',
@@ -16,14 +16,13 @@ export class PublishFeedbackComponent {
   /** Connect the services used by this component. */
   constructor(public feedback: PublishFeedbackService, private router: Router) {}
 
-  /** Retry navigation with the same saved ID if the page could not open. */
+  /** Keep the confirmation available if returning to Home fails. */
   async close(): Promise<void> {
-    const surveyId = this.feedback.surveyId;
-    if (this.isOpening() || surveyId === null) return;
+    if (this.isOpening() || !this.feedback.isVisible()) return;
     this.isOpening.set(true);
     this.openError.set('');
     try {
-      await this.openSurvey(surveyId);
+      await this.openHome();
     } catch {
       this.showOpenError();
     } finally {
@@ -39,19 +38,19 @@ export class PublishFeedbackComponent {
     }
   }
 
-  /** Keep the confirmation until navigation to this saved ID succeeds. */
-  private async openSurvey(surveyId: number): Promise<void> {
-    const navigated = await this.router.navigate(['/survey', surveyId]);
-    if (!navigated && this.router.url !== '/survey/' + surveyId) {
-      throw new Error('The saved survey page could not open.');
+  /** Close the confirmation once Home is open, including when it was already active. */
+  private async openHome(): Promise<void> {
+    const navigated = await this.router.navigate(['/']);
+    if (!navigated && this.router.url !== '/') {
+      throw new Error('The home page could not open.');
     }
     this.feedback.hide();
     window.scrollTo(0, 0);
   }
 
-  /** Preserve the ID for a navigation retry without publishing another copy. */
+  /** Retry the return to Home without publishing another copy. */
   private showOpenError(): void {
-    this.openError.set('Your survey is saved. Please close this message again to open it.');
+    this.openError.set('Your survey is saved. Please close this message again to return to the home page.');
     setTimeout(() => document.getElementById('publish-confirmation-close')?.focus());
   }
 }

@@ -8,7 +8,7 @@ import { VoteMemoryService } from './vote-memory.service';
 
 const SURVEY_FIELDS = 'id,title,description,category,end_date,questions(id,position,text,allow_multiple_answers,answers(id,position,text))';
 
-// Save and load surveys through the existing shared Supabase client.
+/** Save and load surveys through the existing shared Supabase client. */
 @Injectable({ providedIn: 'root' })
 export class SurveyService {
   /** Connect database access and the browser's separate vote memory. */

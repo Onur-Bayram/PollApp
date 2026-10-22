@@ -1,6 +1,5 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { Subscription } from 'rxjs';
@@ -11,6 +10,7 @@ import { SurveyResultsService } from '../../services/survey-results.service';
 import { SurveyService } from '../../services/survey.service';
 import { CreateSurveyComponent } from '../create-survey/create-survey.component';
 import { SurveyResultsComponent } from './survey-results/survey-results.component';
+import { SurveyVotingComponent } from './survey-voting/survey-voting.component';
 import { SurveyPageService } from '../../services/survey-page.service';
 import { RESULTS_REFRESH_DELAY } from '../../models/survey-constants';
 
@@ -22,7 +22,7 @@ const RESULTS_QUESTION_SPACING: number = 32;
 /** Coordinate survey loading, voting and live totals while child views render the data. */
 @Component({
   selector: 'app-survey-view',
-  imports: [DatePipe, RouterLink, ReactiveFormsModule, CreateSurveyComponent, SurveyResultsComponent],
+  imports: [DatePipe, RouterLink, CreateSurveyComponent, SurveyResultsComponent, SurveyVotingComponent],
   templateUrl: './survey-view.component.html',
   styleUrls: ['./survey-view-shared.css', './survey-view.component.css', './survey-view-content.css', './survey-view-mobile.css', './survey-view-results-mobile.css'],
 })
@@ -149,6 +149,11 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   needsAnswer(question: ResultQuestion): boolean {
     return this.showVoteValidation
       && !this.page.answerControls[question.number - 1].some(control => control.value);
+  }
+
+  /** Pass the existing unanswered-question checks to the voting view. */
+  getAnswerErrors(): boolean[] {
+    return this.page.resultQuestions.map(question => this.needsAnswer(question));
   }
 
   /** Submit a complete selection and keep the user on the current survey. */

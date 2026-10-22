@@ -307,9 +307,9 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   private async publishSurvey(): Promise<void> {
     this.isSaving.set(true);
     try {
-      const surveyId = await this.surveys.createSurvey(this.createSurveyInput());
+      await this.surveys.createSurvey(this.createSurveyInput());
       this.closed.emit();
-      this.publishFeedback.show(surveyId);
+      this.publishFeedback.show();
     } catch {
       this.publishError.set('Could not save your survey. Your entries are still here. Please try again.');
     } finally {

@@ -7,7 +7,7 @@ import { createSurveyPreview } from '../pages/survey-view/survey-preview';
 import { SurveyResultsService } from './survey-results.service';
 import { SurveyService } from './survey.service';
 
-// Load the current page separately from voting and result subscriptions.
+/** Load the current page separately from voting and result subscriptions. */
 @Injectable({ providedIn: 'root' })
 export class SurveyPageService {
   isPreview: boolean = false;

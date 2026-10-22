@@ -4,7 +4,7 @@ import { AnswerVoteCount, Survey, SurveyAnswer, SurveyQuestion } from '../models
 import { ResultAnswer, ResultQuestion } from '../models/survey-result';
 import { ANSWER_LETTERS, DESKTOP_QUESTION_COLUMNS, PERCENTAGE_TOTAL, QUESTION_HEADING_HEIGHT, RESULT_ROW_SPACING, RESULT_TRACK_HEIGHT, RESULT_TRACK_WIDTH } from '../models/survey-constants';
 
-// Prepare the displayed questions and percentages without changing stored votes.
+/** Prepare the displayed questions and percentages without changing stored votes. */
 @Injectable({ providedIn: 'root' })
 export class SurveyResultsService {
   /** Prepare live questions with empty chart values and their stored answer IDs. */

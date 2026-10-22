@@ -63,7 +63,7 @@
   letter-spacing: 0;
 }
 
-.saved-survey .survey-question-title,
+.saved-survey-voting .survey-question-title,
 .saved-survey-results .survey-question-title {
   height: auto;
   min-height: 46px;

@@ -10,7 +10,7 @@ PollApp is a responsive web app for creating and answering surveys. Its desktop 
 - Add up to six questions with two to six answer options each.
 - Allow single or multiple answers for each question.
 - Optionally add a category, description, and end date.
-- View a publishing confirmation and open the new survey when closing it.
+- View a publishing confirmation and return to the home page when closing it.
 - Submit answers with "Complete" and view the results as bar charts.
 - Use "Vote again" to withdraw the saved submission and vote again.
 - View past surveys and their results; voting is closed after the deadline.

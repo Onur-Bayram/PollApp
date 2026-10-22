@@ -1,9 +1,9 @@
 @if (feedback.isVisible()) {
-  <!-- Keep the confirmation open until Close or Escape opens the saved survey. -->
+  <!-- Keep the confirmation open until Close or Escape returns to Home. -->
   <div class="publish-feedback-overlay" (keydown.escape)="close()">
     <div class="publish-feedback" role="dialog" aria-modal="true" aria-labelledby="publish-confirmation-text" [attr.aria-busy]="isOpening()" (keydown)="keepFocusInside($event, closeButton)">
       <p id="publish-confirmation-text" class="publish-feedback-text">Your survey is now published</p>
-      <button #closeButton id="publish-confirmation-close" type="button" class="publish-feedback-close" aria-label="Close confirmation and open survey" [disabled]="isOpening()" (click)="close()">
+      <button #closeButton id="publish-confirmation-close" type="button" class="publish-feedback-close" aria-label="Close confirmation and return to home" [disabled]="isOpening()" (click)="close()">
         <img src="assets/icons/close.png" alt="" width="13" height="13" />
       </button>
       @if (openError()) {

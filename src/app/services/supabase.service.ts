@@ -3,7 +3,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 import { ENVIRONMENT } from '../../environments/environment';
 
-// Share one Supabase client with the services that will read and save surveys.
+/** Share one Supabase client with the services that will read and save surveys. */
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
   client: SupabaseClient;

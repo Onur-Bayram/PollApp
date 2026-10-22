@@ -10,7 +10,7 @@ interface RememberedVote {
   persistent: boolean;
 }
 
-// Remember this browser's submission separately from the database totals.
+/** Remember this browser's submission separately from the database totals. */
 @Injectable({ providedIn: 'root' })
 export class VoteMemoryService {
   private storagePrefix: string = 'pollapp-vote-' + ENVIRONMENT.supabaseUrl + '-';

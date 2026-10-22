@@ -1,0 +1,194 @@
+:host {
+  display: block;
+}
+
+/* Keep questions, feedback and their action in normal content order. */
+.survey-voting {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Keep two question columns and let each row grow with its answers. */
+.survey-questions-row {
+  display: flex;
+  gap: 24px;
+  flex-shrink: 0;
+  width: 622px;
+  min-height: 242px;
+}
+
+/* Use the lower row's content height and leave 24px between question rows. */
+.survey-questions-row-bottom {
+  min-height: 0;
+  margin-top: 16px;
+}
+
+/* Use one 299px column for each question in the row. */
+.survey-question {
+  width: 299px;
+}
+
+/* Align the hint below the question text and use local Mulish Regular. */
+.survey-question-hint {
+  width: 257px;
+  height: auto;
+  margin: 0 0 0 20px;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+/* Stack the answer rows below the question. */
+.survey-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 291px;
+  margin-top: 16px;
+}
+
+/* Separate the checkbox area and answer text with the corrected 8px gap. */
+.survey-answer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 291px;
+  height: 21px;
+  cursor: pointer;
+}
+
+/* Highlight the whole answer row immediately when hovered. */
+.survey-answer:hover:not(.survey-answer-disabled) {
+  background: #ffcfa166;
+}
+
+/* Keep closed surveys readable without suggesting an available selection. */
+.survey-answer-disabled,
+.survey-answer-checkbox:disabled {
+  cursor: default;
+}
+
+/* Use the supplied 21px area and 3px padding around the checkbox. */
+.survey-answer-checkbox-area {
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+  width: 21px;
+  height: 21px;
+  padding: 3px;
+}
+
+/* Reuse the form's checkbox style with a dark border for the light panel. */
+.survey-answer-checkbox {
+  appearance: none;
+  box-sizing: border-box;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  border: 1.5px solid #35273a;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Use the browser's check mark and the app's primary orange when selected. */
+.survey-answer-checkbox:checked {
+  appearance: auto;
+  accent-color: #ffb770;
+}
+
+/* Share the local Mulish Regular font between the answer letter and text. */
+.survey-answer-text {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 4px;
+  width: 241px;
+  height: 20px;
+  color: #35273a;
+  font-family: "Mulish", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Center both text areas vertically inside the answer row. */
+.survey-answer-letter,
+.survey-answer-value {
+  display: flex;
+  align-items: center;
+  height: 20px;
+}
+
+/* Use the specified width and bold weight for the answer letter. */
+.survey-answer-letter {
+  width: 17px;
+  font-weight: 700;
+}
+
+/* Keep the answer text in its specified 220px area. */
+.survey-answer-value {
+  width: 220px;
+}
+
+/* Leave 40px for answers that wrap onto two lines. */
+.survey-answer-multiline {
+  height: 40px;
+  align-items: flex-start;
+}
+
+/* Give the longer text room while keeping it aligned at the top. */
+.survey-answer-multiline .survey-answer-text,
+.survey-answer-multiline .survey-answer-value {
+  height: 40px;
+  align-items: flex-start;
+}
+
+/* Align the answer letter with the first line instead of centering it. */
+.survey-answer-multiline .survey-answer-letter {
+  align-items: flex-start;
+}
+
+.saved-survey-voting .survey-questions-row {
+  min-height: 0;
+  margin-top: 16px;
+}
+
+.saved-survey-voting .survey-answer,
+.saved-survey-voting .survey-answer-text,
+.saved-survey-voting .survey-answer-value {
+  height: auto;
+  min-height: 21px;
+  align-items: flex-start;
+}
+
+.saved-survey-voting .survey-answer-value {
+  display: block;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 20px;
+}
+
+.saved-survey-voting .survey-answer-letter {
+  flex-shrink: 0;
+}
+/* Leave a clear gap below the questions and align their action to the right. */
+.survey-complete-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  margin-top: 32px;
+}
+
+.survey-complete-actions .complete-survey-button-text {
+  width: auto;
+}
+
+.complete-survey-icon {
+  flex-shrink: 0;
+}

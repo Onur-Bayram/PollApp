@@ -49,83 +49,20 @@
               <p class="survey-description">{{ page.description }}</p>
             }
           </div>
-          <div class="survey-voting">
-            @if (isSurveyClosed()) {
-              <p class="survey-message">This survey has ended. Voting is closed.</p>
-            }
-            <!-- Render the same question layout for one to six questions. -->
-            @for (row of page.questionRows; track $index; let rowIndex = $index) {
-              <div class="survey-questions-row" [class.survey-questions-row-bottom]="rowIndex > 0">
-                @for (question of row; track question.number) {
-                  <section class="survey-question" [attr.aria-labelledby]="'survey-question-title-' + question.number">
-                    <h2 class="survey-question-title" id="survey-question-title-{{ question.number }}">
-                      <span class="survey-question-number">{{ question.number }}.</span>
-                      <span>{{ question.votingText || question.text }}</span>
-                    </h2>
-                    @if (question.allowMultipleAnswers) {
-                      <p class="survey-question-hint"><span class="survey-question-hint-text">More than one answers are possible.</span></p>
-                    }
-                    <div class="survey-answers">
-                      @for (answer of question.answers; track answer.letter; let answerIndex = $index) {
-                        <label class="survey-answer" [class.survey-answer-multiline]="answer.multiline" [class.survey-answer-disabled]="page.answerControls[question.number - 1][answerIndex].disabled">
-                          <span class="survey-answer-checkbox-area">
-                            <!-- Show the selection and respect the question's multiple-answer setting. -->
-                            <input #answerCheckbox type="checkbox" class="survey-answer-checkbox" [formControl]="page.answerControls[question.number - 1][answerIndex]" [attr.aria-invalid]="needsAnswer(question)" [attr.aria-describedby]="needsAnswer(question) ? 'answer-error-' + question.number : null" (change)="selectAnswer(question, answerIndex, answerCheckbox.checked)" />
-                          </span>
-                          <span class="survey-answer-text">
-                            <span class="survey-answer-letter">{{ answer.letter }}</span>
-                            <span class="survey-answer-value">{{ answer.text }}</span>
-                          </span>
-                        </label>
-                      }
-                    </div>
-                    @if (needsAnswer(question)) {
-                      <p class="survey-message" id="answer-error-{{ question.number }}" role="alert">Please choose at least one answer.</p>
-                    }
-                  </section>
-                }
-              </div>
-            }
-            @if (isSubmitting()) {
-              <p class="survey-message" role="status">{{ isResetting() ? 'Resetting your vote…' : 'Saving your vote…' }}</p>
-            }
-            @if (voteError()) {
-              <p class="survey-message" role="alert">{{ voteError() }}</p>
-            } @else if (voteSaved() && !isResetting()) {
-              <p class="survey-message" role="status">Your vote has been saved.</p>
-            }
-            @if (voteMemoryNotice()) {
-              <p class="survey-message" role="status">{{ voteMemoryNotice() }}</p>
-            }
-            <!-- Keep real voters on this page after a successful submission. -->
-            <div class="survey-complete-actions">
-              @if (page.isPreview || isSurveyClosed()) {
-                <a routerLink="/" class="complete-survey-button">
-                  <span class="complete-survey-button-text">
-                    @if (page.isPreview) {
-                      Complete
-                    } @else { Back to surveys }
-                  </span>
-                  @if (page.isPreview) {
-                    <img class="complete-survey-icon" src="assets/icons/publish-check.png" alt="" width="18" height="16" />
-                  }
-                </a>
-              } @else {
-                <button type="button" class="complete-survey-button" [disabled]="isSubmitting()" (click)="voteSaved() ? voteAgain() : submitVote()">
-                  <span class="complete-survey-button-text">
-                    @if (isSubmitting() || voteSaved()) {
-                      {{ isResetting() ? 'Resetting…' : isSubmitting() ? 'Saving…' : 'Vote again' }}
-                    } @else {
-                      Complete
-                    }
-                  </span>
-                  @if (!isSubmitting() && !voteSaved()) {
-                    <img class="complete-survey-icon" src="assets/icons/publish-check.png" alt="" width="18" height="16" />
-                  }
-                </button>
-              }
-            </div>
-          </div>
+          <app-survey-voting
+            [questionRows]="page.questionRows"
+            [answerControls]="page.answerControls"
+            [answerErrors]="getAnswerErrors()"
+            [isPreview]="page.isPreview"
+            [isClosed]="isSurveyClosed()"
+            [isSubmitting]="isSubmitting()"
+            [isResetting]="isResetting()"
+            [voteSaved]="voteSaved()"
+            [voteError]="voteError()"
+            [voteMemoryNotice]="voteMemoryNotice()"
+            (answerChanged)="selectAnswer($event.question, $event.answerIndex, $event.checked)"
+            (voteRequested)="voteSaved() ? voteAgain() : submitVote()"
+          ></app-survey-voting>
         </article>
         <div class="survey-results-section" [class.survey-results-open]="areResultsOpen()">
           <button type="button" class="survey-results-toggle" [attr.aria-expanded]="areResultsOpen()" aria-controls="survey-results-content" (click)="toggleResults()">
