@@ -54,7 +54,11 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   /** Apply only the latest totals response for the current survey. */
   private resultsRequest: number = 0;
 
-  /** Connect the services used by this component. */
+  /** Connect the services used by this component.
+   * @param route - Current route providing the saved survey ID.
+   * @param surveys - Service used to load totals and save or withdraw votes.
+   * @param results - Service preparing question data and calculating chart percentages.
+   * @param page - Page state containing the current survey, loading status and answer controls. */
   constructor(
     private route: ActivatedRoute,
     private surveys: SurveyService,
@@ -67,7 +71,6 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     window.scrollTo(0, 0);
     this.routeSubscription = this.route.paramMap.subscribe(() => this.loadSurvey());
   }
-
   /** Ignore an older request when the URL changes or the page is left. */
   ngOnDestroy(): void {
     this.routeSubscription?.unsubscribe();
@@ -75,7 +78,6 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.loadRequest++;
     this.stopWatchingResults();
   }
-
   /** Connect freshly loaded page data to this route's voting and results state. */
   async loadSurvey(): Promise<void> {
     this.areResultsOpen.set(true);
@@ -91,13 +93,12 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       this.loadResults();
     }
   }
-
   /** Toggle mobile visibility while keeping the live results connected. */
   toggleResults(): void {
     this.areResultsOpen.set(!this.areResultsOpen());
   }
-
-  /** Allow enough animation space for charts, wrapped headings and result messages. */
+  /** Allow enough animation space for charts, wrapped headings and result messages.
+   * @returns An estimated maximum results height in pixels, including space for wrapped headings. */
   get resultsAnimationLimit(): number {
     return this.page.resultQuestions.reduce((height, question) => {
       const lines = Math.ceil(question.text.length / RESULTS_HEADING_CHARACTERS_PER_LINE);
@@ -105,13 +106,15 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       return height + heading + question.chartHeight + RESULTS_QUESTION_SPACING;
     }, RESULTS_ANIMATION_EXTRA_HEIGHT);
   }
-
-  /** Allow voting until the end of the stored deadline's final day. */
+  /** Allow voting until the end of the stored deadline's final day.
+   * @returns Whether a saved survey has passed the end of its deadline day. */
   isSurveyClosed(): boolean {
     return this.page.isSurveyClosed();
   }
-
-  /** Keep one checked answer unless the creator enabled multiple answers. */
+  /** Keep one checked answer unless the creator enabled multiple answers.
+   * @param question - Displayed question containing the changed answer.
+   * @param answerIndex - Zero-based position of the changed answer.
+   * @param checked - New checked state reported by the answer control. */
   selectAnswer(question: ResultQuestion, answerIndex: number, checked: boolean): void {
     const controls = this.page.answerControls[question.number - 1];
     if (this.isSurveyClosed()) {
@@ -124,30 +127,29 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
     this.updateResults();
   }
-
-  /** Mark results that include the current selection before it is submitted. */
+  /** Mark results that include the current selection before it is submitted.
+   * @returns Whether an open saved survey has a local selection that has not been submitted. */
   hasPendingVote(): boolean {
     return !this.page.isPreview && !this.voteSaved() && !this.isSurveyClosed()
       && this.page.answerControls.some(controls => controls.some(control => control.value));
   }
-
-  /** Require at least one selected answer for every question before saving. */
+  /** Require at least one selected answer for every question before saving.
+   * @param question - Displayed question whose selection should be checked.
+   * @returns Whether validation is visible and the question has no checked answer. */
   needsAnswer(question: ResultQuestion): boolean {
     return this.showVoteValidation
       && !this.page.answerControls[question.number - 1].some(control => control.value);
   }
-
-  /** Pass the existing unanswered-question checks to the voting view. */
+  /** Pass the existing unanswered-question checks to the voting view.
+   * @returns Unanswered-question error flags in the displayed question order. */
   getAnswerErrors(): boolean[] {
     return this.page.resultQuestions.map(question => this.needsAnswer(question));
   }
-
   /** Submit a complete selection and keep the user on the current survey. */
   async submitVote(): Promise<void> {
     if (!this.prepareSubmission()) return;
     await this.saveSubmission(this.loadRequest, this.page.surveyId);
   }
-
   /** Remove the previous submission before allowing a replacement vote. */
   async voteAgain(): Promise<void> {
     if (this.page.isPreview || !this.voteSaved() || this.isSubmitting() || this.isSurveyClosed() || !this.savedVote) return;
@@ -157,7 +159,6 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.isResetting.set(true);
     await this.resetSubmission(this.savedVote, this.loadRequest, this.page.surveyId);
   }
-
   /** Restore only a complete submitted selection that still matches this survey. */
   private restoreSavedVote(): void {
     const savedVote = this.surveys.getSavedVote(this.page.surveyId);
@@ -173,7 +174,6 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
     this.setAnswersDisabled(true);
   }
-
   /** Read actual totals and ignore results belonging to a previous route/request. */
   async loadResults(): Promise<void> {
     if (this.page.isPreview || this.page.resultQuestions.length === 0) return;
@@ -189,7 +189,6 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       if (this.isCurrentResult(surveyRequest, request)) this.isLoadingResults.set(false);
     }
   }
-
   /** Preview one extra vote per selected answer without changing stored totals. */
   private updateResults(): void {
     if (this.page.isPreview) {
@@ -200,7 +199,6 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       ? this.results.getSelectedAnswerIds(this.page.resultQuestions, checkedAnswers) : [];
     this.results.updatePercentages(this.page.resultQuestions, this.voteCounts, selectedIds);
   }
-
   /** Group a burst of saved or removed vote rows into one results refresh. */
   private watchResults(): void {
     const request = this.loadRequest;
@@ -215,7 +213,6 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   /** Cancel pending refreshes and unsubscribe from the previous survey. */
   private stopWatchingResults(): void {
     clearTimeout(this.resultsTimer);
@@ -225,14 +222,13 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       this.voteChannel = undefined;
     }
   }
-
-  /** Lock all answer controls while saving or after a completed submission. */
+  /** Lock all answer controls while saving or after a completed submission.
+   * @param disabled - Whether every answer control should be disabled. */
   private setAnswersDisabled(disabled: boolean): void {
     this.page.answerControls.forEach(controls => {
       controls.forEach(control => disabled ? control.disable() : control.enable());
     });
   }
-
   /** Open the dialog, which sets its own focus after rendering. */
   openCreateSurvey(): void {
     if (this.isSubmitting()) {
@@ -240,8 +236,8 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
     this.isCreateSurveyOpen = true;
   }
-
-  /** Restore focus after the survey page becomes interactive again. */
+  /** Restore focus after the survey page becomes interactive again.
+   * @param button - Create survey button to refocus, or fall back to the visible mobile Home link. */
   closeCreateSurvey(button: HTMLButtonElement): void {
     this.isCreateSurveyOpen = false;
     setTimeout(() => {
@@ -249,7 +245,6 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       if (document.activeElement !== button) document.querySelector<HTMLAnchorElement>('.survey-view-header a')?.focus();
     });
   }
-
   /** Clear submission feedback when another survey is opened. */
   private resetVoteState(): void {
     this.isSubmitting.set(false);
@@ -260,7 +255,6 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.voteMemoryNotice.set('');
     this.showVoteValidation = false;
   }
-
   /** Clear result state before connecting the next survey's subscription. */
   private resetResultState(): void {
     this.voteCounts = [];
@@ -270,8 +264,8 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.hasVotes.set(false);
     this.liveStatus.set('');
   }
-
-  /** Validate the selection before starting any database write. */
+  /** Validate the selection before starting any database write.
+   * @returns Whether the current survey and complete selection are ready to be saved. */
   private prepareSubmission(): boolean {
     if (this.page.isPreview || this.page.isLoading() || !this.page.surveyId || this.isSubmitting() || this.voteSaved()) return false;
     this.voteError.set('');
@@ -284,8 +278,9 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
     return !this.page.resultQuestions.some(question => this.needsAnswer(question));
   }
-
-  /** Keep the selection locked while saving and preserve it on failure. */
+  /** Keep the selection locked while saving and preserve it on failure.
+   * @param request - Survey load number used to ignore updates after navigation.
+   * @param surveyId - Database ID of the survey receiving this submission. */
   private async saveSubmission(request: number, surveyId: number): Promise<void> {
     this.isSubmitting.set(true);
     this.setAnswersDisabled(true);
@@ -297,8 +292,9 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       this.finishSubmission(request);
     }
   }
-
-  /** Remember successful database IDs even if the user has already left this route. */
+  /** Remember successful database IDs even if the user has already left this route.
+   * @param request - Survey load number used to protect the current page state.
+   * @param surveyId - Original survey ID under which the saved vote is remembered. */
   private async persistVote(request: number, surveyId: number): Promise<void> {
     const choices = this.page.answerControls.map(controls => controls.map(control => control.value));
     const savedVote = await this.surveys.saveVote(this.results.getSelectedAnswerIds(this.page.resultQuestions, choices));
@@ -310,8 +306,10 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.showVoteValidation = false;
     await this.loadResults();
   }
-
-  /** Withdraw the old submission before unlocking a replacement selection. */
+  /** Withdraw the old submission before unlocking a replacement selection.
+   * @param savedVote - This browser's saved answer IDs and exact vote row IDs.
+   * @param request - Survey load number used to ignore updates after navigation.
+   * @param surveyId - Original survey ID whose saved browser selection should be cleared. */
   private async resetSubmission(savedVote: SavedVote, request: number, surveyId: number): Promise<void> {
     try {
       if (!await this.withdrawVote(savedVote, request)) return;
@@ -325,8 +323,10 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
       this.finishSubmission(request);
     }
   }
-
-  /** Only unlock an older marker when none of its selected answers has stored votes. */
+  /** Only unlock an older marker when none of its selected answers has stored votes.
+   * @param savedVote - Saved submission to withdraw, including legacy answer-only markers.
+   * @param request - Survey load number used to avoid displaying errors on another survey.
+   * @returns Whether the saved vote rows were removed or a legacy selection has no stored votes. */
   private async withdrawVote(savedVote: SavedVote, request: number): Promise<boolean> {
     if (savedVote.voteIds.length === savedVote.answerIds.length) {
       await this.surveys.resetVote(savedVote.voteIds);
@@ -339,8 +339,8 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     }
     return false;
   }
-
-  /** Clear choices only after their saved vote rows have been removed. */
+  /** Clear choices only after their saved vote rows have been removed.
+   * @param remembered - Whether persistent browser storage successfully cleared its saved selection. */
   private applyReset(remembered: boolean): void {
     this.savedVote = null;
     this.voteSaved.set(false);
@@ -348,23 +348,24 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.page.answerControls.forEach(controls => controls.forEach(control => control.reset(false)));
     if (!remembered) this.voteMemoryNotice.set('Your vote was reset, but this browser could not clear its saved selection after a restart.');
   }
-
-  /** Preserve a failed reset and refresh its real totals. */
+  /** Preserve a failed reset and refresh its real totals.
+   * @param request - Survey load number whose failed reset should still be displayed. */
   private async showResetError(request: number): Promise<void> {
     if (request !== this.loadRequest) return;
     this.voteError.set('Could not reset your vote. Please try again.');
     await this.loadResults();
   }
-
-  /** Ignore completion from another route and restore the current control state. */
+  /** Ignore completion from another route and restore the current control state.
+   * @param request - Survey load number used to avoid unlocking controls on another survey. */
   private finishSubmission(request: number): void {
     if (request !== this.loadRequest) return;
     this.isSubmitting.set(false);
     this.isResetting.set(false);
     this.setAnswersDisabled(this.voteSaved() || this.isSurveyClosed());
   }
-
-  /** Apply only the newest result response for this survey. */
+  /** Apply only the newest result response for this survey.
+   * @param surveyRequest - Survey load number identifying the route being refreshed.
+   * @param request - Result request number identifying the latest totals request. */
   private async readResults(surveyRequest: number, request: number): Promise<void> {
     const counts = await this.surveys.getVoteCounts(this.results.getAnswerIds(this.page.resultQuestions));
     if (!this.isCurrentResult(surveyRequest, request)) return;
@@ -373,13 +374,16 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
     this.hasVotes.set(counts.some(answer => answer.count > 0));
     this.resultsLoaded.set(true);
   }
-
-  /** Match both the survey route and its latest result request. */
+  /** Match both the survey route and its latest result request.
+   * @param surveyRequest - Survey load number associated with a result response.
+   * @param request - Result request number associated with that response.
+   * @returns Whether the response belongs to the current survey and its latest result request. */
   private isCurrentResult(surveyRequest: number, request: number): boolean {
     return surveyRequest === this.loadRequest && request === this.resultsRequest;
   }
-
-  /** Keep a current loading failure visible beside the existing results. */
+  /** Keep a current loading failure visible beside the existing results.
+   * @param surveyRequest - Survey load number associated with the failed response.
+   * @param request - Result request number used to ignore superseded failures. */
   private showResultsError(surveyRequest: number, request: number): void {
     if (this.isCurrentResult(surveyRequest, request)) this.resultsError.set('Could not load the results. Please try again.');
   }

@@ -46,7 +46,10 @@ export class HomeComponent implements OnInit {
   /** Identify the latest request so an older response cannot replace its data. */
   private loadRequest: number = 0;
 
-  /** Receive the shared service used to refresh saved survey data. */
+  /**
+   * Receive the shared service used to refresh saved survey data.
+   * @param surveys - Service used to load saved surveys for the home page.
+   */
   constructor(private surveys: SurveyService) {}
 
   /** Load the saved surveys when the home page opens. */
@@ -75,7 +78,11 @@ export class HomeComponent implements OnInit {
     this.surveyCards.set(cards.filter(card => this.matchesFilters(card)));
   }
 
-  /** Use the same saved fields and ID links in both home card layouts. */
+  /**
+   * Use the same saved fields and ID links in both home card layouts.
+   * @param survey - Complete saved survey to display on a home card.
+   * @returns Card data with the survey category, title, deadline, detail link and past status.
+   */
   private createSurveyCard(survey: Survey): SurveyCard {
     return {
       category: survey.category || 'No category',
@@ -86,7 +93,11 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  /** Keep the deadline label current without borrowing a design example's date. */
+  /**
+   * Keep the deadline label current without borrowing a design example's date.
+   * @param endDate - Stored end date in YYYY-MM-DD format, or null for no deadline.
+   * @returns A label for an undated, ended, today-ending or upcoming survey.
+   */
   private getDeadline(endDate: string | null): string {
     if (!endDate) return 'No deadline';
     const days = this.getRemainingDays(endDate);
@@ -95,7 +106,11 @@ export class HomeComponent implements OnInit {
     return 'Ends in ' + days + (days === 1 ? ' Day' : ' Days');
   }
 
-  /** Count local calendar days correctly even when daylight saving time changes. */
+  /**
+   * Count local calendar days correctly even when daylight saving time changes.
+   * @param endDate - Stored end date in YYYY-MM-DD format.
+   * @returns The signed number of calendar days from today to the deadline.
+   */
   private getRemainingDays(endDate: string): number {
     const today = new Date();
     const end = new Date(endDate + 'T00:00:00');
@@ -108,14 +123,20 @@ export class HomeComponent implements OnInit {
     this.isCreateSurveyOpen = true;
   }
 
-  /** Restore focus after the home page becomes interactive again. */
+  /**
+   * Restore focus after the home page becomes interactive again.
+   * @param button - New Survey button that regains focus after the dialog closes.
+   */
   closeCreateSurvey(button: HTMLButtonElement): void {
     this.isCreateSurveyOpen = false;
     this.loadSurveys();
     setTimeout(() => button.focus());
   }
 
-  /** Keep active and past surveys separate, including repeated clicks. */
+  /**
+   * Keep active and past surveys separate, including repeated clicks.
+   * @param status - Requested survey group: active or past.
+   */
   selectSurveyStatus(status: string): void {
     this.selectedSurveyStatus = status;
     this.updateSurveyCards();
@@ -126,14 +147,20 @@ export class HomeComponent implements OnInit {
     this.isSortMenuOpen = !this.isSortMenuOpen;
   }
 
-  /** Save the clicked category and close the menu. */
+  /**
+   * Save the clicked category and close the menu.
+   * @param category - Chosen category, or All Surveys to remove the category filter.
+   */
   selectCategory(category: string): void {
     this.selectedCategory = category;
     this.isSortMenuOpen = false;
     this.updateSurveyCards();
   }
 
-  /** Ignore a response if a newer list request has already started. */
+  /**
+   * Ignore a response if a newer list request has already started.
+   * @param request - List request number used to ignore superseded responses.
+   */
   private async loadSurveyCards(request: number): Promise<void> {
     const surveys = await this.surveys.getSurveys();
     if (request !== this.loadRequest) return;
@@ -141,7 +168,10 @@ export class HomeComponent implements OnInit {
     this.updateSurveyCards();
   }
 
-  /** Select the nearest active deadlines, excluding undated surveys. */
+  /**
+   * Select the nearest active deadlines, excluding undated surveys.
+   * @returns Up to three active, dated surveys ordered by earliest deadline and then ID.
+   */
   private getEndingSoon(): Survey[] {
     const surveys = this.savedSurveys.filter(survey =>
       survey.end_date !== null && this.getRemainingDays(survey.end_date) >= 0
@@ -152,7 +182,11 @@ export class HomeComponent implements OnInit {
     return surveys.slice(0, ENDING_SOON_LIMIT);
   }
 
-  /** Apply category and status together without mixing active and past surveys. */
+  /**
+   * Apply category and status together without mixing active and past surveys.
+   * @param card - Survey card to compare with the selected filters.
+   * @returns Whether both the active/past status and category filters match.
+   */
   private matchesFilters(card: SurveyCard): boolean {
     const statusMatches = this.selectedSurveyStatus === 'past' ? card.isPast : !card.isPast;
     const categoryMatches = !this.selectedCategory || this.selectedCategory === 'All Surveys'

@@ -13,7 +13,11 @@ export class PublishFeedbackComponent {
   isOpening = signal<boolean>(false);
   openError = signal<string>('');
 
-  /** Connect the services used by this component. */
+  /**
+   * Connect the services used by this component.
+   * @param feedback - Shared publishing confirmation state.
+   * @param router - Router used to return to Home before hiding the confirmation.
+   */
   constructor(public feedback: PublishFeedbackService, private router: Router) {}
 
   /** Keep the confirmation available if returning to Home fails. */
@@ -30,7 +34,11 @@ export class PublishFeedbackComponent {
     }
   }
 
-  /** The confirmation contains only one interactive control. */
+  /**
+   * The confirmation contains only one interactive control.
+   * @param event - Keyboard event checked for Tab navigation.
+   * @param button - Confirmation Close button that retains keyboard focus.
+   */
   keepFocusInside(event: KeyboardEvent, button: HTMLButtonElement): void {
     if (event.key === 'Tab') {
       event.preventDefault();

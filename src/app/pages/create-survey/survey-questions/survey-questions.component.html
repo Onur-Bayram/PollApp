@@ -7,7 +7,7 @@
         <button
           type="button"
           class="delete-button"
-          [attr.aria-label]="questionIndex === 0 ? 'Clear question 1 and its answers' : 'Remove question ' + (questionIndex + 1)"
+          [attr.aria-label]="questions().length === 1 ? 'Clear question 1 and its answers' : 'Remove question ' + (questionIndex + 1)"
           (click)="questionRemoved.emit(questionIndex)"
         >
           <img src="assets/icons/delete.png" alt="" />
@@ -51,7 +51,7 @@
               <button
                 type="button"
                 class="delete-button"
-                [attr.aria-label]="(answerIndex < minAnswers ? 'Clear answer ' : 'Remove answer ') + answerLetters()[answerIndex] + ' for question ' + (questionIndex + 1)"
+                [attr.aria-label]="(question.answers.length <= minAnswers ? 'Clear answer ' : 'Remove answer ') + answerLetters()[answerIndex] + ' for question ' + (questionIndex + 1)"
                 (click)="answerRemoved.emit({ questionIndex: questionIndex, answerIndex: answerIndex })"
               >
                 <img src="assets/icons/delete.png" alt="" />
@@ -73,7 +73,7 @@
               <button
                 type="button"
                 class="delete-button answer-desktop-delete"
-                [attr.aria-label]="(answerIndex < minAnswers ? 'Clear answer ' : 'Remove answer ') + answerLetters()[answerIndex] + ' for question ' + (questionIndex + 1)"
+                [attr.aria-label]="(question.answers.length <= minAnswers ? 'Clear answer ' : 'Remove answer ') + answerLetters()[answerIndex] + ' for question ' + (questionIndex + 1)"
                 (click)="answerRemoved.emit({ questionIndex: questionIndex, answerIndex: answerIndex })"
               >
                 <img src="assets/icons/delete.png" alt="" />

@@ -23,10 +23,17 @@ export class SurveyPageService {
   answerControls: FormControl<boolean>[][] = [];
   private loadRequest: number = 0;
 
-  /** Use the existing database and question preparation services. */
+  /**
+   * Use the existing database and question preparation services.
+   * @param surveys - Service used to read complete saved surveys.
+   * @param results - Service preparing displayed questions and answer IDs.
+   */
   constructor(private surveys: SurveyService, private results: SurveyResultsService) {}
 
-  /** Select the design preview or load the requested real survey. */
+  /**
+   * Select the design preview or load the requested real survey.
+   * @param id - Route ID of a saved survey, or null to open the Figma preview.
+   */
   async load(id: string | null): Promise<void> {
     const request = ++this.loadRequest;
     this.reset();
@@ -46,12 +53,20 @@ export class SurveyPageService {
     this.answerControls = [];
   }
 
-  /** Accept only positive integer database IDs. */
+  /**
+   * Accept only positive integer database IDs.
+   * @param id - Route value that may contain a survey ID.
+   * @returns Whether the value represents a positive, safe integer.
+   */
   private isValidId(id: string | null): boolean {
     return Number.isSafeInteger(Number(id)) && Number(id) > 0;
   }
 
-  /** Keep loading and failure states attached to the newest request. */
+  /**
+   * Keep loading and failure states attached to the newest request.
+   * @param id - Database ID of the requested survey.
+   * @param request - Page request number used to ignore superseded responses.
+   */
   private async loadSavedSurvey(id: number, request: number): Promise<void> {
     this.isLoading.set(true);
     try {
@@ -63,7 +78,11 @@ export class SurveyPageService {
     }
   }
 
-  /** Ignore a result belonging to a route that has already been left. */
+  /**
+   * Ignore a result belonging to a route that has already been left.
+   * @param id - Database ID to read.
+   * @param request - Page request number that must still be current before applying data.
+   */
   private async readSurvey(id: number, request: number): Promise<void> {
     const survey = await this.surveys.getSurvey(id);
     if (request !== this.loadRequest) return;
@@ -71,7 +90,10 @@ export class SurveyPageService {
     else this.loadError.set('This survey is not available.');
   }
 
-  /** Display the actual saved metadata and related questions. */
+  /**
+   * Display the actual saved metadata and related questions.
+   * @param survey - Complete saved survey to display with new answer controls.
+   */
   private applySurvey(survey: Survey): void {
     this.surveyId = survey.id;
     this.surveyTitle = survey.title;
@@ -101,7 +123,10 @@ export class SurveyPageService {
     this.questionRows = this.results.createQuestionRows(this.resultQuestions);
   }
 
-  /** Allow voting through the stored deadline's complete local calendar day. */
+  /**
+   * Allow voting through the stored deadline's complete local calendar day.
+   * @returns Whether a saved, dated survey has passed the end of its deadline day.
+   */
   isSurveyClosed(): boolean {
     return !this.isPreview && this.endDate !== null
       && new Date(this.endDate + 'T23:59:59.999').getTime() < Date.now();

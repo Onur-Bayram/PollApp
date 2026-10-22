@@ -44,7 +44,10 @@ export class SurveyDetailsComponent {
 
   categorySelected = output<string>();
 
-  /** Use only the supplied controls; missing input must not create replacement fields. */
+  /**
+   * Use only the supplied controls; missing input must not create replacement fields.
+   * @returns The original name, date and description controls supplied by the parent.
+   */
   get form(): SurveyDetailsForm {
     const controls = this.details();
     if (!controls) throw new Error('The survey detail controls are missing.');

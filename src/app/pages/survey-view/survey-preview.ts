@@ -65,7 +65,10 @@ const PREVIEW_QUESTIONS: ResultQuestion[] = [
   },
 ];
 
-/** Create fresh example data whenever the Figma preview is opened. */
+/**
+ * Create fresh example data whenever the Figma preview is opened.
+ * @returns Fresh Figma preview metadata, questions and nested answers.
+ */
 export function createSurveyPreview(): SurveyPreview {
   return {
     title: 'Let’s Plan the Next Team Event Together',
@@ -76,7 +79,11 @@ export function createSurveyPreview(): SurveyPreview {
   };
 }
 
-/** Copy nested answers so selections never change the shared design data. */
+/**
+ * Copy nested answers so selections never change the shared design data.
+ * @param question - Shared design question whose nested answers must be copied.
+ * @returns A new question object with independent copies of its answer objects.
+ */
 function copyPreviewQuestion(question: ResultQuestion): ResultQuestion {
   return { ...question, answers: question.answers.map(answer => ({ ...answer })) };
 }

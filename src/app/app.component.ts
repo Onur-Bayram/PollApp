@@ -11,6 +11,9 @@ import { PublishFeedbackService } from './services/publish-feedback.service';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  /** Connect the services used by this component. */
+  /**
+   * Connect the services used by this component.
+   * @param publishFeedback - Shared publishing confirmation state displayed by the app.
+   */
   constructor(public publishFeedback: PublishFeedbackService) {}
 }
