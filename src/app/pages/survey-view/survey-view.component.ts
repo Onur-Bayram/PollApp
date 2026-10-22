@@ -258,7 +258,10 @@ export class SurveyViewComponent implements OnInit, OnDestroy {
   /** Restore focus after the survey page becomes interactive again. */
   closeCreateSurvey(button: HTMLButtonElement): void {
     this.isCreateSurveyOpen = false;
-    setTimeout(() => button.focus());
+    setTimeout(() => {
+      button.focus();
+      if (document.activeElement !== button) document.querySelector<HTMLAnchorElement>('.survey-view-header a')?.focus();
+    });
   }
 
   /** Clear submission feedback when another survey is opened. */
